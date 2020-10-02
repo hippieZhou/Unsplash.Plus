@@ -1,0 +1,153 @@
+﻿<Page
+    x:Class="Unsplash.Plus.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:Unsplash.Plus.Views"
+    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:model="using:Unsplash.Plus.Models"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkitbehaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    x:DefaultBindMode="OneWay"
+    DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+    mc:Ignorable="d">
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <Page.Resources>
+        <x:Double x:Key="ListViewItemDisabledThemeOpacity">0.25</x:Double>
+        <DataTemplate x:Key="PhotosTemplate" x:DataType="model:PhotoItem">
+            <Grid Background="{x:Bind Color, Converter={StaticResource HexStringToBrushConverter}}" Loaded="Grid_Loaded">
+                <Canvas x:Name="ShadowContainer" />
+                <toolkit:ImageEx
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    Foreground="Transparent"
+                    IsCacheEnabled="True"
+                    PlaceholderStretch="UniformToFill"
+                    Source="{x:Bind Small}"
+                    Stretch="UniformToFill" />
+                <Grid
+                    x:Name="SmokeGrid"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <media:BackdropBlurBrush Amount="2" />
+                    </Grid.Background>
+                    <interactivity:Interaction.Behaviors>
+                        <toolkitbehaviors:Fade
+                            x:Name="SmokeGridUp"
+                            AutomaticallyStart="True"
+                            Delay="0"
+                            EasingMode="EaseOut"
+                            EasingType="Linear"
+                            Value="1"
+                            Duration="400" />
+                        <toolkitbehaviors:Fade
+                            x:Name="SmokeGridDowm"
+                            AutomaticallyStart="True"
+                            Delay="0"
+                            EasingMode="EaseIn"
+                            EasingType="Linear"
+                            Value="0"
+                            Duration="400" />
+                    </interactivity:Interaction.Behaviors>
+                </Grid>
+
+                <interactivity:Interaction.Behaviors>
+                    <!--  鼠标相关操作  -->
+                    <core:EventTriggerBehavior EventName="PointerEntered">
+                        <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridUp}" />
+                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserUp}" />-->
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerExited">
+                        <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridDowm}" />
+                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserDowm}" />-->
+                    </core:EventTriggerBehavior>
+
+                    <!--  单指相关操作  -->
+                    <core:EventTriggerBehavior EventName="PointerPressed">
+                        <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridUp}" />
+                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserUp}" />-->
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerReleased">
+                        <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridDowm}" />
+                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserDowm}" />-->
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerCanceled">
+                        <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridDowm}" />
+                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserDowm}" />-->
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <toolkit:AdaptiveGridView
+            Name="AdaptiveGridViewControl"
+            Padding="16"
+            animations:ReorderGridAnimation.Duration="300"
+            DataFetchSize="1"
+            DesiredWidth="360"
+            IsItemClickEnabled="True"
+            ItemHeight="240"
+            ItemTemplate="{StaticResource PhotosTemplate}"
+            ItemsSource="{x:Bind ViewModel.Items}"
+            OneRowModeEnabled="False"
+            SelectionMode="None"
+            SizeChanged="AdaptiveGridViewControl_SizeChanged"
+            StretchContentForSingleRow="True">
+            <toolkit:AdaptiveGridView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource BorderlessGridViewItem}" TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="32,24" />
+                </Style>
+            </toolkit:AdaptiveGridView.ItemContainerStyle>
+            <toolkit:AdaptiveGridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromVerticalOffset="200" IsStaggeringEnabled="True" />
+                </TransitionCollection>
+            </toolkit:AdaptiveGridView.ItemContainerTransitions>
+            <toolkit:AdaptiveGridView.Footer>
+                <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
+                    <Grid Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <winui:AnimatedVisualPlayer
+                            Width="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            AutoPlay="True">
+                            <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lotties/loading-animation.json" />
+                        </winui:AnimatedVisualPlayer>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            FontFamily="{StaticResource RobotoMonoBold}"
+                            Text="LOADING..." />
+                    </Grid>
+
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Spacing="12"
+                        Visibility="{x:Bind ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource RobotoMonoBold}"
+                            Text="THERE HAVE SOMETHING WRONG" />
+                    </StackPanel>
+                </Grid>
+            </toolkit:AdaptiveGridView.Footer>
+        </toolkit:AdaptiveGridView>
+    </Grid>
+</Page>
