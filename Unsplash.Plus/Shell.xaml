@@ -106,16 +106,6 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     <Button
-                        Width="52"
-                        Height="52"
-                        Style="{StaticResource Style-Button-Icon-Circle}">
-                        <ContentControl
-                            Width="15"
-                            Foreground="#FF373238"
-                            Style="{StaticResource Style-Icon-Search}" />
-                    </Button>
-
-                    <Button
                         x:Name="PlaceStore"
                         Width="52"
                         Height="52"
@@ -135,6 +125,15 @@
                                 Fill="#FFD90404"
                                 Visibility="Collapsed" />
                         </Grid>
+                    </Button>
+                    <Button
+                        Width="52"
+                        Height="52"
+                        Style="{StaticResource Style-Button-Icon-Circle}">
+                        <ContentControl
+                            Width="15"
+                            Foreground="#FF373238"
+                            Style="{StaticResource Style-Icon-Info}" />
                     </Button>
                 </StackPanel>
             </winui:NavigationView.PaneCustomContent>

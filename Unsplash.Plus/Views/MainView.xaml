@@ -44,7 +44,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
                     <Grid.Background>
-                        <media:BackdropBlurBrush Amount="2" />
+                        <media:BackdropBlurBrush Amount="1" />
                     </Grid.Background>
                     <interactivity:Interaction.Behaviors>
                         <toolkitbehaviors:Fade
@@ -65,37 +65,96 @@
                             Duration="400" />
                     </interactivity:Interaction.Behaviors>
                 </Grid>
+                <winui:PersonPicture
+                    x:Name="Avatar"
+                    Width="32"
+                    Height="32"
+                    Margin="12,0,0,12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
+                    Initials="RL"
+                    ProfilePicture="{x:Bind User.Profiles.Small}"
+                    Visibility="Collapsed">
+                    <animations:Implicit.Animations>
+                        <animations:ScaleAnimation Duration="0:0:0.600" />
+                    </animations:Implicit.Animations>
+                    <animations:Implicit.ShowAnimations>
+                        <animations:ScaleAnimation
+                            From="0.8"
+                            To="1"
+                            Duration="0:0:0.600" />
+                        <animations:TranslationAnimation
+                            From="0, 80, 0"
+                            To="0"
+                            Duration="0:0:0.600" />
+                        <animations:OpacityAnimation
+                            From="0"
+                            To="1.0"
+                            Duration="0:0:0.600" />
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:ScaleAnimation
+                            From="1"
+                            To="0.8"
+                            Duration="0:0:0.600" />
+                        <animations:TranslationAnimation
+                            From="0"
+                            To="0, 20, 0"
+                            Duration="0:0:0.600" />
+                        <animations:OpacityAnimation
+                            From="1.0"
+                            To="0"
+                            Duration="0:0:0.600" />
+                    </animations:Implicit.HideAnimations>
+
+                </winui:PersonPicture>
 
                 <interactivity:Interaction.Behaviors>
                     <!--  鼠标相关操作  -->
                     <core:EventTriggerBehavior EventName="PointerEntered">
                         <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridUp}" />
-                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserUp}" />-->
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=Avatar}"
+                            Value="Visible" />
                     </core:EventTriggerBehavior>
                     <core:EventTriggerBehavior EventName="PointerExited">
                         <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridDowm}" />
-                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserDowm}" />-->
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=Avatar}"
+                            Value="Collapsed" />
                     </core:EventTriggerBehavior>
 
                     <!--  单指相关操作  -->
                     <core:EventTriggerBehavior EventName="PointerPressed">
                         <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridUp}" />
-                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserUp}" />-->
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=Avatar}"
+                            Value="Visible" />
                     </core:EventTriggerBehavior>
                     <core:EventTriggerBehavior EventName="PointerReleased">
                         <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridDowm}" />
-                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserDowm}" />-->
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=Avatar}"
+                            Value="Collapsed" />
                     </core:EventTriggerBehavior>
                     <core:EventTriggerBehavior EventName="PointerCanceled">
                         <core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=SmokeGridDowm}" />
-                        <!--<core:CallMethodAction MethodName="StartAnimation" TargetObject="{Binding ElementName=UserDowm}" />-->
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=Avatar}"
+                            Value="Collapsed" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </Grid>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid x:Name="LayoutRoot" Padding="0,48,0,0">
+    <Grid x:Name="LayoutRoot">
         <toolkit:AdaptiveGridView
             x:Name="MainGridView"
             animations:ReorderGridAnimation.Duration="300"
@@ -123,15 +182,36 @@
             </toolkit:AdaptiveGridView.ItemContainerTransitions>
             <toolkit:AdaptiveGridView.Header>
                 <toolkit:ScrollHeader Mode="Fade">
-                    <Grid Margin="24,0">
-                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Grid Margin="24,0,24,32">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
+                            Orientation="Horizontal">
+                            <animations:Implicit.ShowAnimations>
+                                <animations:TranslationAnimation
+                                    From="0,40,0"
+                                    To="0,0,0"
+                                    Duration="0:0:0.6" />
+                                <animations:ScaleAnimation
+                                    From="0.6"
+                                    To="1"
+                                    Duration="0:0:0.6" />
+                                <animations:OpacityAnimation
+                                    From="0"
+                                    To="1"
+                                    Duration="0:0:0.6" />
+                            </animations:Implicit.ShowAnimations>
                             <AutoSuggestBox
                                 x:Name="MainSuggestBox"
                                 MaxWidth="520"
                                 PlaceholderText="Search photos"
                                 QueryIcon="Find"
                                 Style="{StaticResource CustomStyledAutoSuggestBox}" />
-                            <Button HorizontalAlignment="Left" Style="{StaticResource Style-Button-Icon-Circle}">
+                            <Button
+                                Margin="12,0,0,0"
+                                HorizontalAlignment="Left"
+                                Click="Button_Click"
+                                Style="{StaticResource Style-Button-Icon-Circle}">
                                 <ContentControl
                                     Width="16"
                                     Foreground="#FF0477BF"
@@ -231,6 +311,75 @@
                     Foreground="#FF0477BF"
                     Style="{StaticResource Style-Icon-Wonderbar}" />
             </Button>
+        </Grid>
+
+        <Grid x:Name="PickedPlacesPane" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <animations:Implicit.ShowAnimations>
+                <animations:TranslationAnimation
+                    From="0,400,0"
+                    To="0,0,0"
+                    Duration="0:0:0.6" />
+                <animations:OpacityAnimation
+                    From="0.8"
+                    To="1"
+                    Duration="0:0:0.6" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="0,400,0"
+                    Duration="0:0:0.4" />
+                <animations:OpacityAnimation
+                    From="1"
+                    To="0.8"
+                    Duration="0:0:0.4" />
+            </animations:Implicit.HideAnimations>
+
+            <Rectangle
+                x:Name="DismissTouchArea"
+                Fill="Transparent"
+                Tapped="OnDismissTouchAreaTapped" />
+
+            <Grid
+                x:Name="ContentArea"
+                Grid.Row="1"
+                Height="400"
+                VerticalAlignment="Bottom"
+                Background="#FF121111">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    x:Name="Header"
+                    Margin="30,40,103,12"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal"
+                    Spacing="12">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource RobotoMonoBold}"
+                        FontSize="15"
+                        Foreground="White"
+                        Text="My trips" />
+                </StackPanel>
+
+                <Button
+                    x:Name="BookAll"
+                    Grid.Row="2"
+                    Margin="0,0,30,40"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Click="OnDismissClick"
+                    Content="Book all" />
+            </Grid>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>

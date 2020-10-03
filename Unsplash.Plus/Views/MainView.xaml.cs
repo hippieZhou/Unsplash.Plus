@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
 using System.Numerics;
 using Unsplash.Plus.Models;
 using Unsplash.Plus.ViewModels;
@@ -7,6 +9,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -127,6 +130,31 @@ namespace Unsplash.Plus.Views
                 };
             }
             Frame.Navigate(typeof(DetailView), _storeditem, new SuppressNavigationTransitionInfo());
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var shellPage = this.FindAscendant<Shell>();
+            PickedPlacesPane.Visibility = Visibility.Visible;
+            PickedPlacesPane
+                .Fade(1.0f)
+                .Scale(scaleX: 1.0f, scaleY: 1.0f, centerX: (float)shellPage.ActualWidth / 2, centerY: (float)shellPage.ActualHeight / 2)
+                .Start();
+        }
+
+        private void OnDismissClick(object sender, RoutedEventArgs e)
+        {
+            var shellPage = this.FindAscendant<Shell>();
+            PickedPlacesPane.Visibility = Visibility.Collapsed;
+            PickedPlacesPane
+                  .Fade(0.95f)
+                  .Scale(scaleX: 0.95f, scaleY: 0.95f, centerX: (float)shellPage.ActualWidth / 2, centerY: (float)shellPage.ActualHeight / 2)
+                  .Start();
+        }
+
+        private void OnDismissTouchAreaTapped(object sender, TappedRoutedEventArgs e)
+        {
+            OnDismissClick(sender, e);
         }
     }
 }

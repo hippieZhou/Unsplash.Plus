@@ -52,7 +52,7 @@
                                 <Flyout Placement="Right">
                                     <TextBlock FontFamily="{StaticResource MontserratMedium}" FontSize="12">
                                         <Run Text="Photo by" />
-                                        <Run FontFamily="{StaticResource MontserratSemiBold}" Text="{x:Bind ViewModel.SelectedItem.UserName}" />
+                                        <Run FontFamily="{StaticResource MontserratSemiBold}" Text="UserName" />
                                         <Run Text="on" />
                                         <Hyperlink NavigateUri="https://www.baidu.com">Unsplash</Hyperlink>
                                     </TextBlock>

@@ -19,6 +19,7 @@ namespace Unsplash.Plus.Services
     {
         Task<IEnumerable<PhotoItem>> GetDesignPhotoList(int pageIndex, int pageSize);
         Task<IEnumerable<PhotoItem>> ListPhotos(int count, int pageSize);
+        Task ListCollections();
     }
 
     public class UnsplashService: IUnsplashService
@@ -63,6 +64,12 @@ namespace Unsplash.Plus.Services
         {
             var photos = await _client.ListPhotos(page, pageSize);
             return _mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoItem>>(photos);
+
+        }
+
+        public async Task ListCollections()
+        {
+            List<Collection> collections =  await _client.ListCollections();
         }
     }
 }

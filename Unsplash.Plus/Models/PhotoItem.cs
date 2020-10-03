@@ -12,8 +12,7 @@ namespace Unsplash.Plus.Models
 
         public PhotoLocation Location { get; set; }
         public string Description { get; set; }
-        public string UserName { get; set; }
-        public string UserProfile { get; set; }
+        public UserItem User { get; set; }
         public PhotoUrls Urls { get; set; }
     }
 }

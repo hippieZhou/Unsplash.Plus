@@ -25,11 +25,11 @@ namespace Unsplash.Plus.Mappings
 
                 .ForMember(dest => dest.Location, opt => opt.MapFrom(src => $"{src.Location.City}/{src.Location.Country}"))
 
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
 
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username))
-                .ForMember(dest => dest.UserProfile, opt => opt.MapFrom(src => src.User.ProfileImage.Small));
             CreateMap<Urls, PhotoUrls>().ReverseMap();
+            CreateMap<User, UserItem>().ReverseMap();
+            CreateMap<ProfileImage, ProfileImages>().ReverseMap();
             CreateMap<Location, PhotoLocation>().ReverseMap();
         }
     }
