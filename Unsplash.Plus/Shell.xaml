@@ -44,7 +44,7 @@
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
-    <Page.BottomAppBar>
+    <!--<Page.BottomAppBar>
         <CommandBar
             x:Name="CommandBar"
             Height="72"
@@ -68,7 +68,7 @@
                 </Border>
             </CommandBar.Content>
         </CommandBar>
-    </Page.BottomAppBar>
+    </Page.BottomAppBar>-->
 
     <Grid>
         <Grid.BackgroundTransition>

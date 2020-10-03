@@ -8,6 +8,8 @@
     xmlns:local="using:Unsplash.Plus.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    x:DefaultBindMode="OneWay"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     DataContext="{Binding Source={StaticResource Locator}, Path=Detail}"
     mc:Ignorable="d">
 
@@ -130,7 +132,7 @@
         <Grid VerticalAlignment="Top">
             <Rectangle
                 Margin="0,0,0,40"
-                Fill="White"
+                Fill="{ThemeResource SystemControlAcrylicWindowBrush}"
                 Opacity="0.9" />
             <Grid
                 x:Name="Header"
@@ -208,6 +210,7 @@
                 </Button>
             </Grid>
         </Grid>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

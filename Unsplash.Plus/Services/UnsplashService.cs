@@ -18,7 +18,7 @@ namespace Unsplash.Plus.Services
     public interface IUnsplashService
     {
         Task<IEnumerable<PhotoItem>> GetDesignPhotoList(int pageIndex, int pageSize);
-        Task<IEnumerable<PhotoItem>> GetRandomPhotoList(int count);
+        Task<IEnumerable<PhotoItem>> ListPhotos(int count, int pageSize);
     }
 
     public class UnsplashService: IUnsplashService
@@ -38,15 +38,23 @@ namespace Unsplash.Plus.Services
         {
             var items = ColorBrushHelper.Colors.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .Select(x => new PhotoItem { Color = x.Key });
+                .Select(x => new PhotoItem
+                {
+                    Id = "LBI7cgq3pbM",
+                    Color = "#60544D",
+                    Small = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                    Full = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                    Regular = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                    Thumbnail = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                    Raw = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                });
             return Task.FromResult(items);
         }
 
-        public async Task<IEnumerable<PhotoItem>> GetRandomPhotoList(int count)
+        public async Task<IEnumerable<PhotoItem>> ListPhotos(int page, int pageSize)
         {
-            var photos = await _client.GetRandomPhoto(count);
-            var items = _mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoItem>>(photos);
-            return items;
+            var photos = await _client.ListPhotos(page, pageSize);
+            return _mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoItem>>(photos);
         }
     }
 }

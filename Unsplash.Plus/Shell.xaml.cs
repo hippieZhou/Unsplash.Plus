@@ -1,5 +1,7 @@
-﻿using Unsplash.Plus.ViewModels;
+﻿using System;
+using Unsplash.Plus.ViewModels;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Unsplash.Plus
 {
@@ -10,6 +12,8 @@ namespace Unsplash.Plus
         {
             this.InitializeComponent();
             ViewModel.Initialize(ContentFrame);
+
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromMilliseconds(400);
         }
     }
 }

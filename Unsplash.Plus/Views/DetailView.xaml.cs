@@ -23,18 +23,19 @@ namespace Unsplash.Plus.Views
             base.OnNavigatingFrom(e);
             if (e.NavigationMode == NavigationMode.Back)
             {
-                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardToMain", HeroImage);
+                var anim = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardToMain", HeroImage);
+                anim.Configuration = new DirectConnectedAnimationConfiguration();
             }
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             ViewModel.SelectedItem = e.Parameter as PhotoItem;
-            var aniamtion1 = ConnectedAnimationService.GetForCurrentView().GetAnimation("mainToDetail");
-            aniamtion1?.TryStart(HeroImage, new UIElement[] { Header });
-            var aniamtion2 = ConnectedAnimationService.GetForCurrentView().GetAnimation("comparisonToDetail");
-            aniamtion2?.TryStart(HeroImage, new UIElement[] { Header });
+            var anim = ConnectedAnimationService.GetForCurrentView().GetAnimation("mainToDetail");
+            anim?.TryStart(HeroImage, new UIElement[] { Header });
         }
+
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
             if (Frame.CanGoBack)

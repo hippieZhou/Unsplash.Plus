@@ -21,7 +21,8 @@ namespace Unsplash.Plus.Models
 
         public async Task<IEnumerable<PhotoItem>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            var items = await unsplashService.GetRandomPhotoList(pageSize);
+            //var items = await unsplashService.ListPhotos(pageIndex, pageSize);
+            var items = await unsplashService.GetDesignPhotoList(pageIndex, pageSize);
             return items;
         }
     }
