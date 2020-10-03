@@ -18,8 +18,6 @@ namespace Unsplash.Plus.ViewModels
             {
                 service.AddLogging();
 
-                service.AddSingleton<AppSettings>();
-
                 service.AddSingleton(sp =>
                 {
                     var builder = new ConfigurationBuilder()
@@ -36,8 +34,11 @@ namespace Unsplash.Plus.ViewModels
                     }).CreateMapper();
                 });
 
-                service.AddSingleton<ShellViewModel>();
-                service.AddSingleton<MainViewModel>();
+                service.AddSingleton<ShellViewModel>()
+                .AddSingleton<MainViewModel>()
+                .AddSingleton<DetailViewModel>()
+                .AddSingleton<AppSettings>();
+
                 service.AddSingleton<IUnsplashService, UnsplashService>();
                 service.AddSingleton<INavigationService, NavigationService>(sp =>
                 {
@@ -50,6 +51,7 @@ namespace Unsplash.Plus.ViewModels
 
         public ShellViewModel Shell => Ioc.Default.GetRequiredService<ShellViewModel>();
         public MainViewModel Main => Ioc.Default.GetRequiredService<MainViewModel>();
+        public DetailViewModel Detail => Ioc.Default.GetRequiredService<DetailViewModel>();
         public AppSettings AppSettings => Ioc.Default.GetRequiredService<AppSettings>();
     }
 }

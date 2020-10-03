@@ -1,11 +1,13 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System.Numerics;
+using Unsplash.Plus.Models;
 using Unsplash.Plus.ViewModels;
-using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Unsplash.Plus.Views
 {
@@ -17,7 +19,7 @@ namespace Unsplash.Plus.Views
             this.InitializeComponent();
         }
 
-        private void AdaptiveGridViewControl_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
+        private void MainGridView_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
             if (sender is AdaptiveGridView gridView && gridView.SelectedItem != null)
             {
@@ -38,21 +40,21 @@ namespace Unsplash.Plus.Views
             var compositor = rootVisual.Compositor;
 
             #region 阴影
-            //var shadowHostVisual = ElementCompositionPreview.GetElementVisual(shadowHost);
+            var shadowHostVisual = ElementCompositionPreview.GetElementVisual(shadowHost);
 
-            // Create shadow and add it to the Visual Tree
-            //var shadow = compositor.CreateDropShadow();
-            //shadow.Color = Color.FromArgb(255, 75, 75, 80);
-            //var shadowVisual = compositor.CreateSpriteVisual();
-            //shadowVisual.Shadow = shadow;
-            //ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);
+            //Create shadow and add it to the Visual Tree
+            var shadow = compositor.CreateDropShadow();
+            shadow.Color = Color.FromArgb(255, 75, 75, 80);
+            var shadowVisual = compositor.CreateSpriteVisual();
+            shadowVisual.Shadow = shadow;
+            ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);
 
-            //var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
-            //bindSizeAnimation.SetReferenceParameter("hostVisual", shadowHostVisual);
-            //shadowVisual.StartAnimation("Size", bindSizeAnimation);
-            //var shadowAnimation = compositor.CreateExpressionAnimation("100 * (source.Scale.X - 1)");
-            //shadowAnimation.SetReferenceParameter("source", rootVisual);
-            //shadow.StartAnimation("BlurRadius", shadowAnimation);
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", shadowHostVisual);
+            shadowVisual.StartAnimation("Size", bindSizeAnimation);
+            var shadowAnimation = compositor.CreateExpressionAnimation("100 * (source.Scale.X - 1)");
+            shadowAnimation.SetReferenceParameter("source", rootVisual);
+            shadow.StartAnimation("BlurRadius", shadowAnimation);
             #endregion
 
             var pointerEnteredAnimation = compositor.CreateVector3KeyFrameAnimation();
@@ -63,7 +65,7 @@ namespace Unsplash.Plus.Views
 
             root.PointerEntered += (sender, args) =>
             {
-                root.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, root.ActualWidth, root.ActualHeight) };
+                //root.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, root.ActualWidth, root.ActualHeight) };
                 rootVisual.CenterPoint = new Vector3(rootVisual.Size / 2, 0);
                 rootVisual.StartAnimation("Scale", pointerEnteredAnimation);
             };
@@ -85,6 +87,13 @@ namespace Unsplash.Plus.Views
                 }
             }
             return null;
+        }
+
+        private void OnMainGridViewItemClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.SelectedItem = e.ClickedItem as PhotoItem;
+            MainGridView.PrepareConnectedAnimation("mainToDetail", e.ClickedItem, "PlaceImage");
+            Frame.Navigate(typeof(DetailView), ViewModel.SelectedItem, new SuppressNavigationTransitionInfo());
         }
     }
 }

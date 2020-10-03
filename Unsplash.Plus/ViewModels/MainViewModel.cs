@@ -33,6 +33,12 @@ namespace Unsplash.Plus.ViewModels
             set { SetProperty(ref _items, value); }
         }
 
+        private PhotoItem _selectedItem;
+        public PhotoItem SelectedItem
+        {
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
+        }
 
         private ICommand _loadCommand;
         public ICommand LoadCommand

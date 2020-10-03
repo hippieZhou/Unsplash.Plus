@@ -15,7 +15,6 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:toolkitbehaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    x:DefaultBindMode="OneWay"
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
     mc:Ignorable="d">
     <interactivity:Interaction.Behaviors>
@@ -28,6 +27,7 @@
             <Grid Background="{x:Bind Color, Converter={StaticResource HexStringToBrushConverter}}" Loaded="Grid_Loaded">
                 <Canvas x:Name="ShadowContainer" />
                 <toolkit:ImageEx
+                    x:Name="PlaceImage"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="Transparent"
@@ -94,17 +94,19 @@
 
     <Grid x:Name="LayoutRoot" Padding="0,48,0,0">
         <toolkit:AdaptiveGridView
-            Name="AdaptiveGridViewControl"
+            x:Name="MainGridView"
             animations:ReorderGridAnimation.Duration="300"
             DataFetchSize="1"
             DesiredWidth="360"
             IsItemClickEnabled="True"
+            ItemClick="OnMainGridViewItemClick"
             ItemHeight="240"
             ItemTemplate="{StaticResource PhotosTemplate}"
             ItemsSource="{x:Bind ViewModel.Items}"
             OneRowModeEnabled="False"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionMode="None"
-            SizeChanged="AdaptiveGridViewControl_SizeChanged"
+            SizeChanged="MainGridView_SizeChanged"
             StretchContentForSingleRow="True">
             <toolkit:AdaptiveGridView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource BorderlessGridViewItem}" TargetType="GridViewItem">
