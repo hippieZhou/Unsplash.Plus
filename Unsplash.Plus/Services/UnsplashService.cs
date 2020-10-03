@@ -23,14 +23,19 @@ namespace Unsplash.Plus.Services
 
     public class UnsplashService: IUnsplashService
     {
+        public  const string ApplicationId = "b27797f08021cb0d84672e38530613898facf6d4b06c62ec7dd5a2912c9a4438";
+        public const string Secret = "38b6f87419f686094e53286d0b6cb39efc3fc97ee6ce3bb6e0b90531aec9984f";
+
         private readonly UnsplasharpClient _client;
         private readonly IMapper _mapper;
 
         public UnsplashService(IConfigurationRoot configurationRoot, IMapper mapper)
         {
-            var AccessKey = configurationRoot.GetSection("unsplash:AccessKey").Value;
-            var SecretKey = configurationRoot.GetSection("unsplash:SecretKey").Value;
-            _client = new UnsplasharpClient(AccessKey, SecretKey);
+            //var accessKey = configurationRoot.GetSection("unsplash:AccessKey").Value;
+            //var secretKey = configurationRoot.GetSection("unsplash:SecretKey").Value;
+            //_client = new UnsplasharpClient(accessKey, secretKey);
+            _client = new UnsplasharpClient(ApplicationId, Secret);
+
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -42,11 +47,14 @@ namespace Unsplash.Plus.Services
                 {
                     Id = Guid.NewGuid().ToString(),
                     Color = "#60544D",
-                    Small = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
-                    Full = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
-                    Regular = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
-                    Thumbnail = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
-                    Raw = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                    Urls = new PhotoUrls
+                    {
+                        Small = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                        Full = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                        Regular = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                        Thumbnail = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                        Custom = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
+                    }
                 });
             return Task.FromResult(items);
         }

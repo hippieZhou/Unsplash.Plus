@@ -10,6 +10,7 @@ namespace Unsplash.Plus
 {
     sealed partial class App : Application
     {
+        public static ViewModelLocator Locator => Current.Resources[nameof(Locator)] as ViewModelLocator;
         public App()
         {
             this.InitializeComponent();

@@ -7,6 +7,7 @@
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:local="using:Unsplash.Plus.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     x:DefaultBindMode="OneWay"
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
@@ -28,9 +29,11 @@
                 Pane2Length="*">
                 <winui:TwoPaneView.Pane1>
                     <Grid x:Name="Pane1Panel" Padding="64,0,64,40">
-                        <Image
+                        <toolkit:ImageEx
                             x:Name="HeroImage"
-                            Source="{x:Bind ViewModel.SelectedItem.Small}"
+                            CacheMode="BitmapCache"
+                            IsCacheEnabled="True"
+                            Source="{x:Bind ViewModel.SelectedItem.Urls.Small}"
                             Stretch="UniformToFill" />
                         <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
                         <Button
@@ -49,7 +52,7 @@
                                 <Flyout Placement="Right">
                                     <TextBlock FontFamily="{StaticResource MontserratMedium}" FontSize="12">
                                         <Run Text="Photo by" />
-                                        <Run FontFamily="{StaticResource MontserratSemiBold}" Text="ImageAuthor" />
+                                        <Run FontFamily="{StaticResource MontserratSemiBold}" Text="{x:Bind ViewModel.SelectedItem.UserName}" />
                                         <Run Text="on" />
                                         <Hyperlink NavigateUri="https://www.baidu.com">Unsplash</Hyperlink>
                                     </TextBlock>
@@ -77,7 +80,7 @@
                             FontSize="36"
                             Foreground="#FF121111"
                             LineHeight="48"
-                            Text="Ornare eu massa turpis viverra"
+                            Text="{x:Bind ViewModel.SelectedItem.Description}"
                             TextLineBounds="Tight"
                             TextWrapping="Wrap" />
                         <TextBlock
@@ -95,7 +98,8 @@
                             Margin="0,0,0,80"
                             Background="#FFF8F8F8"
                             BorderBrush="#FF121111"
-                            Content="Plan trip"
+                            Click="OnPlanTripClick"
+                            Content="DOWNLOAD"
                             Foreground="#FF121111"
                             Tag="{StaticResource Style-Icon-PaperPlane}" />
 
@@ -162,7 +166,7 @@
                     FontFamily="{StaticResource MontserratSemiBold}"
                     FontSize="18"
                     Opacity="0.8"
-                    Text="CountryName"
+                    Text="{x:Bind ViewModel.SelectedItem.Location.Country}"
                     TextLineBounds="Tight" />
                 <Button
                     x:Name="PlanTripTop"
@@ -172,8 +176,7 @@
                     HorizontalAlignment="Right"
                     extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
                     Background="#FFF0F0F2"
-                    Style="{StaticResource Style-Button-Icon-Circle}"
-                    Visibility="Collapsed">
+                    Style="{StaticResource Style-Button-Icon-Circle}">
                     <animations:Implicit.ShowAnimations>
                         <animations:TranslationAnimation
                             From="0,32,0"

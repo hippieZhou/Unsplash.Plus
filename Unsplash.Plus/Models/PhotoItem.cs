@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Media;
+﻿using Unsplash.Plus.Helpers;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Unsplash.Plus.Models
 {
@@ -6,14 +8,12 @@ namespace Unsplash.Plus.Models
     {
         public string Id { get; set; }
         public string Color { get; set; }
+        public NotifyTaskCompletion<SoftwareBitmapSource> BlurHash { get; set; }
 
-        #region Urls
-        public string Custom { get; set; }
-        public string Full { get; set; }
-        public string Raw { get; set; }
-        public string Regular { get; set; }
-        public string Small { get; set; }
-        public string Thumbnail { get; set; }
-        #endregion
+        public PhotoLocation Location { get; set; }
+        public string Description { get; set; }
+        public string UserName { get; set; }
+        public string UserProfile { get; set; }
+        public PhotoUrls Urls { get; set; }
     }
 }

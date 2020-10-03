@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Unsplash.Plus.Models;
 using Unsplash.Plus.Services;
@@ -12,6 +13,8 @@ namespace Unsplash.Plus.ViewModels
     {
         private readonly IUnsplashService _unsplashService;
         private readonly ILogger<MainViewModel> _logger;
+
+        public ObservableCollection<PhotoItem> PickedPlaces { get; } = new ObservableCollection<PhotoItem>();
 
         public MainViewModel(IUnsplashService unsplashService, ILogger<MainViewModel> logger)
         {

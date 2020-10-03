@@ -8,15 +8,29 @@ namespace Unsplash.Plus.Mappings
     {
         public GeneralProfile()
         {
+            //var decoder = new Decoder();
+            //async Task<SoftwareBitmapSource> Generate(string blurHash, int width, int height)
+            //{
+            //    var bitmap = decoder.Decode(blurHash, width, height);
+            //    var source = new SoftwareBitmapSource();
+            //    await source.SetBitmapAsync(bitmap);
+            //    return source;
+            //}
+
+
             CreateMap<Photo, PhotoItem>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
-                .ForMember(dest => dest.Custom, opt => opt.MapFrom(src => src.Urls.Custom))
-                .ForMember(dest => dest.Full, opt => opt.MapFrom(src => src.Urls.Full))
-                .ForMember(dest => dest.Raw, opt => opt.MapFrom(src => src.Urls.Raw))
-                .ForMember(dest => dest.Regular, opt => opt.MapFrom(src => src.Urls.Regular))
-                .ForMember(dest => dest.Small, opt => opt.MapFrom(src => src.Urls.Small))
-                .ForMember(dest => dest.Thumbnail, opt => opt.MapFrom(src => src.Urls.Thumbnail));
+                //.ForMember(dest => dest.BlurHash, opt => opt.MapFrom(src => new NotifyTaskCompletion<SoftwareBitmapSource>(Generate("hash", src.Width, src.Height))))
+
+                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => $"{src.Location.City}/{src.Location.Country}"))
+
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username))
+                .ForMember(dest => dest.UserProfile, opt => opt.MapFrom(src => src.User.ProfileImage.Small));
+            CreateMap<Urls, PhotoUrls>().ReverseMap();
+            CreateMap<Location, PhotoLocation>().ReverseMap();
         }
     }
 }

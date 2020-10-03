@@ -33,10 +33,11 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="Transparent"
+                    CacheMode="BitmapCache"
                     Foreground="Transparent"
                     IsCacheEnabled="True"
                     PlaceholderStretch="UniformToFill"
-                    Source="{x:Bind Small}"
+                    Source="{x:Bind Urls.Small}"
                     Stretch="UniformToFill" />
                 <Grid
                     x:Name="SmokeGrid"
@@ -120,6 +121,26 @@
                     <EntranceThemeTransition FromVerticalOffset="200" IsStaggeringEnabled="True" />
                 </TransitionCollection>
             </toolkit:AdaptiveGridView.ItemContainerTransitions>
+            <toolkit:AdaptiveGridView.Header>
+                <toolkit:ScrollHeader Mode="Fade">
+                    <Grid Margin="24,0">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <AutoSuggestBox
+                                x:Name="MainSuggestBox"
+                                MaxWidth="520"
+                                PlaceholderText="Search photos"
+                                QueryIcon="Find"
+                                Style="{StaticResource CustomStyledAutoSuggestBox}" />
+                            <Button HorizontalAlignment="Left" Style="{StaticResource Style-Button-Icon-Circle}">
+                                <ContentControl
+                                    Width="16"
+                                    Foreground="#FF0477BF"
+                                    Style="{StaticResource Style-Icon-Plus}" />
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </toolkit:ScrollHeader>
+            </toolkit:AdaptiveGridView.Header>
             <toolkit:AdaptiveGridView.Footer>
                 <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
                     <Grid Visibility="{x:Bind ViewModel.Items.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -220,7 +241,18 @@
                         <AdaptiveTrigger MinWindowWidth="721" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="LayoutRoot.Padding" Value="0,84,0,0" />
+                        <Setter Target="LayoutRoot.Padding" Value="0,72,0,0" />
+                        <Setter Target="MainSuggestBox.Width" Value="520" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--  VisualState to be triggered when window width is >0 effective pixels.  -->
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LayoutRoot.Padding" Value="0,48,0,0" />
+                        <Setter Target="MainSuggestBox.Width" Value="360" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
