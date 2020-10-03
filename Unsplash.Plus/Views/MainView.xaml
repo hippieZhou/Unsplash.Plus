@@ -17,6 +17,7 @@
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     x:DefaultBindMode="OneWay"
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
+    NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
@@ -104,6 +105,7 @@
             ItemHeight="240"
             ItemTemplate="{StaticResource PhotosTemplate}"
             ItemsSource="{x:Bind ViewModel.Items}"
+            Loaded="MainGridView_Loaded"
             OneRowModeEnabled="False"
             SelectionMode="None"
             SizeChanged="MainGridView_SizeChanged"

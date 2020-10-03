@@ -2,67 +2,51 @@
 using System.Numerics;
 using Unsplash.Plus.Models;
 using Unsplash.Plus.ViewModels;
+using Windows.Foundation.Metadata;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace Unsplash.Plus.Views
 {
     public sealed partial class MainView : Page
     {
-        private PhotoItem _selectedPlace;
+        private PhotoItem _storeditem;
         public MainViewModel ViewModel => DataContext as MainViewModel;
         public MainView()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        private async void MainGridView_Loaded(object sender, RoutedEventArgs e)
         {
-            base.OnNavigatingFrom(e);
-
-            var animation = MainGridView.PrepareConnectedAnimation("mainToDetail", _selectedPlace, "PlaceImage");
-            animation.IsScaleAnimationEnabled = true;
-            animation.Configuration = new BasicConnectedAnimationConfiguration();
-            animation.Completed += (_s, _e) =>
+            if (_storeditem != null)
             {
-                if (MainGridView.ContainerFromItem(_selectedPlace) is GridViewItem item)
-                {
-                    item.Opacity = 0.0d;
-                }
-            };
-        }
+                MainGridView.ScrollIntoView(_storeditem, ScrollIntoViewAlignment.Default);
+                MainGridView.UpdateLayout();
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("backwardToMain");
-            if (animation != null)
-            {
-                if (MainGridView.ContainerFromItem(_selectedPlace) is GridViewItem item)
+                ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("BackConnectedAnimation");
+                if (animation != null)
                 {
-                    animation.Completed += (_s, _e) =>
+                    animation.IsScaleAnimationEnabled = true;
+                    animation.Configuration = new DirectConnectedAnimationConfiguration();
+                    animation.Completed += (_sender, _e) =>
                     {
-                        item.Opacity = 1.0d;
+                        MainGridView.ContainerFromItem(_storeditem).SetValue(OpacityProperty, 1.0d);
                     };
-                    animation.TryStart(item);
-
-                    MainGridView.ScrollIntoView(item);
-                    MainGridView.UpdateLayout();
+                    await MainGridView.TryStartConnectedAnimationAsync(animation, _storeditem, "PlaceImage");
                 }
             }
         }
 
         private void MainGridView_SizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
-            if (_selectedPlace != null)
+            if (_storeditem != null)
             {
-                MainGridView.ScrollIntoView(_selectedPlace);
+                MainGridView.ScrollIntoView(_storeditem);
                 MainGridView.UpdateLayout();
             }
         }
@@ -131,8 +115,18 @@ namespace Unsplash.Plus.Views
 
         private void OnMainGridViewItemClick(object sender, ItemClickEventArgs e)
         {
-            _selectedPlace = e.ClickedItem as PhotoItem;
-            Frame.Navigate(typeof(DetailView), _selectedPlace, new SuppressNavigationTransitionInfo());
+            if (MainGridView.ContainerFromItem(e.ClickedItem) is GridViewItem container)
+            {
+                _storeditem = container.Content as PhotoItem;
+                var animation = MainGridView.PrepareConnectedAnimation("ForwardConnectedAnimation", _storeditem, "PlaceImage");
+                animation.IsScaleAnimationEnabled = true;
+                animation.Configuration = new BasicConnectedAnimationConfiguration();
+                animation.Completed += (_sender, _e) =>
+                {
+                    container.Opacity = 0.0d;
+                };
+            }
+            Frame.Navigate(typeof(DetailView), _storeditem, new SuppressNavigationTransitionInfo());
         }
     }
 }
