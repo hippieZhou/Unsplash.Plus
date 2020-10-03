@@ -5,6 +5,7 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Unsplash.Plus.Views"
     xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
@@ -23,7 +24,6 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <Page.Resources>
-        <x:Double x:Key="ListViewItemDisabledThemeOpacity">0.25</x:Double>
         <DataTemplate x:Key="PhotosTemplate" x:DataType="model:PhotoItem">
             <Grid Background="{x:Bind Color, Converter={StaticResource HexStringToBrushConverter}}" Loaded="Grid_Loaded">
                 <Canvas x:Name="ShadowContainer" />
@@ -92,10 +92,9 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid>
+    <Grid x:Name="LayoutRoot" Padding="0,48,0,0">
         <toolkit:AdaptiveGridView
             Name="AdaptiveGridViewControl"
-            Padding="16"
             animations:ReorderGridAnimation.Duration="300"
             DataFetchSize="1"
             DesiredWidth="360"
@@ -119,7 +118,7 @@
             </toolkit:AdaptiveGridView.ItemContainerTransitions>
             <toolkit:AdaptiveGridView.Footer>
                 <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
-                    <Grid Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid Visibility="{x:Bind ViewModel.Items.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
                         <winui:AnimatedVisualPlayer
                             Width="240"
                             HorizontalAlignment="Center"
@@ -149,5 +148,78 @@
                 </Grid>
             </toolkit:AdaptiveGridView.Footer>
         </toolkit:AdaptiveGridView>
+
+        <Grid
+            x:Name="Wonderbar"
+            Margin="0,0,64,40"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
+            Visibility="{x:Bind ViewModel.Items.IsLoading, Converter={StaticResource ReverseBoolToVisibilityConverter}, FallbackValue=Collapsed}">
+            <animations:Implicit.ShowAnimations>
+                <animations:TranslationAnimation
+                    From="0,40,0"
+                    To="0,0,0"
+                    Duration="0:0:0.6" />
+                <animations:ScaleAnimation
+                    From="0.6"
+                    To="1"
+                    Duration="0:0:0.6" />
+                <animations:OpacityAnimation
+                    From="0"
+                    To="1"
+                    Duration="0:0:0.6" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="0,40,0"
+                    Duration="0:0:0.4" />
+                <animations:ScaleAnimation
+                    From="1"
+                    To="0.6"
+                    Duration="0:0:0.4" />
+                <animations:OpacityAnimation
+                    From="1"
+                    To="0"
+                    Duration="0:0:0.4" />
+            </animations:Implicit.HideAnimations>
+
+            <toolkit:DropShadowPanel
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                BlurRadius="36"
+                ShadowOpacity="0.3">
+                <Ellipse Fill="White" />
+            </toolkit:DropShadowPanel>
+
+            <Button
+                Width="56"
+                Height="56"
+                Padding="0"
+                Background="White"
+                Command="{x:Bind ViewModel.RefreshCommand}"
+                Style="{StaticResource Style-Button-Icon-Circle}"
+                Tag="1">
+                <ContentControl
+                    Width="18"
+                    Foreground="#FF0477BF"
+                    Style="{StaticResource Style-Icon-Wonderbar}" />
+            </Button>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--  VisualState to be triggered when window width is >720 effective pixels.  -->
+                        <AdaptiveTrigger MinWindowWidth="721" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="LayoutRoot.Padding" Value="0,84,0,0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

@@ -37,6 +37,14 @@
                     <Visibility>Collapsed</Visibility>
                 </toolkitconverters:BoolToVisibilityConverter.FalseValue>
             </toolkitconverters:BoolToVisibilityConverter>
+            <toolkitconverters:BoolToVisibilityConverter x:Key="ReverseBoolToVisibilityConverter">
+                <toolkitconverters:BoolToVisibilityConverter.TrueValue>
+                    <Visibility>Collapsed</Visibility>
+                </toolkitconverters:BoolToVisibilityConverter.TrueValue>
+                <toolkitconverters:BoolToVisibilityConverter.FalseValue>
+                    <Visibility>Visible</Visibility>
+                </toolkitconverters:BoolToVisibilityConverter.FalseValue>
+            </toolkitconverters:BoolToVisibilityConverter>
 
 
             <Style TargetType="TextBlock">
@@ -910,6 +918,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="/Themes/CommandBar.xaml" />
                 <ResourceDictionary Source="/Themes/GridViewItem.xaml" />
                 <ResourceDictionary Source="/Themes/ScrollViewer.xaml" />
             </ResourceDictionary.MergedDictionaries>

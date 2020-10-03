@@ -19,13 +19,6 @@ namespace Unsplash.Plus.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private bool _isLoading = true;
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set { SetProperty(ref _isLoading, value); }
-        }
-
         private bool _isError = false;
         public bool IsError
         {
@@ -57,19 +50,16 @@ namespace Unsplash.Plus.ViewModels
                                 itemsPerPage: 10,
                                 onStartLoading: () =>
                                 {
-                                    IsLoading = true;
                                     IsError = false;
                                     _logger.LogInformation("加载中");
                                 },
                                 onEndLoading: () =>
                                 {
-                                    IsLoading = false;
                                     IsError = false;
                                     _logger.LogInformation("加载完毕");
                                 },
                                 onError: ex =>
                                 {
-                                    IsLoading = false;
                                     IsError = true;
                                     _logger.LogError(ex, "加载异常");
                                 });
@@ -80,5 +70,21 @@ namespace Unsplash.Plus.ViewModels
                 return _loadCommand;
             }
         }
+
+        private ICommand _refreshCommand;
+        public ICommand RefreshCommand
+        {
+            get 
+            {
+                if (_refreshCommand == null)
+                {
+                    _refreshCommand = new AsyncRelayCommand(async () => 
+                    {
+                        await Items.RefreshAsync();
+                    });
+                }
+                return _refreshCommand; }
+        }
+
     }
 }

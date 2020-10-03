@@ -13,11 +13,13 @@
     Background="{ThemeResource SystemControlAcrylicWindowBrush}"
     DataContext="{Binding Source={StaticResource Locator}, Path=Shell}"
     mc:Ignorable="d">
-    <interactivity:Interaction.Behaviors>
-        <core:EventTriggerBehavior EventName="Loaded">
-            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
-        </core:EventTriggerBehavior>
-    </interactivity:Interaction.Behaviors>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <DrillInNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
     <Page.Resources>
         <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Transparent" />
         <x:Double x:Key="NavigationViewTopPaneHeight">72</x:Double>
@@ -37,8 +39,42 @@
             <Setter Property="Margin" Value="6,0" />
         </Style>
     </Page.Resources>
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    <Page.BottomAppBar>
+        <CommandBar
+            x:Name="CommandBar"
+            Height="72"
+            Style="{StaticResource CommandBarRevealStyle}">
+            <animations:Implicit.ShowAnimations>
+                <animations:TranslationAnimation
+                    From="0,72,0"
+                    To="0,0,0"
+                    Duration="0:0:0.6" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:TranslationAnimation
+                    From="0,0,0"
+                    To="0,72,0"
+                    Duration="0:0:0.4" />
+            </animations:Implicit.HideAnimations>
+
+            <CommandBar.Content>
+                <Border Margin="0,0,54,0">
+                    <Button x:Name="Compare" Content="COMPARE" />
+                </Border>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid>
+        <Grid.BackgroundTransition>
+            <BrushTransition Duration="0:0:0.4" />
+        </Grid.BackgroundTransition>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
