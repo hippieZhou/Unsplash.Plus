@@ -1,7 +1,8 @@
 ﻿namespace Unsplash.Plus.Models
 {
-    public class PhotoUrls
+    public class Urls
     {
+        public string Raw { get; set; }
         public string Full { get; set; }
         public string Regular { get; set; }
         public string Small { get; set; }

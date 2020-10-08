@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Unsplash.Plus.Models
 {
-    public class UserItem
+    public class CategoryLinks
     {
-        public ProfileImages Profiles { get; set; }
+        public string Self { get; set; }
+        public string Photos { get; set; }
     }
 }

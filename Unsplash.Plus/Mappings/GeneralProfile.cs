@@ -1,36 +1,35 @@
 ﻿using AutoMapper;
-using Unsplash.Plus.Models;
-using Unsplasharp.Models;
+using Blurhash.UWP;
+using System;
+using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Unsplash.Plus.Mappings
 {
     public class GeneralProfile: Profile
     {
+        private static async Task<ImageSource> GenerateBlurHash(string blurHash, int width, int height)
+        {
+            var bitmap = new Decoder().Decode(blurHash, width, height);
+            var source = new SoftwareBitmapSource();
+            await source.SetBitmapAsync(bitmap);
+            return source;
+        }
+
         public GeneralProfile()
         {
-            //var decoder = new Decoder();
-            //async Task<SoftwareBitmapSource> Generate(string blurHash, int width, int height)
-            //{
-            //    var bitmap = decoder.Decode(blurHash, width, height);
-            //    var source = new SoftwareBitmapSource();
-            //    await source.SetBitmapAsync(bitmap);
-            //    return source;
-            //}
-
-
-            CreateMap<Photo, PhotoItem>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
-                //.ForMember(dest => dest.BlurHash, opt => opt.MapFrom(src => new NotifyTaskCompletion<SoftwareBitmapSource>(Generate("hash", src.Width, src.Height))))
-
-                .ForMember(dest => dest.Location, opt => opt.MapFrom(src => $"{src.Location.City}/{src.Location.Country}"))
-
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description));
-
-            CreateMap<Urls, PhotoUrls>().ReverseMap();
-            CreateMap<User, UserItem>().ReverseMap();
-            CreateMap<ProfileImage, ProfileImages>().ReverseMap();
-            CreateMap<Location, PhotoLocation>().ReverseMap();
+            CreateMap<Unsplasharp.Models.Category, Models.Category>();
+            CreateMap<Unsplasharp.Models.CategoryLinks, Models.CategoryLinks>();
+            CreateMap<Unsplasharp.Models.Collection, Models.Collection>();
+            CreateMap<Unsplasharp.Models.CollectionLinks, Models.CollectionLinks>();
+            CreateMap<Unsplasharp.Models.Exif, Models.Exif>();
+            CreateMap<Unsplasharp.Models.Location, Models.Location>();
+            CreateMap<Unsplasharp.Models.Photo, Models.Photo>();//.ForMember(dest => dest.BlurHash, opt => opt.MapFrom(src => GenerateBlurHash(src.BlurHash, src.Width, src.Height)));
+            CreateMap<Unsplasharp.Models.PhotoLinks, Models.PhotoLinks>();
+            CreateMap<Unsplasharp.Models.ProfileImage, Models.ProfileImage>();
+            CreateMap<Unsplasharp.Models.Urls, Models.Urls>();
+            CreateMap<Unsplasharp.Models.User, Models.User>();
         }
     }
 }

@@ -25,7 +25,7 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
     <Page.Resources>
-        <DataTemplate x:Key="PhotosTemplate" x:DataType="model:PhotoItem">
+        <DataTemplate x:Key="PhotosTemplate" x:DataType="model:Photo">
             <Grid Background="{x:Bind Color, Converter={StaticResource HexStringToBrushConverter}}" Loaded="Grid_Loaded">
                 <Canvas x:Name="ShadowContainer" />
                 <toolkit:ImageEx

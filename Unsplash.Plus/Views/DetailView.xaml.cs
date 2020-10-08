@@ -32,7 +32,7 @@ namespace Unsplash.Plus.Views
         {
             base.OnNavigatedTo(e);
 
-            ViewModel.SelectedItem = e.Parameter as PhotoItem;
+            ViewModel.SelectedItem = e.Parameter as Photo;
             ConnectedAnimation imageAnimation = ConnectedAnimationService.GetForCurrentView().GetAnimation("ForwardConnectedAnimation");
             if (imageAnimation != null)
             {

@@ -1,8 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Collections;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Unsplash.Plus.Models;
 using Unsplash.Plus.Services;
@@ -14,7 +19,7 @@ namespace Unsplash.Plus.ViewModels
         private readonly IUnsplashService _unsplashService;
         private readonly ILogger<MainViewModel> _logger;
 
-        public ObservableCollection<PhotoItem> PickedPlaces { get; } = new ObservableCollection<PhotoItem>();
+        public ObservableCollection<Photo> PickedPlaces { get; } = new ObservableCollection<Photo>();
 
         public MainViewModel(IUnsplashService unsplashService, ILogger<MainViewModel> logger)
         {
@@ -29,8 +34,8 @@ namespace Unsplash.Plus.ViewModels
             set { SetProperty(ref _isError, value); }
         }
 
-        private IncrementalLoadingCollection<PhotoItemSource, PhotoItem> _items;
-        public IncrementalLoadingCollection<PhotoItemSource, PhotoItem> Items
+        private IncrementalLoadingCollection<PhotoSource, Photo> _items;
+        public IncrementalLoadingCollection<PhotoSource, Photo> Items
         {
             get { return _items; }
             set { SetProperty(ref _items, value); }
@@ -47,8 +52,8 @@ namespace Unsplash.Plus.ViewModels
                     {
                         if (Items == null)
                         {
-                            Items = new IncrementalLoadingCollection<PhotoItemSource, PhotoItem>(
-                                new PhotoItemSource(_unsplashService),
+                            Items = new IncrementalLoadingCollection<PhotoSource, Photo>(
+                                new PhotoSource(_unsplashService),
                                 itemsPerPage: 10,
                                 onStartLoading: () =>
                                 {
@@ -86,6 +91,23 @@ namespace Unsplash.Plus.ViewModels
                     });
                 }
                 return _refreshCommand; }
+        }
+    }
+
+    public class PhotoSource : IIncrementalSource<Photo>
+    {
+        private readonly IUnsplashService unsplashService;
+
+        public PhotoSource(IUnsplashService unsplashService, bool loadInMemory = true)
+        {
+            this.unsplashService = unsplashService ?? throw new ArgumentNullException(nameof(unsplashService));
+            ImageCache.Instance.CacheDuration = TimeSpan.FromHours(24);
+            ImageCache.Instance.MaxMemoryCacheCount = loadInMemory ? 200 : 0;
+        }
+
+        public async Task<IEnumerable<Photo>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return await unsplashService.ListPhotos(pageIndex, pageSize);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Unsplash.Plus.Views
 {
     public sealed partial class MainView : Page
     {
-        private PhotoItem _storeditem;
+        private Photo _storeditem;
         public MainViewModel ViewModel => DataContext as MainViewModel;
         public MainView()
         {
@@ -120,7 +120,7 @@ namespace Unsplash.Plus.Views
         {
             if (MainGridView.ContainerFromItem(e.ClickedItem) is GridViewItem container)
             {
-                _storeditem = container.Content as PhotoItem;
+                _storeditem = container.Content as Photo;
                 var animation = MainGridView.PrepareConnectedAnimation("ForwardConnectedAnimation", _storeditem, "PlaceImage");
                 animation.IsScaleAnimationEnabled = true;
                 animation.Configuration = new BasicConnectedAnimationConfiguration();

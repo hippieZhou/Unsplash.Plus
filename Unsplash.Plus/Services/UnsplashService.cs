@@ -5,9 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unsplash.Plus.Helpers;
-using Unsplash.Plus.Models;
 using Unsplasharp;
-using Unsplasharp.Models;
 
 namespace Unsplash.Plus.Services
 {
@@ -17,9 +15,9 @@ namespace Unsplash.Plus.Services
     /// </summary>
     public interface IUnsplashService
     {
-        Task<IEnumerable<PhotoItem>> GetDesignPhotoList(int pageIndex, int pageSize);
-        Task<IEnumerable<PhotoItem>> ListPhotos(int count, int pageSize);
-        Task ListCollections();
+        Task<IEnumerable<Models.Photo>> GetDesignPhotoList(int page, int pageSize);
+        Task<IEnumerable<Models.Photo>> ListPhotos(int page, int pageSize);
+        Task<IEnumerable<Models.Collection>> ListCollections(int page, int pageSize);
     }
 
     public class UnsplashService: IUnsplashService
@@ -32,23 +30,24 @@ namespace Unsplash.Plus.Services
 
         public UnsplashService(IConfigurationRoot configurationRoot, IMapper mapper)
         {
-            //var accessKey = configurationRoot.GetSection("unsplash:AccessKey").Value;
-            //var secretKey = configurationRoot.GetSection("unsplash:SecretKey").Value;
+            var accessKey = configurationRoot.GetSection("unsplash:AccessKey").Value;
+            var secretKey = configurationRoot.GetSection("unsplash:SecretKey").Value;
             //_client = new UnsplasharpClient(accessKey, secretKey);
+
             _client = new UnsplasharpClient(ApplicationId, Secret);
 
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<IEnumerable<PhotoItem>> GetDesignPhotoList(int pageIndex, int pageSize)
+        public Task<IEnumerable<Models.Photo>> GetDesignPhotoList(int page, int pageSize)
         {
-            var items = ColorBrushHelper.Colors.Skip((pageIndex - 1) * pageSize)
+            var items = ColorBrushHelper.Colors.Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Select(x => new PhotoItem
+                .Select(x => new Models.Photo
                 {
                     Id = Guid.NewGuid().ToString(),
                     Color = "#60544D",
-                    Urls = new PhotoUrls
+                    Urls = new Models.Urls
                     {
                         Small = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
                         Full = "https://cn.bing.com/th?id=OHR.LaragangaMoth_ZH-CN2013788793_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=HpEdgeAn",
@@ -60,16 +59,17 @@ namespace Unsplash.Plus.Services
             return Task.FromResult(items);
         }
 
-        public async Task<IEnumerable<PhotoItem>> ListPhotos(int page, int pageSize)
+        public async Task<IEnumerable<Models.Photo>> ListPhotos(int page, int pageSize)
         {
-            var photos = await _client.ListPhotos(page, pageSize);
-            return _mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoItem>>(photos);
-
+            var listPhotosPaged = await _client.ListPhotos(page, pageSize);
+            var items = _mapper.Map<IEnumerable<Unsplasharp.Models.Photo>, IEnumerable<Models.Photo>>(listPhotosPaged);
+            return items;
         }
 
-        public async Task ListCollections()
+        public async Task<IEnumerable<Models.Collection>> ListCollections(int page, int pageSize)
         {
-            List<Collection> collections =  await _client.ListCollections();
+            var listCollectionsPaged = await _client.ListCollections(page, pageSize);
+            return _mapper.Map<IEnumerable<Unsplasharp.Models.Collection>, IEnumerable<Models.Collection>>(listCollectionsPaged);
         }
     }
 }
