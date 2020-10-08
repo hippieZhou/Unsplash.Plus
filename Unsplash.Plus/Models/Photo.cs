@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Media;
 
 namespace Unsplash.Plus.Models
 {
-    public class Photo
+    public class Photo: ObservableObject
     {
         public Location Location { get; set; }
         public Exif Exif { get; set; }
@@ -15,7 +16,14 @@ namespace Unsplash.Plus.Models
         public bool IsLikedByUser { get; set; }
         public int Likes { get; set; }
         public int Downloads { get; set; }
-        public string BlurHash { get; set; }
+
+        private TaskNotifier<ImageSource> _blurHash;
+        public Task<ImageSource> BlurHash
+        {
+            get => _blurHash;
+            set => SetPropertyAndNotifyOnCompletion(ref _blurHash, value);
+        }
+
         public string Color { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }

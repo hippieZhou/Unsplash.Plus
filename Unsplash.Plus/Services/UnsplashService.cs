@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Unsplash.Plus.Helpers;
+using Unsplash.Plus.Mappings;
 using Unsplasharp;
 
 namespace Unsplash.Plus.Services
@@ -30,12 +31,9 @@ namespace Unsplash.Plus.Services
 
         public UnsplashService(IConfigurationRoot configurationRoot, IMapper mapper)
         {
-            var accessKey = configurationRoot.GetSection("unsplash:AccessKey").Value;
-            var secretKey = configurationRoot.GetSection("unsplash:SecretKey").Value;
-            //_client = new UnsplasharpClient(accessKey, secretKey);
-
-            _client = new UnsplasharpClient(ApplicationId, Secret);
-
+            var accessKey = configurationRoot.GetSection("unsplash:AccessKey").Value ?? ApplicationId;
+            var secretKey = configurationRoot.GetSection("unsplash:SecretKey").Value ?? Secret;
+            _client = new UnsplasharpClient(accessKey, secretKey);
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -61,6 +59,7 @@ namespace Unsplash.Plus.Services
 
         public async Task<IEnumerable<Models.Photo>> ListPhotos(int page, int pageSize)
         {
+           // var ii = await GeneralProfile.GenerateBlurHash("LXKKsLxv?^ozOZNGMxnhE1RjM_t7", 5419, 3613);
             var listPhotosPaged = await _client.ListPhotos(page, pageSize);
             var items = _mapper.Map<IEnumerable<Unsplasharp.Models.Photo>, IEnumerable<Models.Photo>>(listPhotosPaged);
             return items;

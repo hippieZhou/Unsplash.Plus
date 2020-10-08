@@ -26,7 +26,11 @@
     </interactivity:Interaction.Behaviors>
     <Page.Resources>
         <DataTemplate x:Key="PhotosTemplate" x:DataType="model:Photo">
-            <Grid Background="{x:Bind Color, Converter={StaticResource HexStringToBrushConverter}}" Loaded="Grid_Loaded">
+            <!--  Background="{x:Bind Color, Converter={StaticResource HexStringToBrushConverter}}"  -->
+            <Grid Loaded="Grid_Loaded" Visibility="{Binding BlurHash.IsCompletedSuccessfully, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.Background>
+                    <ImageBrush ImageSource="{Binding BlurHash.Result}" />
+                </Grid.Background>
                 <Canvas x:Name="ShadowContainer" />
                 <toolkit:ImageEx
                     x:Name="PlaceImage"

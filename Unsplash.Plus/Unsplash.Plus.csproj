@@ -124,7 +124,6 @@
       <DependentUpon>ExtendedSplash.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\MapperExtensions.cs" />
-    <Compile Include="Helpers\NotifyTaskCompletion.cs" />
     <Compile Include="Mappings\GeneralProfile.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CategoryLinks.cs" />
