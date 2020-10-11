@@ -17,11 +17,11 @@ namespace Unsplash.Plus.Models
         public int Likes { get; set; }
         public int Downloads { get; set; }
 
-        private TaskNotifier<ImageSource> _blurHash;
+        private TaskNotifier<ImageSource> _blurBrush;
         public Task<ImageSource> BlurHash
         {
-            get => _blurHash;
-            set => SetPropertyAndNotifyOnCompletion(ref _blurHash, value);
+            get => _blurBrush;
+            set => SetPropertyAndNotifyOnCompletion(ref _blurBrush, value);
         }
 
         public string Color { get; set; }

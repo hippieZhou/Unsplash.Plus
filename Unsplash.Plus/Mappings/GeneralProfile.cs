@@ -17,7 +17,7 @@ namespace Unsplash.Plus.Mappings
             CreateMap<Unsplasharp.Models.CollectionLinks, Models.CollectionLinks>();
             CreateMap<Unsplasharp.Models.Exif, Models.Exif>();
             CreateMap<Unsplasharp.Models.Location, Models.Location>();
-            CreateMap<Unsplasharp.Models.Photo, Models.Photo>().ForMember(dest => dest.BlurHash, opt => opt.MapFrom<BlurHashResolver>());
+            CreateMap<Unsplasharp.Models.Photo, Models.Photo>().ForMember(dest => dest.BlurHash, opt => opt.Ignore());
             CreateMap<Unsplasharp.Models.PhotoLinks, Models.PhotoLinks>();
             CreateMap<Unsplasharp.Models.ProfileImage, Models.ProfileImage>();
             CreateMap<Unsplasharp.Models.Urls, Models.Urls>();
@@ -27,20 +27,21 @@ namespace Unsplash.Plus.Mappings
 
     public class BlurHashResolver : IValueResolver<Unsplasharp.Models.Photo, Models.Photo, Task<ImageSource>>
     {
-        private static async Task<ImageSource> GenerateBlurHash(string blurHash = "LEHV6nWB2yk8pyo0adR*.7kCMdnj", int width = 269, int height = 173)
+        public static async Task<ImageSource> GenerateBlurHash(string blurHash , int width, int height)
         {
-            var bitmap = new Decoder().Decode(blurHash, width, height);
+            var bitmap = new Decoder().Decode(blurHash, (int)(width * 0.2), (int)(height * 0.2));
             var bitmapSource = new SoftwareBitmapSource();
             await bitmapSource.SetBitmapAsync(bitmap);
             return bitmapSource;
         }
 
-        public Task<ImageSource> Resolve(
+        public async Task<ImageSource> Resolve(
             Unsplasharp.Models.Photo source,
             Models.Photo destination,
-            Task<ImageSource> destMember, ResolutionContext context)
+            Task<ImageSource> destMember,
+            ResolutionContext context)
         {
-            var bitmapSource = GenerateBlurHash();
+            var bitmapSource = await GenerateBlurHash(source.BlurHash ?? "LEHV6nWB2yk8pyo0adR*.7kCMdnj", source.Width, source.Height);
             return bitmapSource;
         }
     }

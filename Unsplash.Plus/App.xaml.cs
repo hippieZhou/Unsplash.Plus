@@ -41,14 +41,8 @@ namespace Unsplash.Plus
             if (e.PrelaunchActivated == false)
             {
                 CoreApplication.EnablePrelaunch(true);
+                Window.Current.Activate();
             }
-
-            if (rootFrame.Content == null)
-            {
-                rootFrame.Navigate(typeof(Shell), e.Arguments);
-            }
-
-            Window.Current.Activate();
         }
 
         private void OnSuspending(object sender, SuspendingEventArgs e)

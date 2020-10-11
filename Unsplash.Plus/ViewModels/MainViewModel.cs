@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -54,7 +55,7 @@ namespace Unsplash.Plus.ViewModels
                         {
                             Items = new IncrementalLoadingCollection<PhotoSource, Photo>(
                                 new PhotoSource(_unsplashService),
-                                itemsPerPage: 10,
+                                itemsPerPage: 5,
                                 onStartLoading: () =>
                                 {
                                     IsError = false;
@@ -71,7 +72,7 @@ namespace Unsplash.Plus.ViewModels
                                     _logger.LogError(ex, "加载异常");
                                 });
                         }
-                        await Items.LoadMoreItemsAsync(10);
+                        await Items.LoadMoreItemsAsync(5);
                     });
                 }
                 return _loadCommand;
