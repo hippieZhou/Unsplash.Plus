@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="OneSplash.UwpApp.Shell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:OneSplash.UwpApp"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="using:OneSplash.UwpApp.Views"
+    xmlns:vm="using:OneSplash.UwpApp.ViewModels"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    mc:Ignorable="d">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <DrillInNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <!--<x:Double x:Key="NavigationViewTopPaneHeight">72</x:Double>-->
+        <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Black" />
+        <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemControlForegroundTransparentBrush" />
+
+        <Style TargetType="winui:NavigationViewItem">
+            <Setter Property="FontFamily" Value="{StaticResource RobotoMonoMedium}" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="4,0" />
+        </Style>
+    </Page.Resources>
+
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+
+    <Grid>
+        <Grid.BackgroundTransition>
+            <BrushTransition Duration="0:0:0.4" />
+        </Grid.BackgroundTransition>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <winui:NavigationView
+            x:Name="MainNav"
+            Grid.Row="1"
+            animation:Implicit.Animations="{StaticResource ImplicitOffsetAnimation}"
+            IsBackButtonVisible="Auto"
+            IsSettingsVisible="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            PaneDisplayMode="Top">
+            <winui:NavigationView.MenuItems>
+                <winui:NavigationViewItem Content="HOME" />
+                <winui:NavigationViewItem Content="EXPLORE" />
+                <winui:NavigationViewItem Content="COLLECTIONS" />
+            </winui:NavigationView.MenuItems>
+            <winui:NavigationView.Content>
+                <view:MainView />
+            </winui:NavigationView.Content>
+        </winui:NavigationView>
+        <Rectangle
+            x:Name="DraggableAppTitleBarArea"
+            Grid.Row="0"
+            Height="32"
+            Fill="Transparent" />
+    </Grid>
+</Page>

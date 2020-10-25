@@ -1,0 +1,46 @@
+﻿<Application
+    x:Class="OneSplash.UwpApp.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:local="using:OneSplash.UwpApp"
+    RequestedTheme="Dark">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <local:Startup x:Key="Startup" />
+
+            <FontFamily x:Key="MontserratBold">/Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
+            <FontFamily x:Key="MontserratMedium">/Assets/Fonts/Montserrat-Medium.ttf#Montserrat</FontFamily>
+            <FontFamily x:Key="MontserratRegular">/Assets/Fonts/Montserrat-Regular.ttf#Montserrat</FontFamily>
+            <FontFamily x:Key="MontserratSemiBold">/Assets/Fonts/Montserrat-SemiBold.ttf#Montserrat</FontFamily>
+
+            <FontFamily x:Key="RobotoMonoBold">/Assets/Fonts/RobotoMono-Bold.ttf#Roboto Mono</FontFamily>
+            <FontFamily x:Key="RobotoMonoMedium">/Assets/Fonts/RobotoMono-Medium.ttf#Roboto Mono</FontFamily>
+            <FontFamily x:Key="RobotoMonoRegular">/Assets/Fonts/RobotoMono-Regular.ttf#Roboto Mono</FontFamily>
+
+            <x:Boolean x:Key="UseSystemFocusVisuals">False</x:Boolean>
+
+            <!--  https://github.com/windows-toolkit/MVVM-Samples/blob/master/samples/MvvmSampleUwp/MvvmSampleUwp/Views/AsyncRelayCommandPage.xaml  -->
+            <!--<Run Text="{x:Bind ViewModel.DownloadTextCommand.ExecutionTask, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"/>-->
+            <converters:TaskResultConverter x:Key="TaskResultConverter" />
+
+            <animation:AnimationCollection x:Key="ImplicitOffsetAnimation">
+                <animation:OffsetAnimation Duration="0:0:0.4" />
+            </animation:AnimationCollection>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="{StaticResource MontserratRegular}" />
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="/Themes/ScrollViewer.xaml" />
+                <ResourceDictionary Source="/Themes/GridViewItem.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--  Other app resources here  -->
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

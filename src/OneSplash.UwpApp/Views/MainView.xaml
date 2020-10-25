@@ -1,0 +1,139 @@
+﻿<UserControl
+    x:Class="OneSplash.UwpApp.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:common="using:OneSplash.UwpApp.Common"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:l="using:OneSplash.UwpApp.Models"
+    xmlns:local="using:OneSplash.UwpApp.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="RecipeTemplate" x:DataType="l:Recipe">
+            <Grid Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderThickness="0">
+                <toolkit:ImageEx
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    common:ImageLoader.Blurhash="{x:Bind Blurhash}"
+                    Background="{x:Bind Color}"
+                    EnableLazyLoading="True"
+                    IsCacheEnabled="True"
+                    Stretch="UniformToFill" />
+                <TextBlock
+                    x:Name="recipeName"
+                    Margin="12,0,0,12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    extensions:VisualExtensions.CenterPoint="50,50,0"
+                    FontFamily="{StaticResource MontserratBold}"
+                    Opacity="0.8"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{x:Bind Name}"
+                    TextWrapping="NoWrap"
+                    Visibility="Collapsed">
+                    <animation:Implicit.ShowAnimations>
+                        <animation:TranslationAnimation
+                            From="0, -32, 0"
+                            To="0"
+                            Duration="0:0:2" />
+                        <animation:OpacityAnimation
+                            From="0"
+                            To="1.0"
+                            Duration="0:0:2" />
+                    </animation:Implicit.ShowAnimations>
+                    <animation:Implicit.HideAnimations>
+                        <animation:TranslationAnimation
+                            From="0"
+                            To="0, -32, 0"
+                            Duration="0:0:1" />
+                        <animation:OpacityAnimation
+                            From="1.0"
+                            To="0"
+                            Duration="0:0:1" />
+                    </animation:Implicit.HideAnimations>
+                </TextBlock>
+
+                <interactivity:Interaction.Behaviors>
+                    <!--  鼠标相关操作  -->
+                    <core:EventTriggerBehavior EventName="PointerEntered">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Visible" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerExited">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Collapsed" />
+                    </core:EventTriggerBehavior>
+
+                    <!--  单指相关操作  -->
+                    <!--<core:EventTriggerBehavior EventName="PointerPressed">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Visible" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerReleased">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Collapsed" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerCanceled">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Collapsed" />
+                    </core:EventTriggerBehavior>-->
+                </interactivity:Interaction.Behaviors>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <interactivity:Interaction.Behaviors>
+        <core:EventTriggerBehavior EventName="Loaded">
+            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
+        </core:EventTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+
+    <Grid>
+        <toolkit:AdaptiveGridView
+            animation:ReorderGridAnimation.Duration="300"
+            DataFetchSize="2"
+            DesiredWidth="360"
+            IncrementalLoadingThreshold="2"
+            IncrementalLoadingTrigger="Edge"
+            IsItemClickEnabled="True"
+            ItemHeight="240"
+            ItemTemplate="{StaticResource RecipeTemplate}"
+            ItemsSource="{x:Bind ViewModel.FilteredRecipeData, Mode=OneWay}"
+            OneRowModeEnabled="False"
+            SelectionMode="None"
+            StretchContentForSingleRow="True">
+            <toolkit:AdaptiveGridView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource BaseGridViewItemContainerStyle}" TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="24" />
+                </Style>
+            </toolkit:AdaptiveGridView.ItemContainerStyle>
+            <toolkit:AdaptiveGridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromVerticalOffset="240" IsStaggeringEnabled="True" />
+                </TransitionCollection>
+            </toolkit:AdaptiveGridView.ItemContainerTransitions>
+            <toolkit:AdaptiveGridView.Footer>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
+                    <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
+                </StackPanel>
+            </toolkit:AdaptiveGridView.Footer>
+        </toolkit:AdaptiveGridView>
+    </Grid>
+</UserControl>

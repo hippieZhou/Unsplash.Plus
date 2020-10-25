@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{099F76AD-9DE0-4546-9F95-CF04E3581ADE}</ProjectGuid>
+    <ProjectGuid>{1B0D3323-D2D5-4906-B00A-8C68381E3C85}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unsplash.Plus</RootNamespace>
-    <AssemblyName>Unsplash.Plus</AssemblyName>
+    <RootNamespace>OneSplash.UwpApp</RootNamespace>
+    <AssemblyName>OneSplash.UwpApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -127,42 +127,25 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\HexStringToBrushConverter.cs" />
-    <Compile Include="ExtendedSplash.xaml.cs">
-      <DependentUpon>ExtendedSplash.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Extensions\MapperExtensions.cs" />
-    <Compile Include="Mappings\GeneralProfile.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\CategoryLinks.cs" />
-    <Compile Include="Models\Collection.cs" />
-    <Compile Include="Models\CollectionLinks.cs" />
-    <Compile Include="Models\Exif.cs" />
-    <Compile Include="Models\Photo.cs" />
-    <Compile Include="Helpers\ColorBrushHelper.cs" />
+    <Compile Include="Common\ImageLoader.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
-    <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\PhotoLinks.cs" />
-    <Compile Include="Models\Urls.cs" />
-    <Compile Include="Models\ProfileImage.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Services\NavigationService.cs" />
-    <Compile Include="Services\UnsplashService.cs" />
-    <Compile Include="Settings\AppSettings.cs" />
+    <Compile Include="Models\Recipe.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\DetailView.xaml.cs">
-      <DependentUpon>DetailView.xaml</DependentUpon>
+    <Compile Include="Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +154,6 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\logo.svg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -186,21 +168,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ExtendedSplash.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\AutoSuggestBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\CommandBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -210,11 +180,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\NavigationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DetailView.xaml">
+    <Page Include="Views\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -222,22 +196,29 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper">
-      <Version>10.0.0</Version>
-    </PackageReference>
     <PackageReference Include="Blurhash.UWP">
       <Version>1.0.0</Version>
     </PackageReference>
+    <PackageReference Include="MediatR">
+      <Version>9.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions">
+      <Version>3.1.9</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json">
-      <Version>3.1.8</Version>
+      <Version>3.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>3.1.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging">
-      <Version>3.1.8</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
-      <Version>3.1.8</Version>
+      <Version>3.1.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
@@ -260,12 +241,37 @@
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.5.0-prerelease.200923002</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
-      <Version>2.0.1</Version>
+    <PackageReference Include="Serilog.Settings.Configuration">
+      <Version>3.2.0-dev-00244</Version>
     </PackageReference>
-    <PackageReference Include="unsplasharp.api">
-      <Version>0.6.0</Version>
+    <PackageReference Include="Serilog.Sinks.Debug">
+      <Version>1.0.2-dev-00020</Version>
     </PackageReference>
+    <PackageReference Include="Serilog.Sinks.File">
+      <Version>5.0.0-dev-00887</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneSplash.Application\OneSplash.Application.csproj">
+      <Project>{9b096f4a-13ac-424b-92af-dbaca6fcf066}</Project>
+      <Name>OneSplash.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OneSplash.Infrastructure.Shared\OneSplash.Infrastructure.Shared.csproj">
+      <Project>{6fe0b24c-e8a9-4647-95d0-b68f653368f1}</Project>
+      <Name>OneSplash.Infrastructure.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OneSplash.Infrastructure\OneSplash.Infrastructure.csproj">
+      <Project>{42f1cd23-3f87-4a10-891e-f44fe7fa4079}</Project>
+      <Name>OneSplash.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\Montserrat-Bold.ttf">
@@ -301,18 +307,6 @@
     <Content Include="Assets\Fonts\RobotoMono-Regular.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <None Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Lotties\404-animation.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Assets\Lotties\loading-animation.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
