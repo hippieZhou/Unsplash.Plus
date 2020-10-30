@@ -6,7 +6,7 @@ namespace OneSplash.UwpApp
 {
     public sealed partial class Shell : Page
     {
-        public ShellViewModel ViewModel { get; } = App.Startup.Provider.GetRequiredService<ShellViewModel>();
+        public ShellViewModel ViewModel { get; } = App.Locator.Provider.GetRequiredService<ShellViewModel>();
         public Shell()
         {
             this.InitializeComponent();

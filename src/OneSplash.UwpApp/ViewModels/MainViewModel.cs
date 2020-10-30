@@ -29,6 +29,13 @@ namespace OneSplash.UwpApp.ViewModels
             set { SetProperty(ref _filteredRecipeData, value); }
         }
 
+        private List<string> _categories;
+        public List<string> Categories
+        {
+            get { return _categories ??= new List<string>(); }
+            set { SetProperty(ref _categories, value); }
+        }
+
         private ICommand _loadCommand;
         public ICommand LoadCommand
         {
@@ -52,10 +59,23 @@ namespace OneSplash.UwpApp.ViewModels
                             {
                                 _logger.LogInformation("onError");
                             });
+
+                        Categories.AddRange(GetColors());
                     });
                 }
                 return _loadCommand;
             }
+        }
+
+        private IList<string> GetColors()
+        {
+            IList<string> colors = (typeof(Colors).GetRuntimeProperties().Select(c => c.ToString())).ToList();
+            for (int i = 0; i < colors.Count(); i++)
+            {
+                colors[i] = colors[i].Substring(17);
+
+            }
+            return colors;
         }
     }
 

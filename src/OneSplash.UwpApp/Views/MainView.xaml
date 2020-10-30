@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:common="using:OneSplash.UwpApp.Common"
+    xmlns:control="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
@@ -12,12 +13,33 @@
     xmlns:local="using:OneSplash.UwpApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <DataTemplate x:Key="CategoryTemplate" x:DataType="x:String">
+            <Grid HorizontalAlignment="Stretch" Loaded="CategoryGrid_Loaded">
+                <Canvas x:Name="ShadowContainer" />
+                <Grid
+                    Width="200"
+                    Height="120"
+                    Background="{x:Bind}"
+                    CornerRadius="4">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource MontserratBold}"
+                        Foreground="{StaticResource SystemBaseHighColor}"
+                        Text="{x:Bind}" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="RecipeTemplate" x:DataType="l:Recipe">
-            <Grid Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" BorderThickness="0">
+            <Grid
+                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+                BorderThickness="0"
+                Loaded="RecipeGrid_Loaded">
                 <toolkit:ImageEx
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
@@ -61,7 +83,6 @@
                 </TextBlock>
 
                 <interactivity:Interaction.Behaviors>
-                    <!--  鼠标相关操作  -->
                     <core:EventTriggerBehavior EventName="PointerEntered">
                         <core:ChangePropertyAction
                             PropertyName="Visibility"
@@ -74,26 +95,6 @@
                             TargetObject="{Binding ElementName=recipeName}"
                             Value="Collapsed" />
                     </core:EventTriggerBehavior>
-
-                    <!--  单指相关操作  -->
-                    <!--<core:EventTriggerBehavior EventName="PointerPressed">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
-                            Value="Visible" />
-                    </core:EventTriggerBehavior>
-                    <core:EventTriggerBehavior EventName="PointerReleased">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
-                            Value="Collapsed" />
-                    </core:EventTriggerBehavior>
-                    <core:EventTriggerBehavior EventName="PointerCanceled">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
-                            Value="Collapsed" />
-                    </core:EventTriggerBehavior>-->
                 </interactivity:Interaction.Behaviors>
             </Grid>
         </DataTemplate>
@@ -128,6 +129,28 @@
                     <EntranceThemeTransition FromVerticalOffset="240" IsStaggeringEnabled="True" />
                 </TransitionCollection>
             </toolkit:AdaptiveGridView.ItemContainerTransitions>
+            <toolkit:AdaptiveGridView.Header>
+                <control:StepThroughListView
+                    Margin="12,24,24,24"
+                    extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
+                    ItemTemplate="{StaticResource CategoryTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}">
+                    <animation:Implicit.ShowAnimations>
+                        <animation:TranslationAnimation
+                            From="0,40,0"
+                            To="0,0,0"
+                            Duration="0:0:0.6" />
+                        <animation:ScaleAnimation
+                            From="0.6"
+                            To="1"
+                            Duration="0:0:0.6" />
+                        <animation:OpacityAnimation
+                            From="0"
+                            To="1"
+                            Duration="0:0:0.6" />
+                    </animation:Implicit.ShowAnimations>
+                </control:StepThroughListView>
+            </toolkit:AdaptiveGridView.Header>
             <toolkit:AdaptiveGridView.Footer>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />

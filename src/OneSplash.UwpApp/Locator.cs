@@ -13,12 +13,12 @@ using Windows.Storage;
 
 namespace OneSplash.UwpApp
 {
-    public class Startup
+    public class Locator
     {
         public IServiceProvider Provider { get; private set; }
 
         private readonly IConfiguration _config;
-        public Startup()
+        public Locator()
         {
             _config = new ConfigurationBuilder()
                 .SetBasePath(Package.Current.InstalledLocation.Path)

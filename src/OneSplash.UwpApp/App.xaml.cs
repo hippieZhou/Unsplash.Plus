@@ -10,7 +10,7 @@ namespace OneSplash.UwpApp
 {
     sealed partial class App : Windows.UI.Xaml.Application
     {
-        public static Startup Startup => Current.Resources[nameof(Startup)] as Startup;
+        public static Locator Locator => Current.Resources[nameof(Locator)] as Locator;
 
         public App()
         {

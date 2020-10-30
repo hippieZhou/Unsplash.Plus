@@ -9,7 +9,6 @@ namespace OneSplash.UwpApp.Common
     public class ImageLoader
     {
         private static readonly Decoder _blurHash = new Decoder();
-
         public static string GetSource(DependencyObject obj)
         {
             return (string)obj.GetValue(SourceProperty);
@@ -50,16 +49,14 @@ namespace OneSplash.UwpApp.Common
         public static readonly DependencyProperty BlurhashProperty =
             DependencyProperty.RegisterAttached("Blurhash", typeof(string), typeof(ImageLoader), new PropertyMetadata(string.Empty, async (d,e)=> 
             {
-                if (d is ImageEx image)
+                var blurhash = e.NewValue?.ToString();
+                if (d is ImageEx image && !string.IsNullOrWhiteSpace(blurhash))
                 {
-                    var blurhash = e.NewValue?.ToString() ?? "LEHV6nWB2yk8pyo0adR*.7kCMdnj";
                     var bitmap = _blurHash.Decode(blurhash, 269, 173);
                     var source = new SoftwareBitmapSource();
                     await source.SetBitmapAsync(bitmap);
                     image.Source = source;
                 }
             }));
-
-
     }
 }
