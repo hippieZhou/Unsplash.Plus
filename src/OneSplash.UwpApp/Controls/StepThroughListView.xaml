@@ -169,6 +169,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ListView
+            x:Name="ListView"
             Grid.Column="0"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Stretch"
@@ -179,7 +180,10 @@
             ScrollViewer.HorizontalScrollMode="Auto"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             ScrollViewer.VerticalScrollMode="Disabled"
-            SingleSelectionFollowsFocus="True">
+            SelectionChanged="ListView_SelectionChanged"
+            SingleSelectionFollowsFocus="True"
+            SizeChanged="ListView_SizeChanged"
+            Unloaded="ListView_Unloaded">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Horizontal" />
@@ -207,6 +211,7 @@
                 Height="52"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Click="ArrowLeft_Click"
                 Style="{StaticResource Style-Button-Icon-Circle}"
                 Visibility="Collapsed">
                 <ContentControl
@@ -240,6 +245,7 @@
                 Height="52"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
+                Click="ArrowRight_Click"
                 Style="{StaticResource Style-Button-Icon-Circle}"
                 Visibility="Collapsed">
                 <ContentControl
@@ -283,7 +289,7 @@
                         <Setter Target="ArrowRight.IsEnabled" Value="false" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState x:Name="DownButtonEnabled">
+                <VisualState x:Name="RightButtonEnabled">
                     <VisualState.Setters>
                         <Setter Target="ArrowRight.IsEnabled" Value="true" />
                     </VisualState.Setters>

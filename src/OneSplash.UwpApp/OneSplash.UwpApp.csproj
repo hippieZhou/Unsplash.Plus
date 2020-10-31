@@ -134,6 +134,7 @@
     <Compile Include="Controls\StepThroughListView.xaml.cs">
       <DependentUpon>StepThroughListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Shell.xaml.cs">

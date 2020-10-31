@@ -1,16 +1,15 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.ViewModels;
-using System;
-using System.Diagnostics;
 using System.Numerics;
-using Windows.Foundation;
 using Windows.UI;
-using Windows.UI.Composition;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using Windows.Foundation;
 
 namespace OneSplash.UwpApp.Views
 {
@@ -26,13 +25,13 @@ namespace OneSplash.UwpApp.Views
         private void CategoryGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var root = (FrameworkElement)sender;
-            InitializeAnimation(root, FindVisualChild<Canvas>(root));
+            InitializeAnimation(root, root.FindVisualChild<Canvas>());
         }
 
         private void RecipeGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var root = (FrameworkElement)sender;
-            InitializeAnimation(FindVisualChild<ImageEx>(root), null, true);
+            InitializeAnimation(root.FindVisualChild<ImageEx>(), null, true);
         }
 
         private void InitializeAnimation(FrameworkElement root, FrameworkElement shadowHost,bool cliped = false)
@@ -75,38 +74,15 @@ namespace OneSplash.UwpApp.Views
             {
                 if (cliped)
                 {
-                    var parent = VisualTreeHelper.GetParent(root) as FrameworkElement;
-                    //root.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, root.ActualWidth, root.ActualHeight) };
-                    rootVisual.CenterPoint = new Vector3(
-                        (float)(parent.ActualSize.X / 2.0),
-                        (float)(parent.ActualSize.Y / 2.0), 0f);
+                    var parent = root.FindAscendant<FrameworkElement>();
+                    parent.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, root.ActualWidth, root.ActualHeight) };
                 }
-                else
-                {
-                    rootVisual.CenterPoint = new Vector3(rootVisual.Size / 2, 0);
-                }
-             
+
+                rootVisual.CenterPoint = new Vector3(rootVisual.Size / 2, 0);
                 rootVisual.StartAnimation("Scale", pointerEnteredAnimation);
             };
 
             root.PointerExited += (sender, args) => rootVisual.StartAnimation("Scale", pointerExitedAnimation);
-        }
-
-        private TChild FindVisualChild<TChild>(DependencyObject obj) where TChild : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is TChild found)
-                    return found;
-                else
-                {
-                    TChild childOfChild = FindVisualChild<TChild>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
         }
     }
 }
