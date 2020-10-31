@@ -9,9 +9,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:l="using:OneSplash.UwpApp.Models"
     xmlns:local="using:OneSplash.UwpApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:OneSplash.UwpApp.Models"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="1080"
@@ -35,16 +35,14 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="RecipeTemplate" x:DataType="l:Recipe">
-            <Grid
-                Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
-                BorderThickness="0"
-                Loaded="RecipeGrid_Loaded">
+        <DataTemplate x:Key="RecipeTemplate" x:DataType="model:Splash">
+            <Grid Loaded="RecipeGrid_Loaded">
                 <toolkit:ImageEx
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    common:ImageLoader.Blurhash="{x:Bind Blurhash}"
-                    Background="{x:Bind Color}"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    common:ImageLoader.Source="{x:Bind}"
                     EnableLazyLoading="True"
                     IsCacheEnabled="True"
                     Stretch="UniformToFill" />
@@ -57,7 +55,7 @@
                     FontFamily="{StaticResource MontserratBold}"
                     Opacity="0.8"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind Name}"
+                    Text="{x:Bind ImageAuthor}"
                     TextWrapping="NoWrap"
                     Visibility="Collapsed">
                     <animation:Implicit.ShowAnimations>
@@ -105,7 +103,7 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
 
-    <Grid>
+    <Grid Padding="0,24,0,0">
         <toolkit:AdaptiveGridView
             animation:ReorderGridAnimation.Duration="300"
             DataFetchSize="2"

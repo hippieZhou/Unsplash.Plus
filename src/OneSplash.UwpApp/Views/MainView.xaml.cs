@@ -46,6 +46,7 @@ namespace OneSplash.UwpApp.Views
                 // Create shadow and add it to the Visual Tree
                 var shadow = compositor.CreateDropShadow();
                 shadow.Color = Color.FromArgb(255, 75, 75, 80);
+                shadow.BlurRadius = 25f;
                 var shadowVisual = compositor.CreateSpriteVisual();
                 shadowVisual.Shadow = shadow;
                 ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);

@@ -136,7 +136,7 @@
     </Compile>
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
-    <Compile Include="Models\Recipe.cs" />
+    <Compile Include="Models\Splash.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -161,6 +161,16 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\annie-spratt-tB4Gf7ddcJY-unsplash.jpg" />
+    <Content Include="Assets\Images\ashim-d-silva-WeYamle9fDM-unsplash.jpg" />
+    <Content Include="Assets\Images\bantersnaps-wPMvPMD9KBI-unsplash.jpg" />
+    <Content Include="Assets\Images\damian-patkowski-QeC4oPdKu7c-unsplash.jpg" />
+    <Content Include="Assets\Images\eva-dang-EXdXLrZXS9Q-unsplash.jpg" />
+    <Content Include="Assets\Images\felix-NAytNmKtyiU-unsplash.jpg" />
+    <Content Include="Assets\Images\logo.png" />
+    <Content Include="Assets\Images\tomas-nozina-UP22zkjJGZo-unsplash.jpg" />
+    <Content Include="Assets\Images\willian-west-TVyjcTEKHLU-unsplash.jpg" />
+    <Content Include="Assets\Images\willian-west-YpKiwlvhOpI-unsplash.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

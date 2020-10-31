@@ -22,8 +22,8 @@ namespace OneSplash.UwpApp.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private IncrementalLoadingCollection<RecipeSource, Recipe> _filteredRecipeData;
-        public IncrementalLoadingCollection<RecipeSource, Recipe> FilteredRecipeData
+        private IncrementalLoadingCollection<RecipeSource, Splash> _filteredRecipeData;
+        public IncrementalLoadingCollection<RecipeSource, Splash> FilteredRecipeData
         {
             get { return _filteredRecipeData; }
             set { SetProperty(ref _filteredRecipeData, value); }
@@ -45,7 +45,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(() =>
                     {
-                        FilteredRecipeData = new IncrementalLoadingCollection<RecipeSource, Recipe>(
+                        FilteredRecipeData = new IncrementalLoadingCollection<RecipeSource, Splash>(
                             itemsPerPage: 10,
                             onStartLoading: () =>
                             {
@@ -79,32 +79,33 @@ namespace OneSplash.UwpApp.ViewModels
         }
     }
 
-    public class RecipeSource : IIncrementalSource<Recipe>
+    public class RecipeSource : IIncrementalSource<Splash>
     {
-        private readonly List<Recipe> _pecipe;
+        private readonly List<Splash> _pecipe;
 
         public RecipeSource()
         {
             _pecipe = GetRecipeList();
         }
 
-        public async Task<IEnumerable<Recipe>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Splash>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
             var result = (from p in _pecipe select p).Skip(pageIndex * pageSize).Take(pageSize);
             await Task.Delay(10);
             return result;
         }
 
-        public static List<Recipe> GetRecipeList(int count = 1000)
+        public static List<Splash> GetRecipeList(int count = 1000)
         {
             // Initialize list of recipes for varied image size layout sample
             var rnd = new Random();
-            List<Recipe> tempList = new List<Recipe>(
+            List<Splash> tempList = new List<Splash>(
                                         Enumerable.Range(0, count).Select(k =>
-                                            new Recipe
+                                            new Splash
                                             {
-                                                Name = "Recipe " + k.ToString(),
+                                                ImageAuthor = "Recipe " + k.ToString(),
                                                 Color = GetColors().ElementAt((k % 100) + 1),
+                                                ImageUri = GetImageUri().ElementAt(rnd.Next(0,9)),
                                                 Blurhash = GetBlurhashs().ElementAt(rnd.Next(0, 4))
                                             }));
             return tempList;
@@ -130,6 +131,22 @@ namespace OneSplash.UwpApp.ViewModels
                 "LFC$yHwc8^$yIAS$%M%00KxukYIp",
             };
             return blurHash;
+        }
+
+        private static IEnumerable<string> GetImageUri()
+        {
+            return new List<string>
+            {
+                "/Assets/Images/bantersnaps-wPMvPMD9KBI-unsplash.jpg",
+                "/Assets/Images/eva-dang-EXdXLrZXS9Q-unsplash.jpg",
+                "/Assets/Images/tomas-nozina-UP22zkjJGZo-unsplash.jpg",
+                "/Assets/Images/ashim-d-silva-WeYamle9fDM-unsplash.jpg",
+                "/Assets/Images/annie-spratt-tB4Gf7ddcJY-unsplash.jpg",
+                "/Assets/Images/damian-patkowski-QeC4oPdKu7c-unsplash.jpg",
+                 "/Assets/Images/willian-west-YpKiwlvhOpI-unsplash.jpg",
+                 "/Assets/Images/felix-NAytNmKtyiU-unsplash.jpg",
+                 "/Assets/Images/willian-west-TVyjcTEKHLU-unsplash.jpg"
+            };
         }
     }
 
