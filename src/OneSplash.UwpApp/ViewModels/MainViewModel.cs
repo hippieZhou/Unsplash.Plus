@@ -45,7 +45,6 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(async () =>
                     {
-                        Visibility = Visibility.Visible;
                         FilteredRecipeData = new IncrementalLoadingCollection<SplashSource, SplashDto>(
                             source: new SplashSource(Mediator),
                             itemsPerPage: 10,

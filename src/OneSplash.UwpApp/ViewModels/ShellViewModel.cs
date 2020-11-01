@@ -1,9 +1,12 @@
-﻿using Microsoft.Toolkit.Mvvm.Input;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 
 namespace OneSplash.UwpApp.ViewModels
 {
-    public class ShellViewModel : BaseViewModel
+    public class ShellViewModel : ObservableRecipient
     {
         private ICommand _loadCommand;
         public ICommand LoadCommand
@@ -29,6 +32,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _searchCommand = new RelayCommand(() =>
                     {
+                        Messenger.Send(new ValueChangedMessage<Visibility>(Visibility.Visible), nameof(SearchViewModel));
                     });
                 }
                 return _searchCommand;
@@ -44,6 +48,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _infoCommand = new RelayCommand(() =>
                     {
+                        Messenger.Send(new ValueChangedMessage<Visibility>(Visibility.Visible), nameof(InfoViewModel));
                     });
                 }
                 return _infoCommand;
