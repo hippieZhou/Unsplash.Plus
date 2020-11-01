@@ -6,10 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Home\" />
-    <Folder Include="Features\Explore\" />
-    <Folder Include="Features\Download\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Features\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -61,10 +61,36 @@
                 <winui:NavigationViewItem Content="EXPLORE" />
                 <winui:NavigationViewItem Content="COLLECTIONS" />
             </winui:NavigationView.MenuItems>
+            <winui:NavigationView.PaneCustomContent>
+                <StackPanel
+                    x:Name="RightMenu"
+                    Margin="0,0,24,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button Command="{x:Bind ViewModel.SearchCommand}" Style="{StaticResource Style-Button-Icon-Circle}">
+                        <ContentControl Width="12" Style="{StaticResource Style-Icon-Search}" />
+                    </Button>
+                    <Button Command="{x:Bind ViewModel.InfoCommand}" Style="{StaticResource Style-Button-Icon-Circle}">
+                        <ContentControl Width="12" Style="{StaticResource Style-Icon-Info}" />
+                    </Button>
+                </StackPanel>
+            </winui:NavigationView.PaneCustomContent>
             <winui:NavigationView.Content>
                 <view:MainView />
             </winui:NavigationView.Content>
         </winui:NavigationView>
+        <view:SearchView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+
+        <view:InfoView
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+
         <Rectangle
             x:Name="DraggableAppTitleBarArea"
             Grid.Row="0"

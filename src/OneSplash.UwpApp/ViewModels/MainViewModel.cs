@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI;
+using Windows.UI.Xaml;
 
 namespace OneSplash.UwpApp.ViewModels
 {
@@ -22,18 +23,18 @@ namespace OneSplash.UwpApp.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private IncrementalLoadingCollection<RecipeSource, Splash> _filteredRecipeData;
-        public IncrementalLoadingCollection<RecipeSource, Splash> FilteredRecipeData
-        {
-            get { return _filteredRecipeData; }
-            set { SetProperty(ref _filteredRecipeData, value); }
-        }
-
         private List<string> _categories;
         public List<string> Categories
         {
             get { return _categories ??= new List<string>(); }
             set { SetProperty(ref _categories, value); }
+        }
+
+        private IncrementalLoadingCollection<RecipeSource, Splash> _filteredRecipeData;
+        public IncrementalLoadingCollection<RecipeSource, Splash> FilteredRecipeData
+        {
+            get { return _filteredRecipeData; }
+            set { SetProperty(ref _filteredRecipeData, value); }
         }
 
         private ICommand _loadCommand;
@@ -45,6 +46,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(() =>
                     {
+                        Visibility = Windows.UI.Xaml.Visibility.Visible;
                         FilteredRecipeData = new IncrementalLoadingCollection<RecipeSource, Splash>(
                             itemsPerPage: 10,
                             onStartLoading: () =>

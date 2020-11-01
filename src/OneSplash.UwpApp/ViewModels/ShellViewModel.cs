@@ -1,13 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
-using OneSplash.UwpApp.Common;
-using OneSplash.UwpApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Input;
-using Windows.UI;
 
 namespace OneSplash.UwpApp.ViewModels
 {
@@ -25,6 +17,36 @@ namespace OneSplash.UwpApp.ViewModels
                     });
                 }
                 return _loadCommand;
+            }
+        }
+
+        private ICommand _searchCommand;
+        public ICommand SearchCommand
+        {
+            get
+            {
+                if (_searchCommand == null)
+                {
+                    _searchCommand = new RelayCommand(() =>
+                    {
+                    });
+                }
+                return _searchCommand;
+            }
+        }
+
+        private ICommand _infoCommand;
+        public ICommand InfoCommand
+        {
+            get
+            {
+                if (_infoCommand == null)
+                {
+                    _infoCommand = new RelayCommand(() =>
+                    {
+                    });
+                }
+                return _infoCommand;
             }
         }
     }

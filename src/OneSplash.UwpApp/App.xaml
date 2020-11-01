@@ -34,18 +34,11 @@
                 <Setter Property="FontFamily" Value="{StaticResource MontserratRegular}" />
             </Style>
 
-            <Style x:Key="Style-Icon-Base" TargetType="ContentControl">
-                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                <Setter Property="VerticalContentAlignment" Value="Center" />
-                <Setter Property="MaxWidth" Value="24" />
-                <Setter Property="MaxHeight" Value="24" />
-            </Style>
-
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
-
                 <ResourceDictionary Source="/Themes/Button.xaml" />
+                <ResourceDictionary Source="/Themes/ContentControl.xaml" />
                 <ResourceDictionary Source="/Themes/ScrollViewer.xaml" />
                 <ResourceDictionary Source="/Themes/GridViewItem.xaml" />
             </ResourceDictionary.MergedDictionaries>

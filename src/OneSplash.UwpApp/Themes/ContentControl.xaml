@@ -1,0 +1,104 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OneSplash.UwpApp.Themes">
+    <Style x:Key="Style-Icon-Base" TargetType="ContentControl">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MaxWidth" Value="24" />
+        <Setter Property="MaxHeight" Value="24" />
+    </Style>
+    <Style
+        x:Key="Style-Icon-ArrowLeft"
+        BasedOn="{StaticResource Style-Icon-Base}"
+        TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Path
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Data="M15 4.99994H1M1 4.99994L4.58783 8.58777M1 4.99994L4.58783 1.41211"
+                        Stretch="Uniform"
+                        Stroke="{TemplateBinding Foreground}"
+                        StrokeEndLineCap="Round"
+                        StrokeLineJoin="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="2" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="Style-Icon-ArrowRight"
+        BasedOn="{StaticResource Style-Icon-Base}"
+        TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Path
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Data="M15 4.99994H1M1 4.99994L4.58783 8.58777M1 4.99994L4.58783 1.41211"
+                        RenderTransformOrigin="0.5,0.5"
+                        Stretch="Uniform"
+                        Stroke="{TemplateBinding Foreground}"
+                        StrokeEndLineCap="Round"
+                        StrokeLineJoin="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="2">
+                        <Path.RenderTransform>
+                            <CompositeTransform Rotation="180" />
+                        </Path.RenderTransform>
+                    </Path>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="Style-Icon-Search"
+        BasedOn="{StaticResource Style-Icon-Base}"
+        TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Path
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Data="M16.4629 16.5L12.8379 12.875M14.7962 8.16667C14.7962 11.8486 11.8115 14.8333 8.12956 14.8333C4.44766 14.8333 1.46289 11.8486 1.46289 8.16667C1.46289 4.48477 4.44766 1.5 8.12956 1.5C11.8115 1.5 14.7962 4.48477 14.7962 8.16667Z"
+                        Stretch="Uniform"
+                        Stroke="{TemplateBinding Foreground}"
+                        StrokeEndLineCap="Round"
+                        StrokeLineJoin="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="2" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style
+        x:Key="Style-Icon-Info"
+        BasedOn="{StaticResource Style-Icon-Base}"
+        TargetType="ContentControl">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Path
+                        Margin="{TemplateBinding Padding}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Data="M11.9395 7.25684V11.2568M11.9395 15.2568H11.9495M21.9395 11.2568C21.9395 16.7797 17.4623 21.2568 11.9395 21.2568C6.41661 21.2568 1.93945 16.7797 1.93945 11.2568C1.93945 5.73399 6.41661 1.25684 11.9395 1.25684C17.4623 1.25684 21.9395 5.73399 21.9395 11.2568Z"
+                        Stretch="Uniform"
+                        Stroke="{TemplateBinding Foreground}"
+                        StrokeEndLineCap="Round"
+                        StrokeLineJoin="Round"
+                        StrokeStartLineCap="Round"
+                        StrokeThickness="2" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

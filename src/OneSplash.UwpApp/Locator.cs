@@ -53,6 +53,8 @@ namespace OneSplash.UwpApp
             #region ViewModels
             services.AddSingleton<ShellViewModel>();
             services.AddSingleton<MainViewModel>();
+            services.AddSingleton<SearchViewModel>();
+            services.AddSingleton<InfoViewModel>();
             #endregion
 
             return services.BuildServiceProvider();

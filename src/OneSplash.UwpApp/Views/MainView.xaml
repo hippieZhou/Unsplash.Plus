@@ -38,6 +38,7 @@
         <DataTemplate x:Key="RecipeTemplate" x:DataType="model:Splash">
             <Grid Loaded="RecipeGrid_Loaded">
                 <toolkit:ImageEx
+                    x:Name="connectedElement"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -103,14 +104,16 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
 
-    <Grid Padding="0,24,0,0">
+    <Grid Padding="0,24,0,0" Visibility="{x:Bind ViewModel.Visibility, Mode=OneWay}">
         <toolkit:AdaptiveGridView
+            x:Name="SplashGridView"
             animation:ReorderGridAnimation.Duration="300"
             DataFetchSize="2"
             DesiredWidth="360"
             IncrementalLoadingThreshold="2"
             IncrementalLoadingTrigger="Edge"
             IsItemClickEnabled="True"
+            ItemClick="SplashGridView_ItemClick"
             ItemHeight="240"
             ItemTemplate="{StaticResource RecipeTemplate}"
             ItemsSource="{x:Bind ViewModel.FilteredRecipeData, Mode=OneWay}"
@@ -156,5 +159,12 @@
                 </StackPanel>
             </toolkit:AdaptiveGridView.Footer>
         </toolkit:AdaptiveGridView>
+
+        <control:OverlayPopup
+            x:Name="OverlayPopup"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HandleBack="OverlayPopup_HandleBack"
+            Visibility="Collapsed" />
     </Grid>
 </UserControl>

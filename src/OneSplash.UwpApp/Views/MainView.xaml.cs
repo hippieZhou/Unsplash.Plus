@@ -10,6 +10,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.Foundation;
+using OneSplash.UwpApp.Models;
+using Windows.UI.Xaml.Media.Animation;
+using System;
 
 namespace OneSplash.UwpApp.Views
 {
@@ -84,6 +87,37 @@ namespace OneSplash.UwpApp.Views
             };
 
             root.PointerExited += (sender, args) => rootVisual.StartAnimation("Scale", pointerExitedAnimation);
+        }
+
+        private void SplashGridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (SplashGridView.ContainerFromItem(e.ClickedItem) is GridViewItem ClickedItem)
+            {
+                var selectedItem = ClickedItem.Content as Splash;
+                OverlayPopup.SelectedItem = selectedItem;
+                ConnectedAnimation ConnectedAnimation = SplashGridView.PrepareConnectedAnimation("forwardAnimation", selectedItem, "connectedElement");
+                ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
+                ConnectedAnimation.TryStart(OverlayPopup.destinationElement);
+                OverlayPopup.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async void OverlayPopup_HandleBack(object sender, object e)
+        {
+            var selectedItem = OverlayPopup.SelectedItem;
+            if (selectedItem != null)
+            {
+                SplashGridView.ScrollIntoView(selectedItem, ScrollIntoViewAlignment.Default);
+                SplashGridView.UpdateLayout();
+
+                ConnectedAnimation ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.destinationElement);
+                ConnectedAnimation.Completed += (_sender, _e) =>
+                {
+                    OverlayPopup.Visibility = Visibility.Collapsed;
+                };
+                ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
+                await SplashGridView.TryStartConnectedAnimationAsync(ConnectedAnimation, selectedItem, "connectedElement");
+            }
         }
     }
 }

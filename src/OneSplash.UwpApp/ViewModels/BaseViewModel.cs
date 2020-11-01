@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Windows.UI.Xaml;
 
 namespace OneSplash.UwpApp.ViewModels
 {
@@ -8,5 +9,12 @@ namespace OneSplash.UwpApp.ViewModels
     {
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= App.Locator.Provider.GetRequiredService<IMediator>();
+
+        private Visibility _visibility = Visibility.Collapsed;
+        public Visibility Visibility
+        {
+            get { return _visibility; }
+            set { SetProperty(ref _visibility, value); }
+        }
     }
 }
