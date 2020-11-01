@@ -1,6 +1,6 @@
 ﻿using Blurhash.UWP;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using OneSplash.UwpApp.Models;
+using OneSplash.Application.DTOs;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -11,23 +11,23 @@ namespace OneSplash.UwpApp.Common
     {
         private static readonly Decoder _blurHash = new Decoder();
 
-        public static Splash GetSource(DependencyObject obj)
+        public static SplashDto GetSource(DependencyObject obj)
         {
-            return (Splash)obj.GetValue(SourceProperty);
+            return (SplashDto)obj.GetValue(SourceProperty);
         }
 
-        public static void SetSource(DependencyObject obj, Splash value)
+        public static void SetSource(DependencyObject obj, SplashDto value)
         {
             obj.SetValue(SourceProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.RegisterAttached("Source", typeof(Splash), typeof(ImageLoader), new PropertyMetadata(default, async (d,e)=> 
+            DependencyProperty.RegisterAttached("Source", typeof(SplashDto), typeof(ImageLoader), new PropertyMetadata(default, async (d,e)=> 
             {
                 if (d is ImageEx image)
                 {
-                    if (e.NewValue is Splash model && model != null)
+                    if (e.NewValue is SplashDto model && model != null)
                     {
                         var blurHash = model.Blurhash;
                         if (!string.IsNullOrWhiteSpace(blurHash))

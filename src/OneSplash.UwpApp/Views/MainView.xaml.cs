@@ -10,9 +10,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
 using Windows.Foundation;
-using OneSplash.UwpApp.Models;
 using Windows.UI.Xaml.Media.Animation;
 using System;
+using OneSplash.Application.DTOs;
 
 namespace OneSplash.UwpApp.Views
 {
@@ -93,7 +93,7 @@ namespace OneSplash.UwpApp.Views
         {
             if (SplashGridView.ContainerFromItem(e.ClickedItem) is GridViewItem ClickedItem)
             {
-                var selectedItem = ClickedItem.Content as Splash;
+                var selectedItem = ClickedItem.Content as SplashDto;
                 OverlayPopup.SelectedItem = selectedItem;
                 ConnectedAnimation ConnectedAnimation = SplashGridView.PrepareConnectedAnimation("forwardAnimation", selectedItem, "connectedElement");
                 ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();

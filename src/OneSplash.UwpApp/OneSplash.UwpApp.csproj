@@ -139,7 +139,6 @@
     </Compile>
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
-    <Compile Include="Models\Splash.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -300,12 +299,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OneSplash.Application\OneSplash.Application.csproj">
-      <Project>{9b096f4a-13ac-424b-92af-dbaca6fcf066}</Project>
+      <Project>{ed2c85d2-5f1f-4a0e-95e7-c68cde593570}</Project>
       <Name>OneSplash.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OneSplash.Infrastructure.Shared\OneSplash.Infrastructure.Shared.csproj">
-      <Project>{6fe0b24c-e8a9-4647-95d0-b68f653368f1}</Project>
-      <Name>OneSplash.Infrastructure.Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\OneSplash.Infrastructure\OneSplash.Infrastructure.csproj">
       <Project>{42f1cd23-3f87-4a10-891e-f44fe7fa4079}</Project>

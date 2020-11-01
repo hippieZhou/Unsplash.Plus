@@ -1,10 +1,11 @@
 ﻿using FreeSql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OneSplash.Application.Interfaces;
+using OneSplash.Domain.Interfaces;
 using OneSplash.Domain.Settings;
 using OneSplash.Infrastructure.Contexts;
 using OneSplash.Infrastructure.Repositories;
+using OneSplash.Infrastructure.Shared.DateTime;
 using OneSplash.Infrastructure.Shared.Unsplash;
 using System;
 using System.Diagnostics;
@@ -34,11 +35,13 @@ namespace OneSplash.Infrastructure
             services.AddSingleton<ApplicationDbContext>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-            services.AddTransient<MemorySplashService>();
-            services.AddTransient<UnSplashService>();
+            services.AddTransient<IDateTimeService, DateTimeService>();
+
+            services.AddTransient<UnSplashDataService>();
+            //services.AddTransient<UnSplashDataService>();
             services.AddTransient<Func<bool, ISplashService>>(serviceProvider => key =>
             {
-                return key ? serviceProvider.GetService<MemorySplashService>() : serviceProvider.GetService<MemorySplashService>();
+                return key ? serviceProvider.GetService<UnSplashDataService>() : serviceProvider.GetService<UnSplashDataService>();
             });
             return services;
         }

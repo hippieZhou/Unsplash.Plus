@@ -1,10 +1,10 @@
-﻿using OneSplash.Application.Interfaces;
+﻿using OneSplash.Domain.Interfaces;
 using System;
 using System.Threading.Tasks;
 
 namespace OneSplash.Infrastructure.Shared.Unsplash
 {
-    public class MemorySplashService : ISplashService
+    public class UnSplashDataService : ISplashService
     {
         public Task ListCollections(int page, int pageSize)
         {

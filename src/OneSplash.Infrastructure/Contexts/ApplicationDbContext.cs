@@ -1,6 +1,6 @@
-﻿using OneSplash.Application.Interfaces;
-using System;
+﻿using System;
 using FreeSql;
+using OneSplash.Domain.Interfaces;
 
 namespace OneSplash.Infrastructure.Contexts
 {

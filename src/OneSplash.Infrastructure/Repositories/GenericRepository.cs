@@ -1,4 +1,4 @@
-﻿using OneSplash.Application.Interfaces;
+﻿using OneSplash.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

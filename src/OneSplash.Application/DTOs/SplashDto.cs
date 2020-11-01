@@ -1,6 +1,6 @@
-﻿namespace OneSplash.UwpApp.Models
+﻿namespace OneSplash.Application.DTOs
 {
-    public class Splash
+    public class SplashDto
     {
         public string Color { get; set; }
         public string Blurhash { get; set; }

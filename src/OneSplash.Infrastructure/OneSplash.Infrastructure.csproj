@@ -13,9 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneSplash.Application\OneSplash.Application.csproj" />
     <ProjectReference Include="..\OneSplash.Domain\OneSplash.Domain.csproj" />
-    <ProjectReference Include="..\OneSplash.Infrastructure.Shared\OneSplash.Infrastructure.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shared\Cache\" />
   </ItemGroup>
 
 </Project>

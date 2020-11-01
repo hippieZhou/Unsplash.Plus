@@ -7,35 +7,35 @@
     xmlns:control="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dto="using:OneSplash.Application.DTOs"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:model="using:OneSplash.UwpApp.Models"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <DataTemplate x:Key="CategoryTemplate" x:DataType="x:String">
+        <DataTemplate x:Key="CategoryTemplate" x:DataType="dto:CategoryDto">
             <Grid HorizontalAlignment="Stretch" Loaded="CategoryGrid_Loaded">
                 <Canvas x:Name="ShadowContainer" />
                 <Grid
                     Width="200"
                     Height="120"
-                    Background="{x:Bind}"
+                    Background="{x:Bind Name}"
                     CornerRadius="4">
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontFamily="{StaticResource MontserratBold}"
                         Foreground="{StaticResource SystemBaseHighColor}"
-                        Text="{x:Bind}" />
+                        Text="{x:Bind Name}" />
                 </Grid>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="RecipeTemplate" x:DataType="model:Splash">
+        <DataTemplate x:Key="RecipeTemplate" x:DataType="dto:SplashDto">
             <Grid Loaded="RecipeGrid_Loaded">
                 <toolkit:ImageEx
                     x:Name="connectedElement"

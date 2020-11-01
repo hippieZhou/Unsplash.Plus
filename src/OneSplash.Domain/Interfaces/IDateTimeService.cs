@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace OneSplash.Application.Interfaces
+namespace OneSplash.Domain.Interfaces
 {
     public interface IDateTimeService
     {

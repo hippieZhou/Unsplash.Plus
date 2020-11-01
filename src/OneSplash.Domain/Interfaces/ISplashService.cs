@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace OneSplash.Application.Interfaces
+namespace OneSplash.Domain.Interfaces
 {
     public interface ISplashService
     {

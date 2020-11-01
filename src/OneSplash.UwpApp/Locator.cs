@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using OneSplash.Application;
 using OneSplash.Infrastructure;
-using OneSplash.Shared;
 using OneSplash.UwpApp.ViewModels;
 using Serilog;
 using Serilog.Events;
@@ -47,7 +46,6 @@ namespace OneSplash.UwpApp
             services.AddLogging();
             services.AddApplicationLayer();
             services.AddPersistenceInfrastructure(_config);
-            services.AddSharedInfrastructure();
             #endregion
 
             #region ViewModels
