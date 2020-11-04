@@ -35,8 +35,8 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="RecipeTemplate" x:DataType="dto:SplashDto">
-            <Grid Loaded="RecipeGrid_Loaded">
+        <DataTemplate x:Key="SplashTemplate" x:DataType="dto:SplashDto">
+            <Grid Loaded="SplashGrid_Loaded">
                 <toolkit:ImageEx
                     x:Name="connectedElement"
                     HorizontalAlignment="Stretch"
@@ -107,6 +107,8 @@
     <Grid Padding="0,24,0,0">
         <toolkit:AdaptiveGridView
             x:Name="SplashGridView"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             animation:ReorderGridAnimation.Duration="300"
             DataFetchSize="2"
             DesiredWidth="360"
@@ -115,13 +117,18 @@
             IsItemClickEnabled="True"
             ItemClick="SplashGridView_ItemClick"
             ItemHeight="240"
-            ItemTemplate="{StaticResource RecipeTemplate}"
+            ItemTemplate="{StaticResource SplashTemplate}"
             ItemsSource="{x:Bind ViewModel.FilteredRecipeData, Mode=OneWay}"
             OneRowModeEnabled="False"
             SelectionMode="None"
             StretchContentForSingleRow="True">
+            <toolkit:AdaptiveGridView.Resources>
+                <!--  These two removes the border on hover and on pressed  -->
+                <SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="Transparent" />
+                <SolidColorBrush x:Key="SystemControlHighlightListMediumBrush" Color="Transparent" />
+            </toolkit:AdaptiveGridView.Resources>
             <toolkit:AdaptiveGridView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource BaseGridViewItemContainerStyle}" TargetType="GridViewItem">
+                <Style BasedOn="{StaticResource GridViewItemExpanded}" TargetType="GridViewItem">
                     <Setter Property="Margin" Value="24" />
                 </Style>
             </toolkit:AdaptiveGridView.ItemContainerStyle>
@@ -132,9 +139,12 @@
             </toolkit:AdaptiveGridView.ItemContainerTransitions>
             <toolkit:AdaptiveGridView.Header>
                 <control:StepThroughListView
+                    MaxWidth="1024"
+                    Margin="0,24,0,36"
                     extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
                     ItemTemplate="{StaticResource CategoryTemplate}"
-                    ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}">
+                    ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
+                    Visibility="Visible">
                     <animation:Implicit.ShowAnimations>
                         <animation:TranslationAnimation
                             From="0,40,0"
@@ -158,7 +168,6 @@
                 </StackPanel>
             </toolkit:AdaptiveGridView.Footer>
         </toolkit:AdaptiveGridView>
-
         <control:OverlayPopup
             x:Name="OverlayPopup"
             HorizontalAlignment="Stretch"

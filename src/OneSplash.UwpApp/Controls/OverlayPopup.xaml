@@ -125,11 +125,11 @@
                 </winui:TwoPaneView.Pane2>
             </winui:TwoPaneView>
         </ScrollViewer>
-
         <Grid VerticalAlignment="Top">
             <Rectangle Margin="0,0,0,40">
                 <Rectangle.Fill>
-                    <media:BackdropBlurBrush Amount="1" />
+                    <!--<media:BackdropBlurBrush Amount="1" />-->
+                    <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
                 </Rectangle.Fill>
             </Rectangle>
             <Grid

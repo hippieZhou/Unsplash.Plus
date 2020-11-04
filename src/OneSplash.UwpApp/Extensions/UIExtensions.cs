@@ -1,4 +1,7 @@
-﻿using Windows.UI.Xaml;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
 namespace OneSplash.UwpApp.Extensions
@@ -20,6 +23,23 @@ namespace OneSplash.UwpApp.Extensions
                 }
             }
             return null;
+        }
+
+        public static void StartVisibleAnimation(this UIElement uIElement)
+        {
+            var page = uIElement.FindAscendant<Page>();
+            uIElement
+                .Fade(1.0f)
+                .Scale(scaleX: 1.0f, scaleY: 1.0f, centerX: (float)page.ActualWidth / 2, centerY: (float)page.ActualHeight / 2)
+                .Start();
+        }
+        public static void StartCollapsedAnimation(this UIElement uIElement)
+        {
+            var page = uIElement.FindAscendant<Page>();
+            uIElement
+                .Fade(0.95f)
+                .Scale(scaleX: 0.95f, scaleY: 0.95f, centerX: (float)page.ActualWidth / 2, centerY: (float)page.ActualHeight / 2)
+                .Start();
         }
     }
 }

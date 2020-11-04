@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.ViewModels;
 using Windows.UI.Xaml.Controls;
 
@@ -11,6 +12,12 @@ namespace OneSplash.UwpApp.Views
         {
             this.InitializeComponent();
             this.DataContext = ViewModel;
+        }
+
+        private void Back_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            this.StartCollapsedAnimation();
         }
     }
 }

@@ -30,6 +30,28 @@
                 <animation:OffsetAnimation Duration="0:0:0.4" />
             </animation:AnimationCollection>
 
+            <animation:AnimationCollection x:Key="DefaultShowAnimations">
+                <animation:TranslationAnimation
+                    From="0, 600, 0"
+                    To="0"
+                    Duration="0:0:0.600" />
+                <animation:OpacityAnimation
+                    From="0"
+                    To="1.0"
+                    Duration="0:0:0.200" />
+            </animation:AnimationCollection>
+
+            <animation:AnimationCollection x:Key="DefaultHideAnimations">
+                <animation:ScalarAnimation
+                    Target="Opacity"
+                    To="0.0"
+                    Duration="0:0:0.200" />
+                <animation:TranslationAnimation
+                    From="0"
+                    To="0, 600, 0"
+                    Duration="0:0:0.600" />
+            </animation:AnimationCollection>
+
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="{StaticResource MontserratRegular}" />
             </Style>

@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Media.Animation;
 using System;
 using OneSplash.Application.DTOs;
+using OneSplash.UwpApp.Controls;
 
 namespace OneSplash.UwpApp.Views
 {
@@ -31,7 +32,7 @@ namespace OneSplash.UwpApp.Views
             InitializeAnimation(root, root.FindVisualChild<Canvas>());
         }
 
-        private void RecipeGrid_Loaded(object sender, RoutedEventArgs e)
+        private void SplashGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var root = (FrameworkElement)sender;
             InitializeAnimation(root.FindVisualChild<ImageEx>(), null, true);

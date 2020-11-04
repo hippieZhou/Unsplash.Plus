@@ -16,5 +16,27 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
 
-    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" Visibility="{x:Bind ViewModel.Visibility, Mode=OneWay}" />
+    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
+        <Grid VerticalAlignment="Top">
+            <Grid
+                x:Name="Header"
+                Margin="56,40"
+                ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    x:Name="Back"
+                    Width="52"
+                    Height="52"
+                    Click="Back_Click"
+                    Style="{StaticResource Style-Button-Icon-Circle}">
+                    <ContentControl Width="18" Style="{StaticResource Style-Icon-ArrowLeft}" />
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
 </UserControl>

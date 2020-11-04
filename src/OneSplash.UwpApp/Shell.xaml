@@ -5,6 +5,7 @@
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -67,10 +68,10 @@
                     Margin="0,0,24,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-                    <Button Command="{x:Bind ViewModel.SearchCommand}" Style="{StaticResource Style-Button-Icon-Circle}">
+                    <Button Click="SearchButton_Click" Style="{StaticResource Style-Button-Icon-Circle}">
                         <ContentControl Width="12" Style="{StaticResource Style-Icon-Search}" />
                     </Button>
-                    <Button Command="{x:Bind ViewModel.InfoCommand}" Style="{StaticResource Style-Button-Icon-Circle}">
+                    <Button Click="InfoButton_Click" Style="{StaticResource Style-Button-Icon-Circle}">
                         <ContentControl Width="12" Style="{StaticResource Style-Icon-Info}" />
                     </Button>
                 </StackPanel>
@@ -80,16 +81,24 @@
             </winui:NavigationView.Content>
         </winui:NavigationView>
         <view:SearchView
+            x:Name="SearchView"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            animation:Implicit.HideAnimations="{StaticResource DefaultHideAnimations}"
+            animation:Implicit.ShowAnimations="{StaticResource DefaultShowAnimations}"
+            Visibility="Collapsed" />
 
         <view:InfoView
+            x:Name="InfoView"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            animation:Implicit.HideAnimations="{StaticResource DefaultHideAnimations}"
+            animation:Implicit.ShowAnimations="{StaticResource DefaultShowAnimations}"
+            Visibility="Collapsed" />
 
         <Rectangle
             x:Name="DraggableAppTitleBarArea"
