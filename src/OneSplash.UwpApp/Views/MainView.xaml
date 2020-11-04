@@ -140,7 +140,7 @@
             <toolkit:AdaptiveGridView.Header>
                 <control:StepThroughListView
                     MaxWidth="1024"
-                    Margin="0,24,0,36"
+                    Margin="36,24"
                     extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
                     ItemTemplate="{StaticResource CategoryTemplate}"
                     ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"

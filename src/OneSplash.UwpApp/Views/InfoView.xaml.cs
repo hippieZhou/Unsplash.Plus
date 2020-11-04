@@ -14,10 +14,10 @@ namespace OneSplash.UwpApp.Views
             this.DataContext = ViewModel;
         }
 
-        private void Back_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Back_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             this.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            this.StartCollapsedAnimation();
+            await this.StartCollapsedAnimationAsync();
         }
     }
 }

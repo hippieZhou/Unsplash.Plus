@@ -86,8 +86,6 @@
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            animation:Implicit.HideAnimations="{StaticResource DefaultHideAnimations}"
-            animation:Implicit.ShowAnimations="{StaticResource DefaultShowAnimations}"
             Visibility="Collapsed" />
 
         <view:InfoView
@@ -96,8 +94,6 @@
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            animation:Implicit.HideAnimations="{StaticResource DefaultHideAnimations}"
-            animation:Implicit.ShowAnimations="{StaticResource DefaultShowAnimations}"
             Visibility="Collapsed" />
 
         <Rectangle
