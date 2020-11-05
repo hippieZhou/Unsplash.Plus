@@ -94,7 +94,7 @@ namespace OneSplash.UwpApp.Views
         {
             if (SplashGridView.ContainerFromItem(e.ClickedItem) is GridViewItem ClickedItem)
             {
-                var selectedItem = ClickedItem.Content as SplashDto;
+                var selectedItem = ClickedItem.Content as SplashPhotoDto;
                 OverlayPopup.SelectedItem = selectedItem;
                 ConnectedAnimation ConnectedAnimation = SplashGridView.PrepareConnectedAnimation("forwardAnimation", selectedItem, "connectedElement");
                 ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();

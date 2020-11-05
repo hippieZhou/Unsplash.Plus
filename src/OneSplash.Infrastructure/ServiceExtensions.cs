@@ -37,12 +37,12 @@ namespace OneSplash.Infrastructure
 
             services.AddTransient<IDateTimeService, DateTimeService>();
 
-            services.AddTransient<UnSplashDataService>();
+            services.AddTransient<ISplashService, UnSplashDataService>();
             //services.AddTransient<UnSplashDataService>();
-            services.AddTransient<Func<bool, ISplashService>>(serviceProvider => key =>
-            {
-                return key ? serviceProvider.GetService<UnSplashDataService>() : serviceProvider.GetService<UnSplashDataService>();
-            });
+            //services.AddTransient<Func<bool, ISplashService>>(serviceProvider => key =>
+            //{
+            //    return key ? serviceProvider.GetService<UnSplashDataService>() : serviceProvider.GetService<UnSplashDataService>();
+            //});
             return services;
         }
     }

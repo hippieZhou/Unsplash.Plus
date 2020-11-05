@@ -11,6 +11,7 @@
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Views"
+    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
@@ -35,7 +36,7 @@
                 </Grid>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="SplashTemplate" x:DataType="dto:SplashDto">
+        <DataTemplate x:Key="SplashTemplate" x:DataType="dto:SplashPhotoDto">
             <Grid Loaded="SplashGrid_Loaded">
                 <toolkit:ImageEx
                     x:Name="connectedElement"
@@ -162,10 +163,38 @@
                 </control:StepThroughListView>
             </toolkit:AdaptiveGridView.Header>
             <toolkit:AdaptiveGridView.Footer>
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
                     <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
-                </StackPanel>
+                </StackPanel>-->
+                <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
+                    <Grid Visibility="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <winui:AnimatedVisualPlayer
+                            Width="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            AutoPlay="True">
+                            <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lotties/loading-animation.json" />
+                        </winui:AnimatedVisualPlayer>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            FontFamily="{StaticResource RobotoMonoBold}"
+                            Text="LOADING..." />
+                    </Grid>
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Spacing="12"
+                        Visibility="{x:Bind ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="{StaticResource RobotoMonoBold}"
+                            Text="THERE HAVE SOMETHING WRONG" />
+                    </StackPanel>
+                </Grid>
             </toolkit:AdaptiveGridView.Footer>
         </toolkit:AdaptiveGridView>
         <control:OverlayPopup

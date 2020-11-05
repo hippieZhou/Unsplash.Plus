@@ -29,11 +29,18 @@ namespace OneSplash.UwpApp.ViewModels
             set { SetProperty(ref _categories, value); }
         }
 
-        private IncrementalLoadingCollection<SplashSource, SplashDto> _filteredRecipeData;
-        public IncrementalLoadingCollection<SplashSource, SplashDto> FilteredRecipeData
+        private IncrementalLoadingCollection<SplashSource, SplashPhotoDto> _filteredRecipeData;
+        public IncrementalLoadingCollection<SplashSource, SplashPhotoDto> FilteredRecipeData
         {
             get { return _filteredRecipeData; }
             set { SetProperty(ref _filteredRecipeData, value); }
+        }
+
+        private bool _isError;
+        public bool IsError
+        {
+            get { return _isError; }
+            set { SetProperty(ref _isError, value); }
         }
 
         private ICommand _loadCommand;
@@ -45,19 +52,22 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(async () =>
                     {
-                        FilteredRecipeData = new IncrementalLoadingCollection<SplashSource, SplashDto>(
+                        FilteredRecipeData = new IncrementalLoadingCollection<SplashSource, SplashPhotoDto>(
                             source: new SplashSource(Mediator),
                             itemsPerPage: 10,
                             onStartLoading: () =>
                             {
+                                IsError = false;
                                 _logger.LogInformation("onStartLoading");
                             },
                             onEndLoading: () =>
                             {
+                                IsError = false;
                                 _logger.LogInformation("onEndLoading");
                             },
                             onError: ex =>
                             {
+                                IsError = true;
                                 _logger.LogInformation("onError");
                             });
 
@@ -74,7 +84,7 @@ namespace OneSplash.UwpApp.ViewModels
         }
     }
 
-    public class SplashSource : IIncrementalSource<SplashDto>
+    public class SplashSource : IIncrementalSource<SplashPhotoDto>
     {
         private readonly IMediator _mediator;
         public SplashSource(IMediator mediator)
@@ -82,11 +92,11 @@ namespace OneSplash.UwpApp.ViewModels
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task<IEnumerable<SplashDto>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<SplashPhotoDto>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
             var parameter = new GetPagedSplashsQuery { PageNumber = pageIndex, PageSize = pageSize };
             var response = await _mediator.Send(parameter, cancellationToken);
-            return response.Succeeded ? response.Data : Array.Empty<SplashDto>();
+            return response.Succeeded ? response.Data : Array.Empty<SplashPhotoDto>();
         }
     }
 }

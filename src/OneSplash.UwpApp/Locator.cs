@@ -21,7 +21,7 @@ namespace OneSplash.UwpApp
         {
             _config = new ConfigurationBuilder()
                 .SetBasePath(Package.Current.InstalledLocation.Path)
-                .AddJsonFile("appsettings.json").Build();
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
 
             Log.Logger = new LoggerConfiguration()
               .ReadFrom.Configuration(_config)
@@ -43,6 +43,7 @@ namespace OneSplash.UwpApp
             var services = new ServiceCollection();
 
             #region Services
+            services.AddTransient(sp => _config);
             services.AddLogging();
             services.AddApplicationLayer();
             services.AddPersistenceInfrastructure(_config);

@@ -1,7 +1,10 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using OneSplash.Application.DTOs;
 using OneSplash.Application.Parameters;
 using OneSplash.Application.Wrappers;
+using OneSplash.Domain.Entities;
+using OneSplash.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,28 +19,42 @@ namespace OneSplash.Application.Features.Queries
     {
     }
 
-    public class GetPagedSplashsQuery : IRequest<PagedResponse<IEnumerable<SplashDto>>>
+    public class GetPagedSplashsQuery : IRequest<PagedResponse<IEnumerable<SplashPhotoDto>>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
 
-        public class GetAllProductsQueryHandler : IRequestHandler<GetPagedSplashsQuery, PagedResponse<IEnumerable<SplashDto>>>
+        public class GetAllProductsQueryHandler : IRequestHandler<GetPagedSplashsQuery, PagedResponse<IEnumerable<SplashPhotoDto>>>
         {
-            public async Task<PagedResponse<IEnumerable<SplashDto>>> Handle(GetPagedSplashsQuery request, CancellationToken cancellationToken)
+            private readonly IMapper _mapper;
+            private readonly ISplashService _splashService;
+
+            public GetAllProductsQueryHandler(
+                IMapper mapper,
+                ISplashService splashService)
             {
-                var items = GetRecipeList(request.PageSize);
-                await Task.Delay(500);
-                return new PagedResponse<IEnumerable<SplashDto>>(items, request.PageNumber, request.PageSize);
+                _mapper = mapper ?? throw new ArgumentNullException(nameof(splashService));
+                _splashService = splashService ?? throw new ArgumentNullException(nameof(splashService));
+            }
+            public async Task<PagedResponse<IEnumerable<SplashPhotoDto>>> Handle(GetPagedSplashsQuery request, CancellationToken cancellationToken)
+            {
+                var entities = await _splashService.ListPhotos(request.PageNumber, request.PageSize);
+                var dtos = _mapper.Map<IEnumerable<SplashPhotoEntity>, IEnumerable<SplashPhotoDto>>(entities);
+                return new PagedResponse<IEnumerable<SplashPhotoDto>>(dtos, request.PageNumber, request.PageSize);
+
+                //var items = GetRecipeList(request.PageSize);
+                //await Task.Delay(500);
+                //return new PagedResponse<IEnumerable<SplashPhotoDto>>(items, request.PageNumber, request.PageSize);
             }
 
 
-            public static IEnumerable<SplashDto> GetRecipeList(int count = 1000)
+            public static IEnumerable<SplashPhotoDto> GetRecipeList(int count = 1000)
             {
                 // Initialize list of recipes for varied image size layout sample
                 var rnd = new Random();
-                List<SplashDto> tempList = new List<SplashDto>(
+                List<SplashPhotoDto> tempList = new List<SplashPhotoDto>(
                                             Enumerable.Range(0, count).Select(k =>
-                                                new SplashDto
+                                                new SplashPhotoDto
                                                 {
                                                     ImageAuthor = "Recipe " + k.ToString(),
                                                     Color = GetColors().ElementAt((k % 100) + 1),

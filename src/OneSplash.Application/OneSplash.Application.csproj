@@ -121,7 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DTOs\CategoryDto.cs" />
-    <Compile Include="DTOs\SplashDto.cs" />
+    <Compile Include="DTOs\SplashPhotoDto.cs" />
     <Compile Include="Features\Queries\GetAllCategoryQuery.cs" />
     <Compile Include="Features\Queries\GetPageSplashsQuery.cs" />
     <Compile Include="Mappings\GeneralProfile.cs" />
@@ -148,6 +148,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OneSplash.Domain\OneSplash.Domain.csproj">
+      <Project>{58D85C3C-5F17-472A-AAC9-45C785343C47}</Project>
+      <Name>OneSplash.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

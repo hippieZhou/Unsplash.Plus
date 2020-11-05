@@ -68,11 +68,19 @@
                     Margin="0,0,24,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
-                    <Button Click="SearchButton_Click" Style="{StaticResource Style-Button-Icon-Circle}">
-                        <ContentControl Width="12" Style="{StaticResource Style-Icon-Search}" />
+                    <Button
+                        Width="44"
+                        Height="44"
+                        Click="SearchButton_Click"
+                        Style="{StaticResource Style-Button-Icon-Circle}">
+                        <ContentControl Width="16" Style="{StaticResource Style-Icon-Search}" />
                     </Button>
-                    <Button Click="InfoButton_Click" Style="{StaticResource Style-Button-Icon-Circle}">
-                        <ContentControl Width="12" Style="{StaticResource Style-Icon-Info}" />
+                    <Button
+                        Width="44"
+                        Height="44"
+                        Click="InfoButton_Click"
+                        Style="{StaticResource Style-Button-Icon-Circle}">
+                        <ContentControl Width="16" Style="{StaticResource Style-Icon-Info}" />
                     </Button>
                 </StackPanel>
             </winui:NavigationView.PaneCustomContent>
@@ -99,7 +107,7 @@
         <Rectangle
             x:Name="DraggableAppTitleBarArea"
             Grid.Row="0"
-            Height="32"
+            Height="48"
             Fill="Transparent" />
     </Grid>
 </Page>

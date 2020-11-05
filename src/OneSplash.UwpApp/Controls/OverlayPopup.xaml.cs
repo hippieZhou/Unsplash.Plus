@@ -19,15 +19,15 @@ namespace OneSplash.UwpApp.Controls
             };
         }
 
-        public SplashDto SelectedItem
+        public SplashPhotoDto SelectedItem
         {
-            get { return (SplashDto)GetValue(SelectedItemProperty); }
+            get { return (SplashPhotoDto)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); RaisePropertyChanged(); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(SplashDto), typeof(OverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
+            DependencyProperty.Register("SelectedItem", typeof(SplashPhotoDto), typeof(OverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
 
         private void RaisePropertyChanged([CallerMemberName] string property = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         public event PropertyChangedEventHandler PropertyChanged;
