@@ -38,6 +38,9 @@
         </DataTemplate>
         <DataTemplate x:Key="SplashTemplate" x:DataType="dto:SplashPhotoDto">
             <Grid Loaded="SplashGrid_Loaded">
+                <Grid.Background>
+                    <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
+                </Grid.Background>
                 <toolkit:ImageEx
                     x:Name="connectedElement"
                     HorizontalAlignment="Stretch"
@@ -45,6 +48,7 @@
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
                     common:ImageLoader.Source="{x:Bind}"
+                    Background="{x:Bind Color, Mode=OneWay}"
                     EnableLazyLoading="True"
                     IsCacheEnabled="True"
                     Stretch="UniformToFill" />
@@ -203,5 +207,27 @@
             VerticalAlignment="Stretch"
             HandleBack="OverlayPopup_HandleBack"
             Visibility="Collapsed" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveVisualStates">
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="NormalState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1008" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

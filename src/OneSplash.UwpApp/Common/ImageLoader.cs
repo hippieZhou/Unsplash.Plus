@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using OneSplash.Application.DTOs;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -36,33 +37,20 @@ namespace OneSplash.UwpApp.Common
                     var bgBrush = model.Color.ToColor();
                     image.Background = new SolidColorBrush(bgBrush);
 
-                    if (image.FindAscendant<GridViewItem>() is GridViewItem gridviewItem)
-                    {
-                        gridviewItem.SizeChanged += async (sender, e) =>
-                        {
-                            image.PlaceholderSource = await GenerateBlurSourceAsync(model.Blurhash, gridviewItem.Width, gridviewItem.Height);
-                        };
-                        image.PlaceholderSource = await GenerateBlurSourceAsync(model.Blurhash, gridviewItem.Width, gridviewItem.Height);
-                    }
-                    image.Source = await ImageCache.Instance.GetFromCacheAsync(new Uri(model.ImageUri));
-
-                    //var imageSource = model.ImageUri;
-                    //if (!string.IsNullOrWhiteSpace(imageSource))
+                    //if (image.FindAscendant<GridViewItem>() is GridViewItem gridviewItem)
                     //{
-                    //    var imageUri = new Uri($"ms-appx://{imageSource}", UriKind.RelativeOrAbsolute);
-                    //    image.Source = imageUri;
-
-                    //    //var file = await StorageFile.GetFileFromApplicationUriAsync(imageUri);
-                    //    //using IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read);
-                    //    //BitmapImage bitmapImage = new BitmapImage();
-                    //    //await bitmapImage.SetSourceAsync(fileStream);
-                    //    //image.Source = bitmapImage;
+                    //    gridviewItem.SizeChanged += async (sender, e) =>
+                    //    {
+                    //        image.PlaceholderSource = await GenerateBlurSourceAsync(model.Blurhash, gridviewItem.Width, gridviewItem.Height);
+                    //    };
+                    //    image.PlaceholderSource = await GenerateBlurSourceAsync(model.Blurhash, gridviewItem.Width, gridviewItem.Height);
                     //}
+                    image.Source = await ImageCache.Instance.GetFromCacheAsync(new Uri(model.ImageUri));
                 }
             }));
 
 
-        private static async System.Threading.Tasks.Task<ImageSource> GenerateBlurSourceAsync(string blurHash,double width, double height)
+        private static async Task<ImageSource> GenerateBlurSourceAsync(string blurHash,double width, double height)
         {
             try
             {

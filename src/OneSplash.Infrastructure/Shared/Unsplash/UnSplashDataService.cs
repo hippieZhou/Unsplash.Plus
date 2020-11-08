@@ -33,7 +33,7 @@ namespace OneSplash.Infrastructure.Shared.Unsplash
                     Blurhash = item.BlurHash,
                     ImageAuthor = item.User?.Username,
                     Color = item.Color,
-                    ImageUri = item.Urls.Raw,
+                    ImageUri = item.Urls.Small,
                     Width = item.Width,
                     Height = item.Height
                 });

@@ -33,9 +33,10 @@
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
-                            common:ImageLoader.Source="{x:Bind SelectedItem, Mode=OneWay}"
                             EnableLazyLoading="True"
                             IsCacheEnabled="True"
+                            PlaceholderSource="{x:Bind SelectedItem.BlurhashSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
+                            Source="{x:Bind SelectedItem.ImageSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
                             Stretch="UniformToFill" />
                         <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
                         <Button
@@ -128,8 +129,7 @@
         <Grid VerticalAlignment="Top">
             <Rectangle Margin="0,0,0,40">
                 <Rectangle.Fill>
-                    <!--<media:BackdropBlurBrush Amount="1" />-->
-                    <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
+                    <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.6" />
                 </Rectangle.Fill>
             </Rectangle>
             <Grid
