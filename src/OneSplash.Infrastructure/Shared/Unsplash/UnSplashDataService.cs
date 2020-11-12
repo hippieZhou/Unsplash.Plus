@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Options;
 using OneSplash.Domain.Entities;
 using OneSplash.Domain.Interfaces;
+using OneSplash.Domain.Settings;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,10 +16,10 @@ namespace OneSplash.Infrastructure.Shared.Unsplash
 
         private readonly UnsplasharpClient _client;
 
-        public UnSplashDataService(IConfiguration configuration)
+        public UnSplashDataService(IOptions<AppSettings> options)
         {
-            var accessKey = configuration.GetSection("unsplash:AccessKey").Value ?? ApplicationId;
-            var secretKey = configuration.GetSection("unsplash:SecretKey").Value ?? Secret;
+            var accessKey = options.Value.AccessKey ?? ApplicationId;
+            var secretKey = options.Value.Secret ?? Secret;
             _client = new UnsplasharpClient(accessKey, secretKey);
         }
 

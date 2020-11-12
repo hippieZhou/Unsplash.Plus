@@ -7,7 +7,7 @@ namespace OneSplash.UwpApp.Views
 {
     public sealed partial class InfoView : UserControl
     {
-        public InfoViewModel ViewModel { get; } = App.Locator.Provider.GetRequiredService<InfoViewModel>();
+        public InfoViewModel ViewModel { get; } = App.ServiceProvider.GetRequiredService<InfoViewModel>();
         public InfoView()
         {
             this.InitializeComponent();

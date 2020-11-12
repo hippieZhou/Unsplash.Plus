@@ -19,7 +19,7 @@ namespace OneSplash.UwpApp.Views
 {
     public sealed partial class MainView : UserControl
     {
-        public MainViewModel ViewModel { get; } = App.Locator.Provider.GetRequiredService<MainViewModel>();
+        public MainViewModel ViewModel { get; } = App.ServiceProvider.GetRequiredService<MainViewModel>();
         public MainView()
         {
             this.InitializeComponent();
@@ -98,7 +98,7 @@ namespace OneSplash.UwpApp.Views
                 OverlayPopup.SelectedItem = selectedItem;
                 ConnectedAnimation ConnectedAnimation = SplashGridView.PrepareConnectedAnimation("forwardAnimation", selectedItem, "connectedElement");
                 ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
-                ConnectedAnimation.TryStart(OverlayPopup.destinationElement);
+                ConnectedAnimation.TryStart(OverlayPopup.MainScrollViewer);
                 OverlayPopup.Visibility = Visibility.Visible;
             }
         }
@@ -111,7 +111,7 @@ namespace OneSplash.UwpApp.Views
                 SplashGridView.ScrollIntoView(selectedItem, ScrollIntoViewAlignment.Default);
                 SplashGridView.UpdateLayout();
 
-                ConnectedAnimation ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.destinationElement);
+                ConnectedAnimation ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.MainScrollViewer);
                 ConnectedAnimation.Completed += (_sender, _e) =>
                 {
                     OverlayPopup.Visibility = Visibility.Collapsed;

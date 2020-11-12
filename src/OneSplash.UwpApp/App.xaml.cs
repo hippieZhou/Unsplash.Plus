@@ -10,8 +10,6 @@ namespace OneSplash.UwpApp
 {
     sealed partial class App : Windows.UI.Xaml.Application
     {
-        public static Locator Locator => Current.Resources[nameof(Locator)] as Locator;
-
         public App()
         {
             this.InitializeComponent();

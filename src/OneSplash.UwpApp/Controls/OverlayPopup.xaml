@@ -14,197 +14,179 @@
     x:Name="root"
     d:DesignHeight="768"
     d:DesignWidth="1024"
+    Loaded="root_Loaded"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
-        <ScrollViewer x:Name="destinationElement" x:FieldModifier="public">
-            <winui:TwoPaneView
-                x:Name="ContentView"
-                Margin="0,132,0,0"
-                MinWideModeWidth="960"
-                ModeChanged="OnContentViewModeChanged"
-                Pane1Length="480"
-                Pane2Length="*">
-                <winui:TwoPaneView.Pane1>
-                    <Grid x:Name="Pane1Panel" Padding="64,0,64,40">
-                        <toolkit:ImageEx
-                            x:Name="HeroImage"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            EnableLazyLoading="True"
-                            IsCacheEnabled="True"
-                            PlaceholderSource="{x:Bind SelectedItem.BlurhashSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
-                            Source="{x:Bind SelectedItem.ImageSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
-                            Stretch="UniformToFill" />
-                        <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
-                        <Button
-                            x:Name="Credit"
-                            Width="48"
-                            Height="48"
-                            Margin="24"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Style="{StaticResource Style-Button-Icon-Circle}">
-                            <ContentControl
-                                Width="20"
-                                Foreground="White"
-                                Style="{StaticResource Style-Icon-Info}" />
-                            <Button.Flyout>
-                                <Flyout Placement="Right">
-                                    <TextBlock FontFamily="{StaticResource MontserratMedium}" FontSize="12">
-                                        <Run Text="Photo by" />
-                                        <Run FontFamily="{StaticResource MontserratSemiBold}" Text="ImageAuthor" />
-                                        <Run Text="on" />
-                                        <Hyperlink NavigateUri="ImageAuthorUrl">Unsplash</Hyperlink>
-                                    </TextBlock>
-                                </Flyout>
-                            </Button.Flyout>
-                        </Button>
-                    </Grid>
-                </winui:TwoPaneView.Pane1>
+        <ScrollViewer x:Name="MainScrollViewer" x:FieldModifier="public">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                <winui:TwoPaneView.Pane2>
-                    <StackPanel
-                        x:Name="Pane2Panel"
-                        Margin="103,24,103,40"
-                        animations:Implicit.Animations="{StaticResource ImplicitOffsetAnimation}"
-                        Spacing="36">
-                        <TextBlock
-                            FontFamily="{StaticResource MontserratSemiBold}"
-                            Opacity="0.4"
-                            Text="Details" />
-                        <TextBlock
-                            MaxWidth="412"
-                            Margin="0,0,0,12"
-                            HorizontalAlignment="Left"
-                            FontFamily="{StaticResource RobotoMonoMedium}"
-                            FontSize="36"
-                            Foreground="#FF121111"
-                            LineHeight="48"
-                            Text="Ornare eu massa turpis viverra"
-                            TextLineBounds="Tight"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            MaxWidth="412"
-                            Margin="0,0,0,40"
-                            HorizontalAlignment="Left"
-                            FontSize="16"
-                            LineHeight="40"
-                            Opacity="0.8"
-                            Text="Lorem ipsum dolor sit amet, consectetur elit. Dolor  mattis sit sed dolor diam laoreet tristique. Urna facilisis justo enim, nec viverra pellentesque. Aliquam magna leo, dolor ultrices quis metus, massa euismod."
-                            TextWrapping="Wrap" />
+                <winui:TwoPaneView
+                    x:Name="ContentView"
+                    Grid.Row="1"
+                    Margin="0,132,0,0"
+                    MinWideModeWidth="960"
+                    ModeChanged="OnContentViewModeChanged"
+                    Pane1Length="480"
+                    Pane2Length="*">
+                    <winui:TwoPaneView.Pane1>
+                        <Grid x:Name="Pane1Panel" Padding="64,0,64,40">
+                            <toolkit:ImageEx
+                                x:Name="HeroImage"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                EnableLazyLoading="True"
+                                IsCacheEnabled="True"
+                                PlaceholderSource="{x:Bind SelectedItem.BlurhashSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
+                                Source="{x:Bind SelectedItem.ImageSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
+                                Stretch="UniformToFill" />
+                            <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
+                            <Button
+                                x:Name="Credit"
+                                Width="48"
+                                Height="48"
+                                Margin="24"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Style="{StaticResource Style-Button-Icon-Circle}">
+                                <ContentControl
+                                    Width="20"
+                                    Foreground="White"
+                                    Style="{StaticResource Style-Icon-Info}" />
+                                <Button.Flyout>
+                                    <Flyout Placement="Right">
+                                        <TextBlock FontFamily="{StaticResource MontserratMedium}" FontSize="12">
+                                            <Run Text="Photo by" />
+                                            <Run FontFamily="{StaticResource MontserratSemiBold}" Text="ImageAuthor" />
+                                            <Run Text="on" />
+                                            <Hyperlink NavigateUri="ImageAuthorUrl">Unsplash</Hyperlink>
+                                        </TextBlock>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </Grid>
+                    </winui:TwoPaneView.Pane1>
 
-
-                        <TextBlock
-                            FontFamily="{StaticResource MontserratSemiBold}"
-                            Opacity="0.4"
-                            Text="Similar places" />
+                    <winui:TwoPaneView.Pane2>
                         <StackPanel
-                            Height="80"
-                            Orientation="Horizontal"
-                            Spacing="24">
-                            <Image
-                                Width="88"
-                                Source="/Assets/Images/damian-patkowski-QeC4oPdKu7c-unsplash.jpg"
-                                Stretch="UniformToFill" />
-                            <Image
-                                Width="88"
-                                Source="/Assets/Images/felix-NAytNmKtyiU-unsplash.jpg"
-                                Stretch="UniformToFill" />
-                            <Image
-                                Width="88"
-                                Source="/Assets/Images/annie-spratt-tB4Gf7ddcJY-unsplash.jpg"
-                                Stretch="UniformToFill" />
-                            <Image
-                                Width="88"
-                                Source="/Assets/Images/willian-west-YpKiwlvhOpI-unsplash.jpg"
-                                Stretch="UniformToFill" />
+                            x:Name="Pane2Panel"
+                            Margin="103,24,103,40"
+                            animations:Implicit.Animations="{StaticResource ImplicitOffsetAnimation}"
+                            Spacing="36">
+                            <TextBlock
+                                FontFamily="{StaticResource MontserratSemiBold}"
+                                Opacity="0.4"
+                                Text="Details" />
+                            <TextBlock
+                                MaxWidth="412"
+                                Margin="0,0,0,12"
+                                HorizontalAlignment="Left"
+                                FontFamily="{StaticResource RobotoMonoMedium}"
+                                FontSize="36"
+                                Foreground="#FF121111"
+                                LineHeight="48"
+                                Text="Ornare eu massa turpis viverra"
+                                TextLineBounds="Tight"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                MaxWidth="412"
+                                Margin="0,0,0,40"
+                                HorizontalAlignment="Left"
+                                FontSize="16"
+                                LineHeight="40"
+                                Opacity="0.8"
+                                Text="Lorem ipsum dolor sit amet, consectetur elit. Dolor  mattis sit sed dolor diam laoreet tristique. Urna facilisis justo enim, nec viverra pellentesque. Aliquam magna leo, dolor ultrices quis metus, massa euismod."
+                                TextWrapping="Wrap" />
+
+
+                            <TextBlock
+                                FontFamily="{StaticResource MontserratSemiBold}"
+                                Opacity="0.4"
+                                Text="Similar places" />
+                            <StackPanel
+                                Height="80"
+                                Orientation="Horizontal"
+                                Spacing="24">
+                                <Image
+                                    Width="88"
+                                    Source="/Assets/Images/damian-patkowski-QeC4oPdKu7c-unsplash.jpg"
+                                    Stretch="UniformToFill" />
+                                <Image
+                                    Width="88"
+                                    Source="/Assets/Images/felix-NAytNmKtyiU-unsplash.jpg"
+                                    Stretch="UniformToFill" />
+                                <Image
+                                    Width="88"
+                                    Source="/Assets/Images/annie-spratt-tB4Gf7ddcJY-unsplash.jpg"
+                                    Stretch="UniformToFill" />
+                                <Image
+                                    Width="88"
+                                    Source="/Assets/Images/willian-west-YpKiwlvhOpI-unsplash.jpg"
+                                    Stretch="UniformToFill" />
+                            </StackPanel>
+                        </StackPanel>
+                    </winui:TwoPaneView.Pane2>
+                </winui:TwoPaneView>
+
+                <StackPanel x:Name="ScrollHeader" Margin="56,40">
+                    <StackPanel Background="{ThemeResource SystemControlAcrylicWindowBrush}" Orientation="Horizontal">
+                        <Button
+                            x:Name="HeaderBack"
+                            Width="52"
+                            Height="52"
+                            Style="{StaticResource Style-Button-Icon-Circle}">
+                            <ContentControl Width="18" Style="{StaticResource Style-Icon-ArrowLeft}" />
+                            <!--<animations:Implicit.ShowAnimations>
+                                <animations:TranslationAnimation
+                                    From="0,32,0"
+                                    To="0,0,0"
+                                    Duration="0:0:0.4" />
+                                <animations:ScaleAnimation
+                                    From="0.6"
+                                    To="1"
+                                    Duration="0:0:0.4" />
+                                <animations:OpacityAnimation
+                                    From="0"
+                                    To="1"
+                                    Duration="0:0:0.4" />
+                            </animations:Implicit.ShowAnimations>
+                            <animations:Implicit.HideAnimations>
+                                <animations:TranslationAnimation
+                                    From="0,0,0"
+                                    To="0,16,0"
+                                    Duration="0:0:0.2" />
+                                <animations:ScaleAnimation
+                                    From="1"
+                                    To="0.6"
+                                    Duration="0:0:0.2" />
+                                <animations:OpacityAnimation
+                                    From="1"
+                                    To="0"
+                                    Duration="0:0:0.2" />
+                            </animations:Implicit.HideAnimations>-->
+                        </Button>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock
+                                x:Name="HeaderText"
+                                Grid.Column="1"
+                                Margin="0,12"
+                                VerticalAlignment="Center"
+                                FontFamily="{StaticResource MontserratSemiBold}"
+                                FontSize="24"
+                                Opacity="0.8"
+                                Text="{x:Bind SelectedItem.ImageAuthor, Mode=OneWay}"
+                                TextLineBounds="Tight" />
                         </StackPanel>
                     </StackPanel>
-                </winui:TwoPaneView.Pane2>
-            </winui:TwoPaneView>
-        </ScrollViewer>
-        <Grid VerticalAlignment="Top">
-            <Rectangle Margin="0,0,0,40">
-                <Rectangle.Fill>
-                    <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.6" />
-                </Rectangle.Fill>
-            </Rectangle>
-            <Grid
-                x:Name="Header"
-                Margin="56,40"
-                ColumnSpacing="16">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Button
-                    x:Name="Back"
-                    Width="52"
-                    Height="52"
-                    Style="{StaticResource Style-Button-Icon-Circle}">
-                    <ContentControl Width="18" Style="{StaticResource Style-Icon-ArrowLeft}" />
-                </Button>
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="0,12"
-                    VerticalAlignment="Center"
-                    FontFamily="{StaticResource MontserratSemiBold}"
-                    FontSize="18"
-                    Opacity="0.8"
-                    Text="{x:Bind SelectedItem.ImageAuthor, Mode=OneWay}"
-                    TextLineBounds="Tight" />
-                <Button
-                    x:Name="PlanTripTop"
-                    Grid.Column="2"
-                    Width="52"
-                    Height="52"
-                    HorizontalAlignment="Right"
-                    extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
-                    Background="#FFF0F0F2"
-                    Style="{StaticResource Style-Button-Icon-Circle}"
-                    Visibility="Collapsed">
-                    <animations:Implicit.ShowAnimations>
-                        <animations:TranslationAnimation
-                            From="0,32,0"
-                            To="0,0,0"
-                            Duration="0:0:0.4" />
-                        <animations:ScaleAnimation
-                            From="0.6"
-                            To="1"
-                            Duration="0:0:0.4" />
-                        <animations:OpacityAnimation
-                            From="0"
-                            To="1"
-                            Duration="0:0:0.4" />
-                    </animations:Implicit.ShowAnimations>
-                    <animations:Implicit.HideAnimations>
-                        <animations:TranslationAnimation
-                            From="0,0,0"
-                            To="0,16,0"
-                            Duration="0:0:0.2" />
-                        <animations:ScaleAnimation
-                            From="1"
-                            To="0.6"
-                            Duration="0:0:0.2" />
-                        <animations:OpacityAnimation
-                            From="1"
-                            To="0"
-                            Duration="0:0:0.2" />
-                    </animations:Implicit.HideAnimations>
-
-                    <ContentControl
-                        Width="18"
-                        Foreground="#FF0477BF"
-                        Style="{StaticResource Style-Icon-ArrowLeft}" />
-                </Button>
+                </StackPanel>
             </Grid>
-        </Grid>
-
+        </ScrollViewer>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

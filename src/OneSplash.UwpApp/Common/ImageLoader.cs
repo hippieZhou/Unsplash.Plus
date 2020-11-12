@@ -1,23 +1,16 @@
-﻿using Blurhash.UWP;
-using Microsoft.Toolkit.Uwp.Helpers;
+﻿using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using OneSplash.Application.DTOs;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace OneSplash.UwpApp.Common
 {
     public class ImageLoader
     {
-        private static readonly Decoder _blurHash = new Decoder();
-
         public static SplashPhotoDto GetSource(DependencyObject obj)
         {
             return (SplashPhotoDto)obj.GetValue(SourceProperty);
@@ -37,33 +30,15 @@ namespace OneSplash.UwpApp.Common
                     var bgBrush = model.Color.ToColor();
                     image.Background = new SolidColorBrush(bgBrush);
 
-                    //if (image.FindAscendant<GridViewItem>() is GridViewItem gridviewItem)
-                    //{
-                    //    gridviewItem.SizeChanged += async (sender, e) =>
-                    //    {
-                    //        image.PlaceholderSource = await GenerateBlurSourceAsync(model.Blurhash, gridviewItem.Width, gridviewItem.Height);
-                    //    };
-                    //    image.PlaceholderSource = await GenerateBlurSourceAsync(model.Blurhash, gridviewItem.Width, gridviewItem.Height);
-                    //}
-                    image.Source = await ImageCache.Instance.GetFromCacheAsync(new Uri(model.ImageUri));
+                    try
+                    {
+                        image.Source = await ImageCache.Instance.GetFromCacheAsync(new Uri(model.ImageUri));
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.TraceError(ex.ToString());
+                    }
                 }
             }));
-
-
-        private static async Task<ImageSource> GenerateBlurSourceAsync(string blurHash,double width, double height)
-        {
-            try
-            {
-                var bitmap = _blurHash.Decode(blurHash, (int)width, (int)height);
-                var blurSource = new SoftwareBitmapSource();
-                await blurSource.SetBitmapAsync(bitmap);
-                return blurSource;
-            }
-            catch (Exception ex)
-            {
-                Trace.TraceError(ex.ToString());
-                return default;
-            }
-        }
     }
 }

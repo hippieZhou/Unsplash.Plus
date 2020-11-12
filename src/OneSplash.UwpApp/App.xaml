@@ -8,9 +8,6 @@
     RequestedTheme="Dark">
     <Application.Resources>
         <ResourceDictionary>
-
-            <local:Locator x:Key="Locator" />
-
             <FontFamily x:Key="MontserratBold">/Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
             <FontFamily x:Key="MontserratMedium">/Assets/Fonts/Montserrat-Medium.ttf#Montserrat</FontFamily>
             <FontFamily x:Key="MontserratRegular">/Assets/Fonts/Montserrat-Regular.ttf#Montserrat</FontFamily>
@@ -21,6 +18,9 @@
             <FontFamily x:Key="RobotoMonoRegular">/Assets/Fonts/RobotoMono-Regular.ttf#Roboto Mono</FontFamily>
 
             <x:Boolean x:Key="UseSystemFocusVisuals">False</x:Boolean>
+
+            <Color x:Key="SystemAccentColor">DimGray</Color>
+            <SolidColorBrush x:Key="SystemAccentColorBrush" Color="{StaticResource SystemAccentColor}" />
 
             <!--  https://github.com/windows-toolkit/MVVM-Samples/blob/master/samples/MvvmSampleUwp/MvvmSampleUwp/Views/AsyncRelayCommandPage.xaml  -->
             <!--<Run Text="{x:Bind ViewModel.DownloadTextCommand.ExecutionTask, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"/>-->
