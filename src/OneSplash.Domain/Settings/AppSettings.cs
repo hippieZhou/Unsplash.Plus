@@ -1,9 +1,12 @@
-﻿namespace OneSplash.Domain.Settings
+﻿using System.IO;
+
+namespace OneSplash.Domain.Settings
 {
     public class AppSettings
     {
-        public string DbConnection = "Data Source=default.sqlite3";
+        public string DBFile { get; set; }
         public string AccessKey { get; set; }
         public string Secret { get; set; }
+
     }
 }

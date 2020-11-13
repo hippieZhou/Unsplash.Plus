@@ -9,15 +9,19 @@ using System;
 using System.IO;
 using OneSplash.UwpApp.Extensions;
 using Windows.Storage;
+using System.Threading;
 
 namespace OneSplash.UwpApp
 {
     sealed partial class App : Windows.UI.Xaml.Application
     {
+        public static readonly string DbFile = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Storage.sqlite");
         static App()
         {
             Log.Logger = new LoggerConfiguration()
               .Enrich.FromLogContext()
+              .Enrich.WithProperty("ThreadId", Thread.CurrentThread.ManagedThreadId)
+              .Enrich.WithProperty("Version", "1.0.1")
               .WriteTo.Debug()
               .WriteTo.File(
                 Path.Combine(ApplicationData.Current.LocalFolder.Path, "logs/log.txt"),
@@ -29,7 +33,7 @@ namespace OneSplash.UwpApp
         }
 
         public static IServiceProvider ServiceProvider { get; } = new ServiceCollection()
-            .AddLogging()
+            .AddLoggings()
             .AddSettings()
             .AddApplicationLayer()
             .AddPersistenceInfrastructure()

@@ -58,17 +58,15 @@ namespace OneSplash.UwpApp.ViewModels
                             onStartLoading: () =>
                             {
                                 IsError = false;
-                                _logger.LogInformation("onStartLoading");
                             },
                             onEndLoading: () =>
                             {
                                 IsError = false;
-                                _logger.LogInformation("onEndLoading");
                             },
                             onError: ex =>
                             {
                                 IsError = true;
-                                _logger.LogInformation("onError");
+                                _logger.Log(LogLevel.Error, ex, default, default);
                             });
 
                         var response = await Mediator.Send(new GetAllCategoryQuery());

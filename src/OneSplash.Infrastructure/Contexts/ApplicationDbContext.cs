@@ -11,27 +11,20 @@ namespace OneSplash.Infrastructure.Contexts
     {
         private readonly AppSettings _options;
         private readonly IDateTimeService _dateTime;
-        private readonly IFreeSql _fsql;
+        private readonly IFreeSql _freeSql;
 
-        public ApplicationDbContext(IOptions<AppSettings> options,IDateTimeService dateTime)
+        public ApplicationDbContext(IOptions<AppSettings> options, IDateTimeService dateTime)
         {
-            _options = options.Value;
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options));
             _dateTime = dateTime ?? throw new ArgumentNullException(nameof(dateTime));
 
-            _fsql = new FreeSqlBuilder()
-              .UseConnectionString(DataType.Sqlite, _options.DbConnection)
-              .UseAutoSyncStructure(true) //自动同步实体结构到数据库
-              .Build();
-            _fsql.SetDbContextOptions(opt =>
-            {
-                opt.OnEntityChange = report =>
-                {
-                    Trace.WriteLine(report);
-                };
-            });
+            _freeSql = new FreeSqlBuilder()
+                .UseConnectionString(DataType.Sqlite, $"data source={_options.DBFile}")
+                .UseAutoSyncStructure(true) //自动同步实体结构到数据库
+                .Build().SetDbContextOptions(opt => { opt.OnEntityChange = report => Trace.WriteLine(report); });
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder builder) => builder.UseFreeSql(_fsql);
+        protected override void OnConfiguring(DbContextOptionsBuilder builder) => builder.UseFreeSql(_freeSql);
 
         protected override void OnModelCreating(ICodeFirst codefirst)
         {
