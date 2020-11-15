@@ -129,8 +129,14 @@
     </Compile>
     <Compile Include="Behaviors\VisualStateInTemplateBehavior.cs" />
     <Compile Include="Common\ImageLoader.cs" />
+    <Compile Include="Controls\ExtendSplash.xaml.cs">
+      <DependentUpon>ExtendSplash.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\GridViewHeader.xaml.cs">
       <DependentUpon>GridViewHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Logo.xaml.cs">
+      <DependentUpon>Logo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\OverlayPopup.xaml.cs">
       <DependentUpon>OverlayPopup.xaml</DependentUpon>
@@ -138,9 +144,11 @@
     <Compile Include="Controls\StepThroughListView.xaml.cs">
       <DependentUpon>StepThroughListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\CompositionExtensions.cs" />
     <Compile Include="Extensions\ServiceExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
+    <Compile Include="Servcies\Logging\CustomDetailsEnricher.cs" />
     <Compile Include="Servcies\Messages\ViewChangedMessage.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
@@ -192,7 +200,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ExtendSplash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\GridViewHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Logo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

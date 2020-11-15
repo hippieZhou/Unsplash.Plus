@@ -12,12 +12,11 @@ namespace OneSplash.UwpApp.Extensions
     {
         public static IServiceCollection AddSettings(this IServiceCollection services)
         {
-            var builder = new ConfigurationBuilder()
-               .SetBasePath(Package.Current.InstalledLocation.Path)
-               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Package.Current.InstalledLocation.Path)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
 
-            var configuration = builder.Build();
-
+            services.AddSingleton<IConfiguration>(sp => configuration);
             services.AddOptions();
             services.Configure<AppSettings>(appSettings =>
             {

@@ -4,30 +4,32 @@ using OneSplash.Application;
 using OneSplash.Infrastructure;
 using OneSplash.UwpApp.ViewModels;
 using Serilog;
-using Serilog.Events;
 using System;
 using System.IO;
 using OneSplash.UwpApp.Extensions;
 using Windows.Storage;
-using System.Threading;
+using OneSplash.UwpApp.Servcies.Logging;
+using Serilog.Events;
+using Microsoft.Extensions.Configuration;
 
 namespace OneSplash.UwpApp
 {
     sealed partial class App : Windows.UI.Xaml.Application
     {
-        public static readonly string DbFile = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Storage.sqlite");
         static App()
         {
+            var configuration = ServiceProvider.GetRequiredService<IConfiguration>();
+
             Log.Logger = new LoggerConfiguration()
-              .Enrich.FromLogContext()
-              .Enrich.WithProperty("ThreadId", Thread.CurrentThread.ManagedThreadId)
-              .Enrich.WithProperty("Version", "1.0.1")
-              .WriteTo.Debug()
-              .WriteTo.File(
-                Path.Combine(ApplicationData.Current.LocalFolder.Path, "logs/log.txt"),
-                rollingInterval: RollingInterval.Day,
-                restrictedToMinimumLevel: LogEventLevel.Warning)
-              .CreateLogger();
+                .ReadFrom.Configuration(configuration)
+                .Enrich.FromLogContext()
+                .Enrich.With<CustomDetailsEnricher>()
+                .WriteTo.Debug()
+                .WriteTo.File(
+                  Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "log.txt"),
+                  rollingInterval: RollingInterval.Day,
+                  restrictedToMinimumLevel: LogEventLevel.Warning)
+                .CreateLogger();
 
             Log.Information("Serilog started!");
         }

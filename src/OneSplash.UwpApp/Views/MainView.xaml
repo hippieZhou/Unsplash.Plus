@@ -11,6 +11,7 @@
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Views"
+    xmlns:localBehaviors="using:OneSplash.UwpApp.Behaviors"
     xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -37,70 +38,99 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="SplashTemplate" x:DataType="dto:SplashPhotoDto">
-            <Grid Loaded="SplashGrid_Loaded">
-                <Grid.Background>
-                    <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
-                </Grid.Background>
-                <toolkit:ImageEx
-                    x:Name="connectedElement"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    common:ImageLoader.Source="{x:Bind}"
-                    Background="{x:Bind Color, Mode=OneWay}"
-                    EnableLazyLoading="True"
-                    IsCacheEnabled="True"
-                    Stretch="UniformToFill" />
-                <TextBlock
-                    x:Name="recipeName"
-                    Margin="12,0,0,12"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    extensions:VisualExtensions.CenterPoint="50,50,0"
-                    FontFamily="{StaticResource MontserratBold}"
-                    Opacity="0.8"
-                    Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind ImageAuthor}"
-                    TextWrapping="NoWrap"
-                    Visibility="Collapsed">
-                    <animation:Implicit.ShowAnimations>
-                        <animation:TranslationAnimation
-                            From="0, -32, 0"
-                            To="0"
-                            Duration="0:0:2" />
-                        <animation:OpacityAnimation
-                            From="0"
-                            To="1.0"
-                            Duration="0:0:2" />
-                    </animation:Implicit.ShowAnimations>
-                    <animation:Implicit.HideAnimations>
-                        <animation:TranslationAnimation
-                            From="0"
-                            To="0, -32, 0"
-                            Duration="0:0:1" />
-                        <animation:OpacityAnimation
-                            From="1.0"
-                            To="0"
-                            Duration="0:0:1" />
-                    </animation:Implicit.HideAnimations>
-                </TextBlock>
+            <UserControl x:Name="ROOT" Loaded="SplashGrid_Loaded">
+                <!--<interactivity:Interaction.Behaviors>
+                    <localBehaviors:VisualStateInTemplateBehavior ParentVisualStateGroup="{Binding ElementName=AdaptiveVisualStates}">
+                        <localBehaviors:VisualStateInTemplateBehavior.NarrowState>
+                            <VisualState x:Name="Narrow">
+                                <VisualState.Setters>
+                                    <Setter Target="ROOT.(UserControl.Margin)" Value="24" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </localBehaviors:VisualStateInTemplateBehavior.NarrowState>
 
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="PointerEntered">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
-                            Value="Visible" />
-                    </core:EventTriggerBehavior>
-                    <core:EventTriggerBehavior EventName="PointerExited">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
-                            Value="Collapsed" />
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </Grid>
+                        <localBehaviors:VisualStateInTemplateBehavior.NormalState>
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Target="ROOT.(UserControl.Margin)" Value="32" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </localBehaviors:VisualStateInTemplateBehavior.NormalState>
+
+                        <localBehaviors:VisualStateInTemplateBehavior.WideState>
+                            <VisualState x:Name="Wide">
+                                <VisualState.Setters>
+                                    <Setter Target="ROOT.(UserControl.Margin)" Value="32" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </localBehaviors:VisualStateInTemplateBehavior.WideState>
+                    </localBehaviors:VisualStateInTemplateBehavior>
+                </interactivity:Interaction.Behaviors>-->
+                <Grid>
+                    <Grid.Background>
+                        <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
+                    </Grid.Background>
+                    <toolkit:ImageEx
+                        x:Name="connectedElement"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        common:ImageLoader.Source="{x:Bind}"
+                        Background="{x:Bind Color, Mode=OneWay}"
+                        EnableLazyLoading="True"
+                        IsCacheEnabled="True"
+                        Stretch="UniformToFill" />
+                    <TextBlock
+                        x:Name="recipeName"
+                        Margin="12,0,0,12"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        extensions:VisualExtensions.CenterPoint="50,50,0"
+                        FontFamily="{StaticResource MontserratBold}"
+                        Opacity="0.8"
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{x:Bind ImageAuthor}"
+                        TextWrapping="NoWrap"
+                        Visibility="Collapsed">
+                        <animation:Implicit.ShowAnimations>
+                            <animation:TranslationAnimation
+                                From="0, -32, 0"
+                                To="0"
+                                Duration="0:0:2" />
+                            <animation:OpacityAnimation
+                                From="0"
+                                To="1.0"
+                                Duration="0:0:2" />
+                        </animation:Implicit.ShowAnimations>
+                        <animation:Implicit.HideAnimations>
+                            <animation:TranslationAnimation
+                                From="0"
+                                To="0, -32, 0"
+                                Duration="0:0:1" />
+                            <animation:OpacityAnimation
+                                From="1.0"
+                                To="0"
+                                Duration="0:0:1" />
+                        </animation:Implicit.HideAnimations>
+                    </TextBlock>
+
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="PointerEntered">
+                            <core:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=recipeName}"
+                                Value="Visible" />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="PointerExited">
+                            <core:ChangePropertyAction
+                                PropertyName="Visibility"
+                                TargetObject="{Binding ElementName=recipeName}"
+                                Value="Collapsed" />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </Grid>
+            </UserControl>
         </DataTemplate>
     </UserControl.Resources>
     <interactivity:Interaction.Behaviors>
@@ -167,10 +197,6 @@
                 </control:StepThroughListView>
             </toolkit:AdaptiveGridView.Header>
             <toolkit:AdaptiveGridView.Footer>
-                <!--<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource StringFormatConverter}, ConverterParameter='Is Loading: {0}'}" />
-                    <TextBlock Text="{x:Bind ViewModel.FilteredRecipeData.HasMoreItems, Converter={StaticResource StringFormatConverter}, ConverterParameter='Has More Items: {0}'}" />
-                </StackPanel>-->
                 <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
                     <Grid Visibility="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
                         <winui:AnimatedVisualPlayer
@@ -201,6 +227,7 @@
                 </Grid>
             </toolkit:AdaptiveGridView.Footer>
         </toolkit:AdaptiveGridView>
+
         <control:OverlayPopup
             x:Name="OverlayPopup"
             HorizontalAlignment="Stretch"
