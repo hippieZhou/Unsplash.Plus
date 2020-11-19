@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.ViewModels;
 using Windows.UI.Xaml.Controls;
@@ -7,7 +7,7 @@ namespace OneSplash.UwpApp
 {
     public sealed partial class Shell : Page
     {
-        public ShellViewModel ViewModel { get; } = App.ServiceProvider.GetRequiredService<ShellViewModel>();
+        public ShellViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<ShellViewModel>();
         public Shell()
         {
             this.InitializeComponent();

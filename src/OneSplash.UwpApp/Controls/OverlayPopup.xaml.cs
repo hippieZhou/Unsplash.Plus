@@ -10,6 +10,9 @@ using Windows.UI.Xaml.Hosting;
 
 namespace OneSplash.UwpApp.Controls
 {
+    /// <summary>
+    /// https://github.com/JustinXinLiu/StickyHeader_WindowsComposition/blob/master/StickyHeader_WindowsComposition/MainPage.xaml.cs
+    /// </summary>
     public sealed partial class OverlayPopup : UserControl, INotifyPropertyChanged
     {
         public event EventHandler<object> HandleBack;

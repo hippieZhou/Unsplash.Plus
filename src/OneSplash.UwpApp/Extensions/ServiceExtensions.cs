@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OneSplash.Domain.Settings;
+using OneSplash.UwpApp.ViewModels;
+using OneSplash.UwpApp.ViewModels.Widgets;
 using Serilog;
 using System.IO;
 using Windows.ApplicationModel;
@@ -30,6 +32,16 @@ namespace OneSplash.UwpApp.Extensions
         public static IServiceCollection AddLoggings(this IServiceCollection services)
         {
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+            return services;
+        }
+
+        public static IServiceCollection AddViewModels(this IServiceCollection services)
+        {
+            services
+                .AddSingleton<ShellViewModel>()
+                .AddSingleton<MainViewModel>()
+                .AddSingleton<MoreWidgetViewModel>()
+                .AddSingleton<SearchWidgetViewModel>();
             return services;
         }
     }

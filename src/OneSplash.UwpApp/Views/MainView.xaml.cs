@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.ViewModels;
 using System.Numerics;
@@ -14,12 +13,13 @@ using Windows.UI.Xaml.Media.Animation;
 using System;
 using OneSplash.Application.DTOs;
 using OneSplash.UwpApp.Controls;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace OneSplash.UwpApp.Views
 {
     public sealed partial class MainView : UserControl
     {
-        public MainViewModel ViewModel { get; } = App.ServiceProvider.GetRequiredService<MainViewModel>();
+        public MainViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MainViewModel>();
         public MainView()
         {
             this.InitializeComponent();

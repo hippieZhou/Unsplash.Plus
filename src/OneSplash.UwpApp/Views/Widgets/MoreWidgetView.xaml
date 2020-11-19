@@ -1,15 +1,16 @@
 ﻿<UserControl
-    x:Class="OneSplash.UwpApp.Views.SearchView"
+    x:Class="OneSplash.UwpApp.Views.Widgets.MoreWidgetView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:OneSplash.UwpApp.Views"
+    xmlns:local="using:OneSplash.UwpApp.Views.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
+
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
@@ -27,6 +28,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
+
                 <Button
                     x:Name="Back"
                     Width="52"
@@ -35,7 +37,6 @@
                     Style="{StaticResource Style-Button-Icon-Circle}">
                     <ContentControl Width="18" Style="{StaticResource Style-Icon-ArrowLeft}" />
                 </Button>
-
             </Grid>
         </Grid>
     </Grid>
