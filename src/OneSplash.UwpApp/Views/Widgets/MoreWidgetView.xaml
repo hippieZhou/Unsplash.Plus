@@ -18,7 +18,11 @@
     </interactivity:Interaction.Behaviors>
 
     <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" Visibility="{x:Bind ViewModel.Visibility, Mode=OneWay}">
-        <Grid VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" VerticalAlignment="Top">
             <Grid
                 x:Name="Header"
                 Margin="56,40"
@@ -30,14 +34,18 @@
                 </Grid.ColumnDefinitions>
 
                 <Button
-                    x:Name="Back"
                     Width="52"
                     Height="52"
-                    Click="Back_Click"
+                    Command="{x:Bind ViewModel.HideCommand}"
                     Style="{StaticResource Style-Button-Icon-Circle}">
                     <ContentControl Width="18" Style="{StaticResource Style-Icon-ArrowLeft}" />
                 </Button>
             </Grid>
         </Grid>
+        <TextBlock
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="关于" />
     </Grid>
 </UserControl>

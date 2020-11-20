@@ -1,17 +1,7 @@
-﻿using Microsoft.Toolkit.Mvvm.Messaging;
-using Microsoft.Toolkit.Mvvm.Messaging.Messages;
-using OneSplash.UwpApp.Servcies.Messages;
-
-namespace OneSplash.UwpApp.ViewModels.Widgets
+﻿namespace OneSplash.UwpApp.ViewModels.Widgets
 {
-    public class MoreWidgetViewModel : BaseWidgetViewModel, IRecipient<ViewChangedMessage>
+    public class MoreWidgetViewModel : BaseWidgetViewModel
     {
-        public void Receive(ViewChangedMessage message)
-        {
-            if (message.Value == typeof(MoreWidgetViewModel).FullName)
-            {
-                Visibility = Windows.UI.Xaml.Visibility.Visible;
-            }
-        }
+        public override string GetSelfType() => GetType().FullName;
     }
 }

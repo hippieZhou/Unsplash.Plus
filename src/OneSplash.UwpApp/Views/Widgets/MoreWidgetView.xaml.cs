@@ -16,10 +16,5 @@ namespace OneSplash.UwpApp.Views.Widgets
             this.Loaded += (sender, e) => ViewModel.IsActive = true;
             this.Unloaded += (sender, e) => ViewModel.IsActive = false;
         }
-
-        private void Back_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-
-        }
     }
 }

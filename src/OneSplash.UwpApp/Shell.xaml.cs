@@ -13,16 +13,16 @@ namespace OneSplash.UwpApp
             this.InitializeComponent();
             this.DataContext = ViewModel;
         }
-        private async void SearchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            SearchView.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            await SearchView.StartVisibleAnimationAsync();
-        }
+        //private async void SearchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        //{
+        //    SearchView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        //    await SearchView.StartVisibleAnimationAsync();
+        //}
 
-        private async void InfoButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            InfoView.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            await InfoView.StartVisibleAnimationAsync();
-        }
+        //private async void InfoButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        //{
+        //    InfoView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        //    await InfoView.StartVisibleAnimationAsync();
+        //}
     }
 }

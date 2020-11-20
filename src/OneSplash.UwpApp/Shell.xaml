@@ -95,18 +95,18 @@
         </winui:NavigationView>
 
         <widget:SearchWidgetView
-            x:Name="SearchView"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            d:Visibility="Collapsed" />
 
         <widget:MoreWidgetView
-            x:Name="InfoView"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch" />
+            VerticalAlignment="Stretch"
+            d:Visibility="Collapsed" />
 
         <Rectangle
             x:Name="DraggableAppTitleBarArea"

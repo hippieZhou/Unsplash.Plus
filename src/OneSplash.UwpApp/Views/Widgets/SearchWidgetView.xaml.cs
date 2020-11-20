@@ -16,11 +16,5 @@ namespace OneSplash.UwpApp.Views.Widgets
             this.Loaded += (sender, e) => ViewModel.IsActive = true;
             this.Unloaded += (sender, e) => ViewModel.IsActive = false;
         }
-
-        private async void Back_Click(object sender, RoutedEventArgs e)
-        {
-            this.Visibility = Visibility.Collapsed;
-            await this.StartCollapsedAnimationAsync();
-        }
     }
 }

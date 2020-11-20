@@ -1,4 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using OneSplash.UwpApp.Servcies.Messages;
 using OneSplash.UwpApp.ViewModels.Widgets;
 using System.Windows.Input;
 
@@ -33,7 +35,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _navCommand = new RelayCommand<string>(widgetName =>
                     {
-                        //Messenger.Send(new ViewChangedMessage(widgetName));
+                        WeakReferenceMessenger.Default.Send(new ViewChangedMessage(widgetName));
                     });
                 }
                 return _navCommand;
