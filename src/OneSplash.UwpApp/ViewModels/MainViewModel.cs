@@ -92,9 +92,11 @@ namespace OneSplash.UwpApp.ViewModels
 
         public async Task<IEnumerable<SplashPhotoDto>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            var parameter = new GetPagedSplashsQuery { PageNumber = pageIndex, PageSize = pageSize };
-            var response = await _mediator.Send(parameter, cancellationToken);
-            return response.Succeeded ? response.Data : Array.Empty<SplashPhotoDto>();
+            //var parameter = new GetPagedSplashsQuery { PageNumber = pageIndex, PageSize = pageSize };
+            //var response = await _mediator.Send(parameter, cancellationToken);
+            //return response.Succeeded ? response.Data : Array.Empty<SplashPhotoDto>();
+
+            return await Task.FromResult(Array.Empty<SplashPhotoDto>());
         }
     }
 }

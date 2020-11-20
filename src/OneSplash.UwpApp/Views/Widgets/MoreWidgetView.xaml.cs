@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.ViewModels.Widgets;
 using Windows.UI.Xaml.Controls;
 
@@ -8,7 +7,7 @@ namespace OneSplash.UwpApp.Views.Widgets
 {
     public sealed partial class MoreWidgetView : UserControl
     {
-        public MoreWidgetViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MoreWidgetViewModel>();
+       public MoreWidgetViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<MoreWidgetViewModel>();
 
         public MoreWidgetView()
         {
@@ -17,10 +16,10 @@ namespace OneSplash.UwpApp.Views.Widgets
             this.Loaded += (sender, e) => ViewModel.IsActive = true;
             this.Unloaded += (sender, e) => ViewModel.IsActive = false;
         }
-        private async void Back_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+
+        private void Back_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            this.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            await this.StartCollapsedAnimationAsync();
+
         }
     }
 }

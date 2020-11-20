@@ -17,7 +17,7 @@
         </core:EventTriggerBehavior>
     </interactivity:Interaction.Behaviors>
 
-    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}">
+    <Grid Background="{ThemeResource SystemControlAcrylicElementBrush}" Visibility="{x:Bind ViewModel.Visibility, Mode=OneWay}">
         <Grid VerticalAlignment="Top">
             <Grid
                 x:Name="Header"

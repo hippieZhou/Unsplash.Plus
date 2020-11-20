@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using OneSplash.Application;
@@ -11,12 +10,10 @@ using Serilog;
 using Serilog.Events;
 using System;
 using System.IO;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace OneSplash.UwpApp
 {
@@ -24,23 +21,15 @@ namespace OneSplash.UwpApp
     {
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-
-            Ioc.Default.ConfigureServices(
-                new ServiceCollection()
-                .AddLoggings()
-                .AddSettings()
-                .AddViewModels()
-                .AddApplicationLayer()
-                .AddPersistenceInfrastructure()
-                .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
-                .BuildServiceProvider());
-
-            var configuration = Ioc.Default.GetRequiredService<IConfiguration>();
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
+#if DEBUG
+                .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
                 .Enrich.FromLogContext()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                 .Enrich.With<CustomDetailsEnricher>()
                 .WriteTo.Debug()
                 .WriteTo.File(
@@ -48,14 +37,17 @@ namespace OneSplash.UwpApp
                 rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Warning)
                 .CreateLogger();
-
             Log.Information("Serilog started!");
+
+            this.InitializeComponent();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             if (Window.Current.Content is null)
             {
+                Ioc.Default.ConfigureServices(ConfigureServices());
+
                 Window.Current.Content = new Shell();
                 TitleBarHelper.StyleTitleBar();
                 TitleBarHelper.ExpandViewIntoTitleBar();
@@ -68,11 +60,13 @@ namespace OneSplash.UwpApp
             }
         }
 
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
-            deferral.Complete();
-        }
+        private IServiceProvider ConfigureServices() => new ServiceCollection()
+                .AddLoggings()
+                .AddSettings()
+                .AddViewModels()
+                .AddApplicationLayer()
+                .AddPersistenceInfrastructure()
+                .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
+                .BuildServiceProvider();
     }
 }

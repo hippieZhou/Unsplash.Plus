@@ -6,7 +6,6 @@ namespace OneSplash.UwpApp.ViewModels
 {
     public class BaseViewModel : ObservableObject
     {
-        private IMediator _mediator;
-        protected IMediator Mediator => _mediator ??= Ioc.Default.GetRequiredService<IMediator>();
+        protected IMediator Mediator => Ioc.Default.GetRequiredService<IMediator>();
     }
 }

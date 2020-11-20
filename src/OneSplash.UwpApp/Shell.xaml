@@ -74,14 +74,16 @@
                     <Button
                         Width="44"
                         Height="44"
-                        Click="SearchButton_Click"
+                        Command="{x:Bind ViewModel.NavCommand}"
+                        CommandParameter="{x:Bind ViewModel.SearchWidget}"
                         Style="{StaticResource Style-Button-Icon-Circle}">
                         <ContentControl Width="16" Style="{StaticResource Style-Icon-Search}" />
                     </Button>
                     <Button
                         Width="44"
                         Height="44"
-                        Click="InfoButton_Click"
+                        Command="{x:Bind ViewModel.NavCommand}"
+                        CommandParameter="{x:Bind ViewModel.MoreWidget}"
                         Style="{StaticResource Style-Button-Icon-Circle}">
                         <ContentControl Width="16" Style="{StaticResource Style-Icon-Info}" />
                     </Button>
@@ -97,16 +99,14 @@
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="Collapsed" />
+            VerticalAlignment="Stretch" />
 
         <widget:MoreWidgetView
             x:Name="InfoView"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Visibility="Collapsed" />
+            VerticalAlignment="Stretch" />
 
         <Rectangle
             x:Name="DraggableAppTitleBarArea"
