@@ -1,16 +1,38 @@
 ﻿using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using OneSplash.Application.DTOs;
+using OneSplash.UwpApp.Extensions;
 using System;
-using System.Diagnostics;
+using System.Numerics;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace OneSplash.UwpApp.Common
 {
     public class ImageLoader
     {
+        private static async Task<ImageSource> FromCachedFileAsync(string imageUri)
+        {
+            return await ImageCache.Instance.GetFromCacheAsync(new Uri(imageUri));
+        }
+
+        private static async Task<ImageSource> FromStorageFileAsync(string imageUri)
+        {
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx://{imageUri}", UriKind.RelativeOrAbsolute));
+            using var randomAccessStream = await file.OpenAsync(FileAccessMode.Read);
+            var imageSource = new BitmapImage();
+            await imageSource.SetSourceAsync(randomAccessStream);
+            return imageSource;
+        }
+
         public static SplashPhotoDto GetSource(DependencyObject obj)
         {
             return (SplashPhotoDto)obj.GetValue(SourceProperty);
@@ -25,18 +47,20 @@ namespace OneSplash.UwpApp.Common
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.RegisterAttached("Source", typeof(SplashPhotoDto), typeof(ImageLoader), new PropertyMetadata(default, async (d, e) =>
             {
-                if (d is ImageEx image && e.NewValue is SplashPhotoDto model && model != null)
+                if (d is FrameworkElement rootGrid && e.NewValue is SplashPhotoDto model && model != null)
                 {
-                    var bgBrush = model.Color.ToColor();
-                    image.Background = new SolidColorBrush(bgBrush);
+                    var imageBrush = model.Color.ToColor();
+                    var imageSource = await FromCachedFileAsync(model.ImageUri);
 
-                    try
+                    if (rootGrid.FindName("itemSplash") is ImageEx imageEx && imageSource != null)
                     {
-                        image.Source = await ImageCache.Instance.GetFromCacheAsync(new Uri(model.ImageUri));
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.TraceError(ex.ToString());
+                        imageEx.Loaded += (sender, args) =>
+                        {
+                            imageEx.ElementVisual().AddScaleAnimation(imageEx);
+                        };
+
+                        imageEx.Background = new SolidColorBrush(imageBrush);
+                        imageEx.Source = imageSource;
                     }
                 }
             }));

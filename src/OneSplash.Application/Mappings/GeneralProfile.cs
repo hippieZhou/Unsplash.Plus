@@ -18,9 +18,7 @@ namespace OneSplash.Application.Mappings
             CreateMap<SplashPhotoEntity, SplashPhotoDto>()
                 .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color))
                 .ForMember(dest => dest.Blurhash, opt => opt.MapFrom(src => src.Blurhash))
-                .ForMember(dest => dest.BlurhashSource, opt => opt.MapFrom<BlurBrushResolver>())
                 .ForMember(dest => dest.ImageUri, opt => opt.MapFrom(src => src.ImageUri))
-                .ForMember(dest => dest.ImageSource, opt => opt.ConvertUsing(new ImageSourceConverter(), src => src.ImageUri))
                 .ForMember(dest => dest.ImageAuthor, opt => opt.MapFrom(src => src.ImageAuthor))
                 .ForMember(dest => dest.Width, opt => opt.MapFrom(src => src.Width))
                 .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Height));
@@ -32,6 +30,9 @@ namespace OneSplash.Application.Mappings
         private static readonly Decoder _blurHash = new Decoder();
         private static async Task<ImageSource> GenerateBlurSourceAsync(string blurHash, double width, double height)
         {
+            if (string.IsNullOrWhiteSpace(blurHash))
+                return default;
+
             try
             {
                 var bitmap = _blurHash.Decode(blurHash, (int)width, (int)height);

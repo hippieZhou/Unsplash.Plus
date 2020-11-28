@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Bogus;
 using MediatR;
 using OneSplash.Application.DTOs;
 using OneSplash.Application.Wrappers;
+using OneSplash.Domain.Entities;
 using OneSplash.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,6 +24,7 @@ namespace OneSplash.Application.Features.Queries
         {
             private readonly IMapper _mapper;
             private readonly IUnSplashPhotoService _splashService;
+            private readonly Faker<SplashPhotoDto> _testOrders;
 
             public GetAllProductsQueryHandler(
                 IMapper mapper,
@@ -29,6 +32,14 @@ namespace OneSplash.Application.Features.Queries
             {
                 _mapper = mapper ?? throw new ArgumentNullException(nameof(splashService));
                 _splashService = splashService ?? throw new ArgumentNullException(nameof(splashService));
+                _testOrders = new Faker<SplashPhotoDto>()
+                    .StrictMode(true)
+                    .RuleFor(x => x.ImageAuthor, f => f.Internet.UserName())
+                    .RuleFor(x => x.Color, f => f.PickRandom(GetColors()))
+                    .RuleFor(x => x.ImageUri, f => f.Image.PicsumUrl())
+                    .RuleFor(x => x.Width, f => f.Random.Int())
+                    .RuleFor(x => x.Height, f => f.Random.Int())
+                    .RuleFor(x => x.Blurhash, f => f.PickRandom(GetBlurhashs()));
             }
             public async Task<PagedResponse<IEnumerable<SplashPhotoDto>>> Handle(GetPagedSplashsQuery request, CancellationToken cancellationToken)
             {
@@ -36,26 +47,9 @@ namespace OneSplash.Application.Features.Queries
                 //var dtos = _mapper.Map<IEnumerable<SplashPhotoEntity>, IEnumerable<SplashPhotoDto>>(entities);
                 //return new PagedResponse<IEnumerable<SplashPhotoDto>>(dtos, request.PageNumber, request.PageSize);
 
-                var items = GetRecipeList(request.PageSize);
+                var items = _testOrders.Generate(request.PageSize);
                 await Task.Delay(500);
                 return new PagedResponse<IEnumerable<SplashPhotoDto>>(items, request.PageNumber, request.PageSize);
-            }
-
-
-            public static IEnumerable<SplashPhotoDto> GetRecipeList(int count = 1000)
-            {
-                // Initialize list of recipes for varied image size layout sample
-                var rnd = new Random();
-                List<SplashPhotoDto> tempList = new List<SplashPhotoDto>(
-                                            Enumerable.Range(0, count).Select(k =>
-                                                new SplashPhotoDto
-                                                {
-                                                    ImageAuthor = "Recipe " + k.ToString(),
-                                                    Color = GetColors().ElementAt((k % 100) + 1),
-                                                    ImageUri = GetImageUri().ElementAt(rnd.Next(0, 9)),
-                                                    Blurhash = GetBlurhashs().ElementAt(rnd.Next(0, 4))
-                                                }));
-                return tempList;
             }
 
             private static IEnumerable<string> GetColors()
@@ -71,29 +65,13 @@ namespace OneSplash.Application.Features.Queries
             private static IEnumerable<string> GetBlurhashs()
             {
                 var blurHash = new List<string>
-            {
-                "LEHV6nWB2yk8pyo0adR*.7kCMdnj",
-                "LFC$yHwc8^$yIAS$%M%00KxukYIp",
-                "LoC%a7IoIVxZ_NM|M{s:%hRjWAo0",
-                "LFC$yHwc8^$yIAS$%M%00KxukYIp",
-            };
+                {
+                    "LEHV6nWB2yk8pyo0adR*.7kCMdnj",
+                    "LFC$yHwc8^$yIAS$%M%00KxukYIp",
+                    "LoC%a7IoIVxZ_NM|M{s:%hRjWAo0",
+                    "LFC$yHwc8^$yIAS$%M%00KxukYIp",
+                };
                 return blurHash;
-            }
-
-            private static IEnumerable<string> GetImageUri()
-            {
-                return new List<string>
-            {
-                "/Assets/Images/bantersnaps-wPMvPMD9KBI-unsplash.jpg",
-                "/Assets/Images/eva-dang-EXdXLrZXS9Q-unsplash.jpg",
-                "/Assets/Images/tomas-nozina-UP22zkjJGZo-unsplash.jpg",
-                "/Assets/Images/ashim-d-silva-WeYamle9fDM-unsplash.jpg",
-                "/Assets/Images/annie-spratt-tB4Gf7ddcJY-unsplash.jpg",
-                "/Assets/Images/damian-patkowski-QeC4oPdKu7c-unsplash.jpg",
-                 "/Assets/Images/willian-west-YpKiwlvhOpI-unsplash.jpg",
-                 "/Assets/Images/felix-NAytNmKtyiU-unsplash.jpg",
-                 "/Assets/Images/willian-west-TVyjcTEKHLU-unsplash.jpg"
-            };
             }
         }
     }

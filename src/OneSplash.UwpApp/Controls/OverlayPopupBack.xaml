@@ -41,8 +41,6 @@
                                 VerticalContentAlignment="Stretch"
                                 EnableLazyLoading="True"
                                 IsCacheEnabled="True"
-                                PlaceholderSource="{x:Bind SelectedItem.BlurhashSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
-                                Source="{x:Bind SelectedItem.ImageSource, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"
                                 Stretch="UniformToFill" />
                             <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
                             <Button

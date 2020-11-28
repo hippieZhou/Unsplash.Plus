@@ -20,17 +20,16 @@
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="SplashItemTemplate" x:DataType="dto:SplashPhotoDto">
-            <Grid x:Name="connectedElement">
+            <Grid x:Name="connectedElement" common:ImageLoader.Source="{x:Bind}">
                 <Grid.Background>
-                    <!--<AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />-->
                     <AcrylicBrush
                         BackgroundSource="Backdrop"
                         FallbackColor="{x:Bind Color, Mode=OneWay}"
                         TintColor="{x:Bind Color, Mode=OneWay}"
                         TintOpacity="0.4" />
                 </Grid.Background>
-                <!--<toolkits:ImageEx
-                    x:Name="connectedElement"
+                <toolkits:ImageEx
+                    x:Name="itemSplash"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -38,9 +37,9 @@
                     x:DeferLoadStrategy="Lazy"
                     EnableLazyLoading="True"
                     IsCacheEnabled="True"
-                    Stretch="UniformToFill" />-->
+                    Stretch="UniformToFill" />
                 <TextBlock
-                    x:Name="recipeName"
+                    x:Name="itemName"
                     Margin="12,0,0,12"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
@@ -52,32 +51,47 @@
                     TextWrapping="NoWrap"
                     Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
-                        <animations:TranslationAnimation
-                            From="0, -32, 0"
-                            To="0"
-                            Duration="0:0:2" />
                         <animations:OpacityAnimation
                             From="0"
                             To="1.0"
-                            Duration="0:0:2" />
+                            Duration="0:0:0.600" />
                     </animations:Implicit.ShowAnimations>
                     <animations:Implicit.HideAnimations>
-                        <animations:TranslationAnimation
-                            From="0"
-                            To="0, -32, 0"
-                            Duration="0:0:1" />
                         <animations:OpacityAnimation
                             From="1.0"
                             To="0"
-                            Duration="0:0:1" />
+                            Duration="0:0:0.600" />
                     </animations:Implicit.HideAnimations>
                 </TextBlock>
-
+                <Button
+                    x:Name="itemDownload"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource Style-Button-Icon-Circle}"
+                    Visibility="Collapsed">
+                    <ContentControl Width="16" Style="{StaticResource Style-Icon-Download}" />
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation
+                            From="0"
+                            To="1.0"
+                            Duration="0:0:0.600" />
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation
+                            From="1.0"
+                            To="0"
+                            Duration="0:0:0.600" />
+                    </animations:Implicit.HideAnimations>
+                </Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="PointerEntered">
                         <core:ChangePropertyAction
                             PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
+                            TargetObject="{Binding ElementName=itemName}"
+                            Value="Visible" />
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=itemDownload}"
                             Value="Visible" />
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
                             <core:ChangePropertyAction.Value>
@@ -92,7 +106,11 @@
                     <core:EventTriggerBehavior EventName="PointerExited">
                         <core:ChangePropertyAction
                             PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=recipeName}"
+                            TargetObject="{Binding ElementName=itemName}"
+                            Value="Collapsed" />
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=itemDownload}"
                             Value="Collapsed" />
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
                             <core:ChangePropertyAction.Value>
@@ -146,8 +164,7 @@
             FooterTemplate="{StaticResource SplahFooterTemplate}"
             ItemClickCommand="{x:Bind ItemClickCommand}"
             ItemHeight="240"
-            ItemMargin="0"
-            ItemPadding="16"
+            ItemMargin="18,36,18,0"
             ItemTemplate="{StaticResource SplashItemTemplate}"
             ItemsSource="{x:Bind ViewModel.SplashPhotos, Mode=OneWay}"
             LoadCommand="{x:Bind ViewModel.LoadCommand}">

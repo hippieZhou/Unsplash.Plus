@@ -19,7 +19,6 @@
 
             <x:Boolean x:Key="UseSystemFocusVisuals">False</x:Boolean>
 
-
             <!--  https://github.com/windows-toolkit/MVVM-Samples/blob/master/samples/MvvmSampleUwp/MvvmSampleUwp/Views/AsyncRelayCommandPage.xaml  -->
             <!--<Run Text="{x:Bind ViewModel.DownloadTextCommand.ExecutionTask, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"/>-->
             <converters:TaskResultConverter x:Key="TaskResultConverter" />

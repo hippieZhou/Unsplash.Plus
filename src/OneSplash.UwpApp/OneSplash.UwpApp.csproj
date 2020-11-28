@@ -156,6 +156,7 @@
       <DependentUpon>StepThroughListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\CompositionExtensions.cs" />
+    <Compile Include="Extensions\ElementCompositionExtensions.cs" />
     <Compile Include="Extensions\ServiceExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />

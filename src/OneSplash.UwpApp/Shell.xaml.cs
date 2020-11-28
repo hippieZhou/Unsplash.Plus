@@ -24,14 +24,12 @@ namespace OneSplash.UwpApp
               {
                   if (args.HasReceivedResponse)
                   {
-                      args.Response.animation.TryStart(OverlayPopup.destinationElement);
-                      OverlayPopup.SelectedItem = args.Response.selectedItem;
+                      args.Response.Animation.TryStart(OverlayPopup.destinationElement);
+                      OverlayPopup.SelectedItem = args.Response.SelectedItem;
                       OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Visible;
                   }
               });
         }
-
-  
 
         private ICommand _hideOverlayPopupCommand;
         public ICommand HideOverlayPopupCommad

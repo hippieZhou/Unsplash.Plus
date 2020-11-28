@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Media.Animation;
 namespace OneSplash.UwpApp.Servcies.Messages
 {
 
-    public class ConnectedNavMessage : RequestMessage<(SplashPhotoDto selectedItem, ConnectedAnimation animation)>
+    public class ConnectedNavMessage : RequestMessage<(SplashPhotoDto SelectedItem, ConnectedAnimation Animation)>
     {
     }
 }
