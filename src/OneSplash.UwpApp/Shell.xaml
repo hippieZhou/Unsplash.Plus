@@ -14,27 +14,8 @@
     xmlns:vm="using:OneSplash.UwpApp.ViewModels"
     xmlns:widget="using:OneSplash.UwpApp.Views.Widgets"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <Page.Transitions>
-        <TransitionCollection>
-            <NavigationThemeTransition>
-                <DrillInNavigationTransitionInfo />
-            </NavigationThemeTransition>
-        </TransitionCollection>
-    </Page.Transitions>
-    <Page.Resources>
-        <!--<x:Double x:Key="NavigationViewTopPaneHeight">72</x:Double>-->
-        <SolidColorBrush x:Key="NavigationViewSelectionIndicatorForeground" Color="Black" />
-        <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemControlForegroundTransparentBrush" />
-
-        <Style TargetType="winui:NavigationViewItem">
-            <Setter Property="FontFamily" Value="{StaticResource RobotoMonoMedium}" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Margin" Value="4,0" />
-        </Style>
-    </Page.Resources>
-
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
@@ -42,30 +23,53 @@
     </interactivity:Interaction.Behaviors>
 
     <Grid>
-        <Grid.BackgroundTransition>
-            <BrushTransition Duration="0:0:0.4" />
-        </Grid.BackgroundTransition>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
         <winui:NavigationView
             x:Name="MainNav"
-            Grid.Row="1"
             animation:Implicit.Animations="{StaticResource ImplicitOffsetAnimation}"
-            IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
-            IsTitleBarAutoPaddingEnabled="False"
-            PaneDisplayMode="Top">
-            <winui:NavigationView.MenuItems>
-                <winui:NavigationViewItem Content="HOME" />
-            </winui:NavigationView.MenuItems>
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="True"
+            PaneDisplayMode="LeftMinimal"
+            SelectedItem="{Binding SelectedNavItem, Mode=TwoWay}"
+            SelectionFollowsFocus="Disabled">
             <winui:NavigationView.PaneHeader>
-                <controls:Logo x:Name="Logo" Margin="63,0,24,0" />
+                <Grid Margin="-20,72,0,36" ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <controls:Logo x:Name="Logo" Grid.Column="0" />
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource RobotoMonoBold}"
+                        FontSize="24"
+                        Text="One Splansh" />
+                </Grid>
             </winui:NavigationView.PaneHeader>
-            <winui:NavigationView.PaneCustomContent>
+            <winui:NavigationView.MenuItems>
+                <winui:NavigationViewItem Content="Home">
+                    <winui:NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Home" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+                <winui:NavigationViewItemHeader Content="Actions" />
+                <winui:NavigationViewItem Content="Favorite">
+                    <winui:NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Favorite" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+                <winui:NavigationViewItem Content="Download">
+                    <winui:NavigationViewItem.Icon>
+                        <SymbolIcon Symbol="Download" />
+                    </winui:NavigationViewItem.Icon>
+                </winui:NavigationViewItem>
+            </winui:NavigationView.MenuItems>
+            <winui:NavigationView.FooterMenuItems>
+                <winui:NavigationViewItemSeparator />
+            </winui:NavigationView.FooterMenuItems>
+            <!--<winui:NavigationView.PaneFooter>
                 <StackPanel
                     x:Name="RightMenu"
                     Margin="0,0,24,0"
@@ -88,13 +92,26 @@
                         <ContentControl Width="16" Style="{StaticResource Style-Icon-Info}" />
                     </Button>
                 </StackPanel>
-            </winui:NavigationView.PaneCustomContent>
+            </winui:NavigationView.PaneFooter>-->
+            <winui:NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                    AutomationProperties.Name="Search"
+                    PlaceholderText="Search Free..."
+                    QueryIcon="Find" />
+            </winui:NavigationView.AutoSuggestBox>
             <winui:NavigationView.Content>
-                <view:MainView />
+                <Frame x:Name="ContentFrame" Margin="0,-32,0,0" />
             </winui:NavigationView.Content>
         </winui:NavigationView>
 
-        <widget:SearchWidgetView
+        <controls:OverlayPopup
+            x:Name="OverlayPopup"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BackCommand="{x:Bind ConnectedNavBackCommand, Mode=OneWay}"
+            Visibility="Collapsed" />
+
+        <!--<widget:SearchWidgetView
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
@@ -106,13 +123,7 @@
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            d:Visibility="Collapsed" />
-
-        <Rectangle
-            x:Name="DraggableAppTitleBarArea"
-            Grid.Row="0"
-            Height="48"
-            Fill="Transparent" />
+            d:Visibility="Collapsed" />-->
 
         <!--<controls:ExtendSplash
             Grid.Row="0"

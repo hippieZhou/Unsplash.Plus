@@ -14,7 +14,6 @@
     x:Name="root"
     d:DesignHeight="768"
     d:DesignWidth="1024"
-    Loaded="root_Loaded"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
@@ -30,7 +29,6 @@
                     Grid.Row="1"
                     Margin="0,132,0,0"
                     MinWideModeWidth="960"
-                    ModeChanged="OnContentViewModeChanged"
                     Pane1Length="480"
                     Pane2Length="*">
                     <winui:TwoPaneView.Pane1>
@@ -140,6 +138,8 @@
                             x:Name="HeaderBack"
                             Width="52"
                             Height="52"
+                            Command="{x:Bind BackCommand}"
+                            CommandParameter="{x:Bind SelectedItem, Mode=OneWay}"
                             Style="{StaticResource Style-Button-Icon-Circle}">
                             <ContentControl Width="18" Style="{StaticResource Style-Icon-ArrowLeft}" />
                             <!--<animations:Implicit.ShowAnimations>

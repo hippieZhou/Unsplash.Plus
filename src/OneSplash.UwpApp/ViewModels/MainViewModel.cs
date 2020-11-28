@@ -7,10 +7,10 @@ using OneSplash.Application.DTOs;
 using OneSplash.Application.Features.Queries;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 
 namespace OneSplash.UwpApp.ViewModels
 {
@@ -22,18 +22,13 @@ namespace OneSplash.UwpApp.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        private List<CategoryDto> _categories;
-        public List<CategoryDto> Categories
-        {
-            get { return _categories ??= new List<CategoryDto>(); }
-            set { SetProperty(ref _categories, value); }
-        }
+        public ObservableCollection<BingPhotoDto> BingPhotos { get; private set; } = new ObservableCollection<BingPhotoDto>();
 
-        private IncrementalLoadingCollection<SplashSource, SplashPhotoDto> _filteredRecipeData;
-        public IncrementalLoadingCollection<SplashSource, SplashPhotoDto> FilteredRecipeData
+        private IncrementalLoadingCollection<SplashSource, SplashPhotoDto> _splashPhotos;
+        public IncrementalLoadingCollection<SplashSource, SplashPhotoDto> SplashPhotos
         {
-            get { return _filteredRecipeData; }
-            set { SetProperty(ref _filteredRecipeData, value); }
+            get { return _splashPhotos; }
+            set { SetProperty(ref _splashPhotos, value); }
         }
 
         private bool _isError;
@@ -41,6 +36,13 @@ namespace OneSplash.UwpApp.ViewModels
         {
             get { return _isError; }
             set { SetProperty(ref _isError, value); }
+        }
+
+        private SplashPhotoDto _selected;
+        public SplashPhotoDto Selected
+        {
+            get { return _selected; }
+            set { SetProperty(ref _selected, value); }
         }
 
         private ICommand _loadCommand;
@@ -52,7 +54,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(async () =>
                     {
-                        FilteredRecipeData = new IncrementalLoadingCollection<SplashSource, SplashPhotoDto>(
+                        SplashPhotos = new IncrementalLoadingCollection<SplashSource, SplashPhotoDto>(
                             source: new SplashSource(Mediator),
                             itemsPerPage: 10,
                             onStartLoading: () =>
@@ -68,18 +70,41 @@ namespace OneSplash.UwpApp.ViewModels
                                 IsError = true;
                                 _logger.Log(LogLevel.Error, ex, default, default);
                             });
-
-                        var response = await Mediator.Send(new GetAllCategoryQuery());
-                        if (response.Succeeded)
-                        {
-                            Categories.Clear();
-                            Categories.AddRange(response.Data);
-                        }
                     });
                 }
                 return _loadCommand;
             }
         }
+
+
+        //private ICommand _backCommand;
+        //public ICommand BackCommand
+        //{
+        //    get
+        //    {
+        //        if (_backCommand == null)
+        //        {
+        //            _backCommand = new AsyncRelayCommand<SplashPhotoDto>(async args =>
+        //            {
+        //                if (args == null)
+        //                    return;
+
+        //                Selected = args;
+        //                _splashGridView.AdaptiveGridView.ScrollIntoView(Selected, ScrollIntoViewAlignment.Default);
+        //                _splashGridView.AdaptiveGridView.UpdateLayout();
+
+        //                ConnectedAnimation ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", _overlayPopup.MainScrollViewer);
+        //                ConnectedAnimation.Completed += (_sender, _e) =>
+        //                {
+        //                    _overlayPopup.Visibility = Visibility.Collapsed;
+        //                };
+        //                ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
+        //                await _splashGridView.AdaptiveGridView.TryStartConnectedAnimationAsync(ConnectedAnimation, Selected, "connectedElement");
+        //            });
+        //        }
+        //        return _backCommand;
+        //    }
+        //}
     }
 
     public class SplashSource : IIncrementalSource<SplashPhotoDto>
@@ -92,11 +117,9 @@ namespace OneSplash.UwpApp.ViewModels
 
         public async Task<IEnumerable<SplashPhotoDto>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            //var parameter = new GetPagedSplashsQuery { PageNumber = pageIndex, PageSize = pageSize };
-            //var response = await _mediator.Send(parameter, cancellationToken);
-            //return response.Succeeded ? response.Data : Array.Empty<SplashPhotoDto>();
-
-            return await Task.FromResult(Array.Empty<SplashPhotoDto>());
+            var parameter = new GetPagedSplashsQuery { PageNumber = pageIndex, PageSize = pageSize };
+            var response = await _mediator.Send(parameter, cancellationToken);
+            return response.Succeeded ? response.Data : Array.Empty<SplashPhotoDto>();
         }
     }
 }

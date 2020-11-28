@@ -6,6 +6,7 @@ using OneSplash.Infrastructure;
 using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.Helpers;
 using OneSplash.UwpApp.Servcies.Logging;
+using OneSplash.UwpApp.Servcies.Navigation;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -61,12 +62,13 @@ namespace OneSplash.UwpApp
         }
 
         private IServiceProvider ConfigureServices() => new ServiceCollection()
-                .AddLoggings()
-                .AddSettings()
-                .AddViewModels()
-                .AddApplicationLayer()
-                .AddPersistenceInfrastructure()
-                .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
-                .BuildServiceProvider();
+            .AddLoggings()
+            .AddSettings()
+            .AddViewModels()
+            .AddApplicationLayer()
+            .AddPersistenceInfrastructure()
+            .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
+            .AddSingleton<INavigationService, NavigationService>()
+            .BuildServiceProvider();
     }
 }

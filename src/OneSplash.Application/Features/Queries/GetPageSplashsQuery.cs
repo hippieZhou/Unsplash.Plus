@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using OneSplash.Application.DTOs;
-using OneSplash.Application.Parameters;
 using OneSplash.Application.Wrappers;
-using OneSplash.Domain.Entities;
 using OneSplash.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,10 +13,6 @@ using Windows.UI;
 
 namespace OneSplash.Application.Features.Queries
 {
-    public class GetPagedSplashsParameter : RequestParameter
-    {
-    }
-
     public class GetPagedSplashsQuery : IRequest<PagedResponse<IEnumerable<SplashPhotoDto>>>
     {
         public int PageNumber { get; set; }
@@ -27,24 +21,24 @@ namespace OneSplash.Application.Features.Queries
         public class GetAllProductsQueryHandler : IRequestHandler<GetPagedSplashsQuery, PagedResponse<IEnumerable<SplashPhotoDto>>>
         {
             private readonly IMapper _mapper;
-            private readonly ISplashService _splashService;
+            private readonly IUnSplashPhotoService _splashService;
 
             public GetAllProductsQueryHandler(
                 IMapper mapper,
-                ISplashService splashService)
+                IUnSplashPhotoService splashService)
             {
                 _mapper = mapper ?? throw new ArgumentNullException(nameof(splashService));
                 _splashService = splashService ?? throw new ArgumentNullException(nameof(splashService));
             }
             public async Task<PagedResponse<IEnumerable<SplashPhotoDto>>> Handle(GetPagedSplashsQuery request, CancellationToken cancellationToken)
             {
-                var entities = await _splashService.ListPhotos(request.PageNumber, request.PageSize);
-                var dtos = _mapper.Map<IEnumerable<SplashPhotoEntity>, IEnumerable<SplashPhotoDto>>(entities);
-                return new PagedResponse<IEnumerable<SplashPhotoDto>>(dtos, request.PageNumber, request.PageSize);
+                //var entities = await _splashService.ListPhotos(request.PageNumber, request.PageSize);
+                //var dtos = _mapper.Map<IEnumerable<SplashPhotoEntity>, IEnumerable<SplashPhotoDto>>(entities);
+                //return new PagedResponse<IEnumerable<SplashPhotoDto>>(dtos, request.PageNumber, request.PageSize);
 
-                //var items = GetRecipeList(request.PageSize);
-                //await Task.Delay(500);
-                //return new PagedResponse<IEnumerable<SplashPhotoDto>>(items, request.PageNumber, request.PageSize);
+                var items = GetRecipeList(request.PageSize);
+                await Task.Delay(500);
+                return new PagedResponse<IEnumerable<SplashPhotoDto>>(items, request.PageNumber, request.PageSize);
             }
 
 

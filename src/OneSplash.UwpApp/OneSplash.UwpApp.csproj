@@ -127,6 +127,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\ImageScrollBehavior.cs" />
+    <Compile Include="Behaviors\ItemClickBehavior.cs" />
     <Compile Include="Behaviors\VisualStateInTemplateBehavior.cs" />
     <Compile Include="Common\ImageLoader.cs" />
     <Compile Include="Controls\ExtendSplash.xaml.cs">
@@ -141,6 +143,12 @@
     <Compile Include="Controls\OverlayPopup.xaml.cs">
       <DependentUpon>OverlayPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PageHeader.xaml.cs">
+      <DependentUpon>PageHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SplashGridView.xaml.cs">
+      <DependentUpon>SplashGridView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StepThroughListView.xaml.cs">
       <DependentUpon>StepThroughListView.xaml</DependentUpon>
     </Compile>
@@ -149,7 +157,10 @@
     <Compile Include="Extensions\UIExtensions.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Servcies\Logging\CustomDetailsEnricher.cs" />
+    <Compile Include="Servcies\Messages\ConnectedNavMessage.cs" />
     <Compile Include="Servcies\Messages\ViewChangedMessage.cs" />
+    <Compile Include="Servcies\Navigation\INavigationService.cs" />
+    <Compile Include="Servcies\Navigation\NavigationService.cs" />
     <Compile Include="Shell.xaml.cs">
       <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
@@ -216,6 +227,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\PageHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SplashGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\StepThroughListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,10 +254,6 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\GridViewItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\NavigationView.xaml">
       <SubType>Designer</SubType>

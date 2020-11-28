@@ -1,260 +1,193 @@
-﻿<UserControl
+﻿<Page
     x:Class="OneSplash.UwpApp.Views.MainView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:common="using:OneSplash.UwpApp.Common"
-    xmlns:control="using:OneSplash.UwpApp.Controls"
+    xmlns:controls="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dto="using:OneSplash.Application.DTOs"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Views"
-    xmlns:localBehaviors="using:OneSplash.UwpApp.Behaviors"
     xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:toolkits="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:vm="using:OneSplash.UwpApp.ViewModels"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
-    d:DesignHeight="1080"
-    d:DesignWidth="1920"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <DataTemplate x:Key="CategoryTemplate" x:DataType="dto:CategoryDto">
-            <Grid HorizontalAlignment="Stretch" Loaded="CategoryGrid_Loaded">
-                <Canvas x:Name="ShadowContainer" />
-                <Grid
-                    Width="200"
-                    Height="120"
-                    Background="{x:Bind Name}"
-                    CornerRadius="4">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource MontserratBold}"
-                        Foreground="{StaticResource SystemBaseHighColor}"
-                        Text="{x:Bind Name}" />
-                </Grid>
+    <Page.Resources>
+        <DataTemplate x:Key="SplashItemTemplate" x:DataType="dto:SplashPhotoDto">
+            <Grid x:Name="connectedElement">
+                <Grid.Background>
+                    <!--<AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />-->
+                    <AcrylicBrush
+                        BackgroundSource="Backdrop"
+                        FallbackColor="{x:Bind Color, Mode=OneWay}"
+                        TintColor="{x:Bind Color, Mode=OneWay}"
+                        TintOpacity="0.4" />
+                </Grid.Background>
+                <!--<toolkits:ImageEx
+                    x:Name="connectedElement"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    x:DeferLoadStrategy="Lazy"
+                    EnableLazyLoading="True"
+                    IsCacheEnabled="True"
+                    Stretch="UniformToFill" />-->
+                <TextBlock
+                    x:Name="recipeName"
+                    Margin="12,0,0,12"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    extensions:VisualExtensions.CenterPoint="50,50,0"
+                    FontFamily="{StaticResource MontserratBold}"
+                    Opacity="0.8"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="{x:Bind ImageAuthor}"
+                    TextWrapping="NoWrap"
+                    Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:TranslationAnimation
+                            From="0, -32, 0"
+                            To="0"
+                            Duration="0:0:2" />
+                        <animations:OpacityAnimation
+                            From="0"
+                            To="1.0"
+                            Duration="0:0:2" />
+                    </animations:Implicit.ShowAnimations>
+                    <animations:Implicit.HideAnimations>
+                        <animations:TranslationAnimation
+                            From="0"
+                            To="0, -32, 0"
+                            Duration="0:0:1" />
+                        <animations:OpacityAnimation
+                            From="1.0"
+                            To="0"
+                            Duration="0:0:1" />
+                    </animations:Implicit.HideAnimations>
+                </TextBlock>
+
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="PointerEntered">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Visible" />
+                        <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
+                            <core:ChangePropertyAction.Value>
+                                <AcrylicBrush
+                                    BackgroundSource="Backdrop"
+                                    FallbackColor="{x:Bind Color, Mode=OneWay}"
+                                    TintColor="{x:Bind Color, Mode=OneWay}"
+                                    TintOpacity="0.8" />
+                            </core:ChangePropertyAction.Value>
+                        </core:ChangePropertyAction>
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="PointerExited">
+                        <core:ChangePropertyAction
+                            PropertyName="Visibility"
+                            TargetObject="{Binding ElementName=recipeName}"
+                            Value="Collapsed" />
+                        <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
+                            <core:ChangePropertyAction.Value>
+                                <AcrylicBrush
+                                    BackgroundSource="Backdrop"
+                                    FallbackColor="{x:Bind Color, Mode=OneWay}"
+                                    TintColor="{x:Bind Color, Mode=OneWay}"
+                                    TintOpacity="0.4" />
+                            </core:ChangePropertyAction.Value>
+                        </core:ChangePropertyAction>
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="SplashTemplate" x:DataType="dto:SplashPhotoDto">
-            <UserControl x:Name="ROOT" Loaded="SplashGrid_Loaded">
-                <!--<interactivity:Interaction.Behaviors>
-                    <localBehaviors:VisualStateInTemplateBehavior ParentVisualStateGroup="{Binding ElementName=AdaptiveVisualStates}">
-                        <localBehaviors:VisualStateInTemplateBehavior.NarrowState>
-                            <VisualState x:Name="Narrow">
-                                <VisualState.Setters>
-                                    <Setter Target="ROOT.(UserControl.Margin)" Value="24" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </localBehaviors:VisualStateInTemplateBehavior.NarrowState>
-
-                        <localBehaviors:VisualStateInTemplateBehavior.NormalState>
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Target="ROOT.(UserControl.Margin)" Value="32" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </localBehaviors:VisualStateInTemplateBehavior.NormalState>
-
-                        <localBehaviors:VisualStateInTemplateBehavior.WideState>
-                            <VisualState x:Name="Wide">
-                                <VisualState.Setters>
-                                    <Setter Target="ROOT.(UserControl.Margin)" Value="32" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </localBehaviors:VisualStateInTemplateBehavior.WideState>
-                    </localBehaviors:VisualStateInTemplateBehavior>
-                </interactivity:Interaction.Behaviors>-->
-                <Grid>
-                    <Grid.Background>
-                        <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
-                    </Grid.Background>
-                    <toolkit:ImageEx
-                        x:Name="connectedElement"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        common:ImageLoader.Source="{x:Bind}"
-                        Background="{x:Bind Color, Mode=OneWay}"
-                        EnableLazyLoading="True"
-                        IsCacheEnabled="True"
-                        Stretch="UniformToFill" />
-                    <TextBlock
-                        x:Name="recipeName"
-                        Margin="12,0,0,12"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        extensions:VisualExtensions.CenterPoint="50,50,0"
-                        FontFamily="{StaticResource MontserratBold}"
-                        Opacity="0.8"
-                        Style="{StaticResource BodyTextBlockStyle}"
-                        Text="{x:Bind ImageAuthor}"
-                        TextWrapping="NoWrap"
-                        Visibility="Collapsed">
-                        <animation:Implicit.ShowAnimations>
-                            <animation:TranslationAnimation
-                                From="0, -32, 0"
-                                To="0"
-                                Duration="0:0:2" />
-                            <animation:OpacityAnimation
-                                From="0"
-                                To="1.0"
-                                Duration="0:0:2" />
-                        </animation:Implicit.ShowAnimations>
-                        <animation:Implicit.HideAnimations>
-                            <animation:TranslationAnimation
-                                From="0"
-                                To="0, -32, 0"
-                                Duration="0:0:1" />
-                            <animation:OpacityAnimation
-                                From="1.0"
-                                To="0"
-                                Duration="0:0:1" />
-                        </animation:Implicit.HideAnimations>
-                    </TextBlock>
-
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="PointerEntered">
-                            <core:ChangePropertyAction
-                                PropertyName="Visibility"
-                                TargetObject="{Binding ElementName=recipeName}"
-                                Value="Visible" />
-                        </core:EventTriggerBehavior>
-                        <core:EventTriggerBehavior EventName="PointerExited">
-                            <core:ChangePropertyAction
-                                PropertyName="Visibility"
-                                TargetObject="{Binding ElementName=recipeName}"
-                                Value="Collapsed" />
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                </Grid>
-            </UserControl>
-        </DataTemplate>
-    </UserControl.Resources>
-    <interactivity:Interaction.Behaviors>
-        <core:EventTriggerBehavior EventName="Loaded">
-            <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
-        </core:EventTriggerBehavior>
-    </interactivity:Interaction.Behaviors>
-
-    <Grid Padding="0,24,0,0">
-        <toolkit:AdaptiveGridView
-            x:Name="SplashGridView"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            animation:ReorderGridAnimation.Duration="300"
-            DataFetchSize="2"
-            DesiredWidth="360"
-            IncrementalLoadingThreshold="2"
-            IncrementalLoadingTrigger="Edge"
-            IsItemClickEnabled="True"
-            ItemClick="SplashGridView_ItemClick"
-            ItemHeight="240"
-            ItemTemplate="{StaticResource SplashTemplate}"
-            ItemsSource="{x:Bind ViewModel.FilteredRecipeData, Mode=OneWay}"
-            OneRowModeEnabled="False"
-            SelectionMode="None"
-            StretchContentForSingleRow="True">
-            <toolkit:AdaptiveGridView.Resources>
-                <!--  These two removes the border on hover and on pressed  -->
-                <SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="Transparent" />
-                <SolidColorBrush x:Key="SystemControlHighlightListMediumBrush" Color="Transparent" />
-            </toolkit:AdaptiveGridView.Resources>
-            <toolkit:AdaptiveGridView.ItemContainerStyle>
-                <Style BasedOn="{StaticResource GridViewItemExpanded}" TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="24" />
-                </Style>
-            </toolkit:AdaptiveGridView.ItemContainerStyle>
-            <toolkit:AdaptiveGridView.ItemContainerTransitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition FromVerticalOffset="240" IsStaggeringEnabled="True" />
-                </TransitionCollection>
-            </toolkit:AdaptiveGridView.ItemContainerTransitions>
-            <toolkit:AdaptiveGridView.Header>
-                <control:StepThroughListView
-                    MaxWidth="1024"
-                    Margin="36,24"
-                    extensions:VisualExtensions.NormalizedCenterPoint="0.5,0.5,0"
-                    ItemTemplate="{StaticResource CategoryTemplate}"
-                    ItemsSource="{x:Bind ViewModel.Categories, Mode=OneWay}"
-                    Visibility="Visible">
-                    <animation:Implicit.ShowAnimations>
-                        <animation:TranslationAnimation
-                            From="0,40,0"
-                            To="0,0,0"
-                            Duration="0:0:0.6" />
-                        <animation:ScaleAnimation
-                            From="0.6"
-                            To="1"
-                            Duration="0:0:0.6" />
-                        <animation:OpacityAnimation
-                            From="0"
-                            To="1"
-                            Duration="0:0:0.6" />
-                    </animation:Implicit.ShowAnimations>
-                </control:StepThroughListView>
-            </toolkit:AdaptiveGridView.Header>
-            <toolkit:AdaptiveGridView.Footer>
-                <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
-                    <Grid Visibility="{x:Bind ViewModel.FilteredRecipeData.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <winui:AnimatedVisualPlayer
-                            Width="240"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            AutoPlay="True">
-                            <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lotties/loading-animation.json" />
-                        </winui:AnimatedVisualPlayer>
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            FontFamily="{StaticResource RobotoMonoBold}"
-                            Text="LOADING..." />
-                    </Grid>
-                    <StackPanel
+        <DataTemplate x:Key="SplahFooterTemplate" x:DataType="vm:MainViewModel">
+            <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
+                <Grid Visibility="{x:Bind SplashPhotos.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <winui:AnimatedVisualPlayer
+                        Width="240"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Vertical"
-                        Spacing="12"
-                        Visibility="{x:Bind ViewModel.IsError, Converter={StaticResource BoolToVisibilityConverter}}">
+                        AutoPlay="True">
+                        <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lotties/loading-animation.json" />
+                    </winui:AnimatedVisualPlayer>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        FontFamily="{StaticResource RobotoMonoBold}"
+                        Text="LOADING..." />
+                </Grid>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical"
+                    Spacing="12"
+                    Visibility="{x:Bind IsError, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource RobotoMonoBold}"
+                        Text="THERE HAVE SOMETHING WRONG" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <controls:SplashGridView
+            x:Name="SplashGridView"
+            DesiredWidth="360"
+            FooterTemplate="{StaticResource SplahFooterTemplate}"
+            ItemClickCommand="{x:Bind ItemClickCommand}"
+            ItemHeight="240"
+            ItemMargin="0"
+            ItemPadding="16"
+            ItemTemplate="{StaticResource SplashItemTemplate}"
+            ItemsSource="{x:Bind ViewModel.SplashPhotos, Mode=OneWay}"
+            LoadCommand="{x:Bind ViewModel.LoadCommand}">
+            <interactivity:Interaction.Behaviors>
+                <core:ImageScrollBehavior TargetControl="{Binding ElementName=PageHeader}" />
+            </interactivity:Interaction.Behaviors>
+            <controls:SplashGridView.Header>
+                <toolkits:ScrollHeader Mode="Fade">
+                    <Grid>
+                        <ParallaxView
+                            Height="360"
+                            Source="{x:Bind SplashGridView}"
+                            VerticalShift="360">
+                            <Image
+                                HorizontalAlignment="Center"
+                                Source="ms-appx:///Assets/Images/eva-dang-EXdXLrZXS9Q-unsplash.jpg"
+                                Stretch="UniformToFill" />
+                        </ParallaxView>
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontFamily="{StaticResource RobotoMonoBold}"
-                            Text="THERE HAVE SOMETHING WRONG" />
-                    </StackPanel>
-                </Grid>
-            </toolkit:AdaptiveGridView.Footer>
-        </toolkit:AdaptiveGridView>
-
-        <control:OverlayPopup
-            x:Name="OverlayPopup"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            HandleBack="OverlayPopup_HandleBack"
-            Visibility="Collapsed" />
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveVisualStates">
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-
-                <VisualState x:Name="NormalState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1008" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+                            FontFamily="{StaticResource MontserratBold}"
+                            Style="{StaticResource HeaderTextBlockStyle}"
+                            Text="Welcome To One Splash" />
+                    </Grid>
+                </toolkits:ScrollHeader>
+            </controls:SplashGridView.Header>
+        </controls:SplashGridView>
+        <controls:PageHeader
+            x:Name="PageHeader"
+            Title="Welcome To One Splash"
+            Height="72"
+            VerticalAlignment="Top"
+            Canvas.ZIndex="100"
+            FontSize="42"
+            HeaderPadding="100,32,0,0"
+            IsHitTestVisible="False">
+            <controls:PageHeader.Background>
+                <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
+            </controls:PageHeader.Background>
+        </controls:PageHeader>
     </Grid>
-</UserControl>
+</Page>

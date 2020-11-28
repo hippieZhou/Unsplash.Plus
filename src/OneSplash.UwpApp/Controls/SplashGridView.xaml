@@ -1,0 +1,66 @@
+﻿<UserControl
+    x:Class="OneSplash.UwpApp.Controls.SplashGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:OneSplash.UwpApp.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkits="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid>
+        <toolkits:AdaptiveGridView
+            x:Name="AdaptiveGridView"
+            Padding="{x:Bind Padding, Mode=OneWay}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            animations:ReorderGridAnimation.Duration="300"
+            x:FieldModifier="public"
+            AutomationProperties.Name="Splashs"
+            ContainerContentChanging="OnItemGridViewContainerContentChanging"
+            DataFetchSize="1"
+            DesiredWidth="{x:Bind DesiredWidth, Mode=OneWay}"
+            Footer="{x:Bind Footer}"
+            FooterTemplate="{x:Bind FooterTemplate, Mode=OneWay}"
+            Header="{x:Bind Header}"
+            HeaderTemplate="{x:Bind HeaderTemplate, Mode=OneWay}"
+            IncrementalLoadingThreshold="2"
+            IncrementalLoadingTrigger="Edge"
+            IsItemClickEnabled="True"
+            IsSwipeEnabled="False"
+            ItemHeight="{x:Bind ItemHeight, Mode=OneWay}"
+            ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
+            ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+            OneRowModeEnabled="False"
+            SelectionMode="None"
+            SizeChanged="OnItemGridViewSizeChanged"
+            StretchContentForSingleRow="True">
+            <toolkits:AdaptiveGridView.Resources>
+                <SolidColorBrush x:Key="SystemControlHighlightListLowBrush" Color="Transparent" />
+                <SolidColorBrush x:Key="SystemControlHighlightListMediumBrush" Color="Transparent" />
+            </toolkits:AdaptiveGridView.Resources>
+            <toolkits:AdaptiveGridView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource GridViewItemExpanded}" TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="{x:Bind ItemMargin, Mode=OneWay}" />
+                    <Setter Property="Padding" Value="{x:Bind ItemPadding, Mode=OneWay}" />
+                </Style>
+            </toolkits:AdaptiveGridView.ItemContainerStyle>
+            <toolkits:AdaptiveGridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition FromVerticalOffset="240" IsStaggeringEnabled="True" />
+                </TransitionCollection>
+            </toolkits:AdaptiveGridView.ItemContainerTransitions>
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="Loaded">
+                    <core:InvokeCommandAction Command="{x:Bind LoadCommand}" />
+                </core:EventTriggerBehavior>
+                <core:ItemClickBehavior Command="{x:Bind ItemClickCommand}" />
+            </interactivity:Interaction.Behaviors>
+        </toolkits:AdaptiveGridView>
+    </Grid>
+</UserControl>

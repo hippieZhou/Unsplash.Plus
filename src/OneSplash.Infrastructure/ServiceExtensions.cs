@@ -14,7 +14,7 @@ namespace OneSplash.Infrastructure
             services.AddSingleton<ApplicationDbContext>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IDateTimeService, DateTimeService>();
-            services.AddTransient<ISplashService, UnSplashDataService>();
+            services.AddTransient<IUnSplashPhotoService, UnSplashDataService>();
             //services.AddTransient<UnSplashDataService>();
             //services.AddTransient<Func<bool, ISplashService>>(serviceProvider => key =>
             //{

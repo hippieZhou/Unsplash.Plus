@@ -5,7 +5,7 @@
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:local="using:OneSplash.UwpApp"
-    RequestedTheme="Dark">
+    RequestedTheme="Light">
     <Application.Resources>
         <ResourceDictionary>
             <FontFamily x:Key="MontserratBold">/Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
@@ -19,8 +19,6 @@
 
             <x:Boolean x:Key="UseSystemFocusVisuals">False</x:Boolean>
 
-            <Color x:Key="SystemAccentColor">DimGray</Color>
-            <SolidColorBrush x:Key="SystemAccentColorBrush" Color="{StaticResource SystemAccentColor}" />
 
             <!--  https://github.com/windows-toolkit/MVVM-Samples/blob/master/samples/MvvmSampleUwp/MvvmSampleUwp/Views/AsyncRelayCommandPage.xaml  -->
             <!--<Run Text="{x:Bind ViewModel.DownloadTextCommand.ExecutionTask, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"/>-->
@@ -69,8 +67,8 @@
                 <!--  Other merged dictionaries here  -->
                 <ResourceDictionary Source="/Themes/Button.xaml" />
                 <ResourceDictionary Source="/Themes/ContentControl.xaml" />
+                <ResourceDictionary Source="/Themes/NavigationView.xaml" />
                 <ResourceDictionary Source="/Themes/ScrollViewer.xaml" />
-                <ResourceDictionary Source="/Themes/GridViewItem.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
         </ResourceDictionary>

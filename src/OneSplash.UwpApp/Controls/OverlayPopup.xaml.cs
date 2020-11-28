@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,14 +16,9 @@ namespace OneSplash.UwpApp.Controls
     /// </summary>
     public sealed partial class OverlayPopup : UserControl, INotifyPropertyChanged
     {
-        public event EventHandler<object> HandleBack;
         public OverlayPopup()
         {
             this.InitializeComponent();
-            this.HeaderBack.Click += (sender, e) =>
-            {
-                HandleBack?.Invoke(sender, e);
-            };
         }
 
         public SplashPhotoDto SelectedItem
@@ -35,13 +31,18 @@ namespace OneSplash.UwpApp.Controls
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItem", typeof(SplashPhotoDto), typeof(OverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
 
+        public ICommand BackCommand
+        {
+            get { return (ICommand)GetValue(BackCommandProperty); }
+            set { SetValue(BackCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for BackCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BackCommandProperty =
+            DependencyProperty.Register("BackCommand", typeof(ICommand), typeof(OverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
+
         private void RaisePropertyChanged([CallerMemberName] string property = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnContentViewModeChanged(Microsoft.UI.Xaml.Controls.TwoPaneView sender, object args)
-        {
-
-        }
 
         private void root_Loaded(object sender, RoutedEventArgs e)
         {
