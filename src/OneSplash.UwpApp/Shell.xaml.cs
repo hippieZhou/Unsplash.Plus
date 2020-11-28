@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Messaging;
 using OneSplash.UwpApp.Controls;
 using OneSplash.UwpApp.Servcies.Messages;
 using OneSplash.UwpApp.ViewModels;
+using System;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -17,29 +18,32 @@ namespace OneSplash.UwpApp
         {
             this.InitializeComponent();
             ViewModel.Initialize(MainNav, ContentFrame);
-            this.DataContext = ViewModel;
+            DataContext = ViewModel;
+
             WeakReferenceMessenger.Default.Register<ConnectedNavMessage, string>(OverlayPopup, typeof(OverlayPopup).FullName, (sender, args) =>
               {
                   if (args.HasReceivedResponse)
                   {
-                      args.Response.animation.TryStart(OverlayPopup.MainScrollViewer);
+                      args.Response.animation.TryStart(OverlayPopup.destinationElement);
                       OverlayPopup.SelectedItem = args.Response.selectedItem;
                       OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Visible;
                   }
               });
         }
 
+  
 
-        private ICommand _connectedNavBackCommand;
-        public ICommand ConnectedNavBackCommand
+        private ICommand _hideOverlayPopupCommand;
+        public ICommand HideOverlayPopupCommad
         {
             get
             {
-                if (_connectedNavBackCommand == null)
+                if (_hideOverlayPopupCommand == null)
                 {
-                    _connectedNavBackCommand = new RelayCommand(() =>
+                    _hideOverlayPopupCommand = new RelayCommand(() =>
                     {
-                        ConnectedAnimation connectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.MainScrollViewer);
+                        ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(2);
+                        ConnectedAnimation connectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.destinationElement);
                         connectedAnimation.Completed += (_sender, _e) =>
                         {
                             OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -50,7 +54,7 @@ namespace OneSplash.UwpApp
                         WeakReferenceMessenger.Default.Send(msg, typeof(SplashGridView).FullName);
                     });
                 }
-                return _connectedNavBackCommand;
+                return _hideOverlayPopupCommand;
             }
         }
 

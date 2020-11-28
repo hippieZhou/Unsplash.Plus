@@ -143,6 +143,9 @@
     <Compile Include="Controls\OverlayPopup.xaml.cs">
       <DependentUpon>OverlayPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OverlayPopupBack.xaml.cs">
+      <DependentUpon>OverlayPopupBack.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PageHeader.xaml.cs">
       <DependentUpon>PageHeader.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\OverlayPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OverlayPopupBack.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

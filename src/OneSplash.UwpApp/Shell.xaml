@@ -6,13 +6,9 @@
     xmlns:controls="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:view="using:OneSplash.UwpApp.Views"
-    xmlns:vm="using:OneSplash.UwpApp.ViewModels"
-    xmlns:widget="using:OneSplash.UwpApp.Views.Widgets"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -108,26 +104,7 @@
             x:Name="OverlayPopup"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            BackCommand="{x:Bind ConnectedNavBackCommand, Mode=OneWay}"
+            HideCommand="{x:Bind HideOverlayPopupCommad, Mode=OneWay}"
             Visibility="Collapsed" />
-
-        <!--<widget:SearchWidgetView
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            d:Visibility="Collapsed" />
-
-        <widget:MoreWidgetView
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            d:Visibility="Collapsed" />-->
-
-        <!--<controls:ExtendSplash
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Visibility="Visible" />-->
     </Grid>
 </Page>

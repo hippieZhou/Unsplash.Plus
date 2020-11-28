@@ -45,6 +45,7 @@ namespace OneSplash.UwpApp.Views
                         if (SplashGridView.AdaptiveGridView.ContainerFromItem(args) is GridViewItem clickedItem)
                         {
                             ViewModel.Selected = args;
+                            ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(2);
                             ConnectedAnimation connectedAnimation = SplashGridView.AdaptiveGridView.PrepareConnectedAnimation("forwardAnimation", ViewModel.Selected, "connectedElement");
                             connectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
                             var msg = new ConnectedNavMessage();
