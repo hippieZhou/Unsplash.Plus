@@ -120,11 +120,13 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Design\DesignDataFaker.cs" />
     <Compile Include="DTOs\BingPhotoDto.cs" />
     <Compile Include="DTOs\CategoryDto.cs" />
     <Compile Include="DTOs\SplashPhotoDto.cs" />
     <Compile Include="Features\Queries\GetAllCategoryQuery.cs" />
     <Compile Include="Features\Queries\GetPageSplashsQuery.cs" />
+    <Compile Include="Features\Queries\GetTodaySplashQuery.cs" />
     <Compile Include="Mappings\GeneralProfile.cs" />
     <Compile Include="Parameters\RequestParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

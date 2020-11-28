@@ -178,9 +178,14 @@
                             Height="360"
                             Source="{x:Bind SplashGridView}"
                             VerticalShift="360">
-                            <Image
-                                HorizontalAlignment="Center"
-                                Source="ms-appx:///Assets/Images/eva-dang-EXdXLrZXS9Q-unsplash.jpg"
+                            <toolkits:ImageEx
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                EnableLazyLoading="True"
+                                IsCacheEnabled="True"
+                                Source="{x:Bind ViewModel.TodaySplash.ImageUri, Mode=OneWay}"
                                 Stretch="UniformToFill" />
                         </ParallaxView>
                         <TextBlock

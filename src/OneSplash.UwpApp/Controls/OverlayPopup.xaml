@@ -16,7 +16,16 @@
         <Grid.Background>
             <SolidColorBrush Opacity="0.8" Color="{ThemeResource SystemChromeAltHighColor}" />
         </Grid.Background>
-        <Grid x:Name="destinationElement" x:FieldModifier="public">
+        <Grid
+            x:Name="destinationElement"
+            x:FieldModifier="public"
+            ManipulationCompleted="DestinationElement_ManipulationCompleted"
+            ManipulationDelta="DestinationElement_ManipulationDelta"
+            ManipulationMode="TranslateX, TranslateY, Scale"
+            ManipulationStarted="DestinationElement_ManipulationStarted">
+            <Grid.RenderTransform>
+                <CompositeTransform x:Name="destinationElement_Transform" />
+            </Grid.RenderTransform>
             <Grid.Background>
                 <AcrylicBrush
                     BackgroundSource="Backdrop"

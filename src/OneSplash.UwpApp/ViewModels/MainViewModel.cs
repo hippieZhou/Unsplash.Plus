@@ -24,6 +24,13 @@ namespace OneSplash.UwpApp.ViewModels
 
         public ObservableCollection<BingPhotoDto> BingPhotos { get; private set; } = new ObservableCollection<BingPhotoDto>();
 
+        private SplashPhotoDto _todaySplash;
+        public SplashPhotoDto TodaySplash
+        {
+            get { return _todaySplash; }
+            set { SetProperty(ref _todaySplash, value); }
+        }
+
         private IncrementalLoadingCollection<SplashSource, SplashPhotoDto> _splashPhotos;
         public IncrementalLoadingCollection<SplashSource, SplashPhotoDto> SplashPhotos
         {
@@ -54,6 +61,12 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(async () =>
                     {
+                        var todayResponse = await Mediator.Send(new GetTodaySplashQuery());
+                        if (todayResponse.Succeeded)
+                        {
+                            TodaySplash = todayResponse.Data;
+                        }
+
                         SplashPhotos = new IncrementalLoadingCollection<SplashSource, SplashPhotoDto>(
                             source: new SplashSource(Mediator),
                             itemsPerPage: 10,
@@ -75,36 +88,6 @@ namespace OneSplash.UwpApp.ViewModels
                 return _loadCommand;
             }
         }
-
-
-        //private ICommand _backCommand;
-        //public ICommand BackCommand
-        //{
-        //    get
-        //    {
-        //        if (_backCommand == null)
-        //        {
-        //            _backCommand = new AsyncRelayCommand<SplashPhotoDto>(async args =>
-        //            {
-        //                if (args == null)
-        //                    return;
-
-        //                Selected = args;
-        //                _splashGridView.AdaptiveGridView.ScrollIntoView(Selected, ScrollIntoViewAlignment.Default);
-        //                _splashGridView.AdaptiveGridView.UpdateLayout();
-
-        //                ConnectedAnimation ConnectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", _overlayPopup.MainScrollViewer);
-        //                ConnectedAnimation.Completed += (_sender, _e) =>
-        //                {
-        //                    _overlayPopup.Visibility = Visibility.Collapsed;
-        //                };
-        //                ConnectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
-        //                await _splashGridView.AdaptiveGridView.TryStartConnectedAnimationAsync(ConnectedAnimation, Selected, "connectedElement");
-        //            });
-        //        }
-        //        return _backCommand;
-        //    }
-        //}
     }
 
     public class SplashSource : IIncrementalSource<SplashPhotoDto>
