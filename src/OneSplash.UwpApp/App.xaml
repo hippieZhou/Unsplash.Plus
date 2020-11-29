@@ -30,6 +30,7 @@
                     <Visibility>Collapsed</Visibility>
                 </converters:BoolToVisibilityConverter.FalseValue>
             </converters:BoolToVisibilityConverter>
+            <converters:NavCheckedConverter x:Key="NavCheckedConverter" />
 
             <animation:AnimationCollection x:Key="ImplicitOffsetAnimation">
                 <animation:OffsetAnimation Duration="0:0:0.4" />
@@ -64,6 +65,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="/Themes/AutoSuggestBox.xaml" />
                 <ResourceDictionary Source="/Themes/Button.xaml" />
                 <ResourceDictionary Source="/Themes/ContentControl.xaml" />
                 <ResourceDictionary Source="/Themes/NavigationView.xaml" />

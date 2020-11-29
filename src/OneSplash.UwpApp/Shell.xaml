@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
+    xmlns:common="using:OneSplash.UwpApp.Common"
     xmlns:controls="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -21,79 +22,32 @@
     <Grid>
         <winui:NavigationView
             x:Name="MainNav"
-            animation:Implicit.Animations="{StaticResource ImplicitOffsetAnimation}"
             IsSettingsVisible="False"
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="True"
+            MenuItemsSource="{x:Bind ViewModel.NavItems, Mode=OneWay}"
             PaneDisplayMode="LeftMinimal"
-            SelectedItem="{Binding SelectedNavItem, Mode=TwoWay}"
             SelectionFollowsFocus="Disabled">
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemInvoked">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
             <winui:NavigationView.PaneHeader>
-                <Grid Margin="-20,72,0,36" ColumnSpacing="12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <controls:Logo x:Name="Logo" Grid.Column="0" />
-                    <TextBlock
-                        Grid.Column="1"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource RobotoMonoBold}"
-                        FontSize="24"
-                        Text="One Splansh" />
-                </Grid>
+                <controls:PaneHeader
+                    x:Name="Logo"
+                    Title="One Splash"
+                    Margin="-20,72,0,36" />
             </winui:NavigationView.PaneHeader>
-            <winui:NavigationView.MenuItems>
-                <winui:NavigationViewItem Content="Home">
-                    <winui:NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Home" />
-                    </winui:NavigationViewItem.Icon>
-                </winui:NavigationViewItem>
-                <winui:NavigationViewItemHeader Content="Actions" />
-                <winui:NavigationViewItem Content="Favorite">
-                    <winui:NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Favorite" />
-                    </winui:NavigationViewItem.Icon>
-                </winui:NavigationViewItem>
-                <winui:NavigationViewItem Content="Download">
-                    <winui:NavigationViewItem.Icon>
-                        <SymbolIcon Symbol="Download" />
-                    </winui:NavigationViewItem.Icon>
-                </winui:NavigationViewItem>
-            </winui:NavigationView.MenuItems>
-            <winui:NavigationView.FooterMenuItems>
-                <winui:NavigationViewItemSeparator />
-            </winui:NavigationView.FooterMenuItems>
-            <!--<winui:NavigationView.PaneFooter>
-                <StackPanel
-                    x:Name="RightMenu"
-                    Margin="0,0,24,0"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    <Button
-                        Width="44"
-                        Height="44"
-                        Command="{x:Bind ViewModel.NavCommand}"
-                        CommandParameter="{x:Bind ViewModel.SearchWidget}"
-                        Style="{StaticResource Style-Button-Icon-Circle}">
-                        <ContentControl Width="16" Style="{StaticResource Style-Icon-Search}" />
-                    </Button>
-                    <Button
-                        Width="44"
-                        Height="44"
-                        Command="{x:Bind ViewModel.NavCommand}"
-                        CommandParameter="{x:Bind ViewModel.MoreWidget}"
-                        Style="{StaticResource Style-Button-Icon-Circle}">
-                        <ContentControl Width="16" Style="{StaticResource Style-Icon-Info}" />
-                    </Button>
-                </StackPanel>
-            </winui:NavigationView.PaneFooter>-->
+            <winui:NavigationView.PaneFooter>
+                <controls:PaneFooter />
+            </winui:NavigationView.PaneFooter>
             <winui:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     AutomationProperties.Name="Search"
                     PlaceholderText="Search Free..."
-                    QueryIcon="Find" />
+                    QueryIcon="Find"
+                    Style="{StaticResource CustomStyledAutoSuggestBox}" />
             </winui:NavigationView.AutoSuggestBox>
             <winui:NavigationView.Content>
                 <Frame x:Name="ContentFrame" Margin="0,-32,0,0" />
@@ -104,7 +58,7 @@
             x:Name="OverlayPopup"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            HideCommand="{x:Bind HideOverlayPopupCommad, Mode=OneWay}"
+            HideClicked="OnOverlayPopupHideClicked"
             Visibility="Collapsed" />
     </Grid>
 </Page>

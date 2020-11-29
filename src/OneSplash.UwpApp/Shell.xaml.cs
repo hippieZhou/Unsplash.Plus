@@ -1,11 +1,10 @@
 ﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using OneSplash.UwpApp.Controls;
+using OneSplash.UwpApp.Helpers;
 using OneSplash.UwpApp.Servcies.Messages;
 using OneSplash.UwpApp.ViewModels;
 using System;
-using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -17,7 +16,7 @@ namespace OneSplash.UwpApp
         public Shell()
         {
             this.InitializeComponent();
-            ViewModel.Initialize(MainNav, ContentFrame);
+            ViewModel.Initialize(new RootFrameNavigationHelper(ContentFrame, MainNav));
             DataContext = ViewModel;
 
             WeakReferenceMessenger.Default.Register<ConnectedNavMessage, string>(OverlayPopup, typeof(OverlayPopup).FullName, (sender, args) =>
@@ -31,42 +30,18 @@ namespace OneSplash.UwpApp
               });
         }
 
-        private ICommand _hideOverlayPopupCommand;
-        public ICommand HideOverlayPopupCommad
+        private void OnOverlayPopupHideClicked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            get
+            ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(2);
+            ConnectedAnimation connectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.destinationElement);
+            connectedAnimation.Completed += (_sender, _e) =>
             {
-                if (_hideOverlayPopupCommand == null)
-                {
-                    _hideOverlayPopupCommand = new RelayCommand(() =>
-                    {
-                        ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(2);
-                        ConnectedAnimation connectedAnimation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsAnimation", OverlayPopup.destinationElement);
-                        connectedAnimation.Completed += (_sender, _e) =>
-                        {
-                            OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        };
-                        connectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
-                        var msg = new ConnectedNavMessage();
-                        msg.Reply((OverlayPopup.SelectedItem, connectedAnimation));
-                        WeakReferenceMessenger.Default.Send(msg, typeof(SplashGridView).FullName);
-                    });
-                }
-                return _hideOverlayPopupCommand;
-            }
+                OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            };
+            connectedAnimation.Configuration = new DirectConnectedAnimationConfiguration();
+            var msg = new ConnectedNavMessage();
+            msg.Reply((OverlayPopup.SelectedItem, connectedAnimation));
+            WeakReferenceMessenger.Default.Send(msg, typeof(SplashGridView).FullName);
         }
-
-
-        //private async void SearchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        //{
-        //    SearchView.Visibility = Windows.UI.Xaml.Visibility.Visible;
-        //    await SearchView.StartVisibleAnimationAsync();
-        //}
-
-        //private async void InfoButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        //{
-        //    InfoView.Visibility = Windows.UI.Xaml.Visibility.Visible;
-        //    await InfoView.StartVisibleAnimationAsync();
-        //}
     }
 }

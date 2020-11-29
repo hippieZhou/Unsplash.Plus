@@ -144,7 +144,7 @@ namespace OneSplash.UwpApp.Controls
         }
         private void OnItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-
+            AdaptiveGridView.ScrollIntoView(AdaptiveGridView.SelectedItem);
         }
     }
 }

@@ -173,11 +173,8 @@
             </interactivity:Interaction.Behaviors>
             <controls:SplashGridView.Header>
                 <toolkits:ScrollHeader Mode="Fade">
-                    <Grid>
-                        <ParallaxView
-                            Height="360"
-                            Source="{x:Bind SplashGridView}"
-                            VerticalShift="360">
+                    <Grid Height="360">
+                        <ParallaxView Source="{x:Bind SplashGridView}" VerticalShift="360">
                             <toolkits:ImageEx
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"

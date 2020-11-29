@@ -28,7 +28,6 @@ namespace OneSplash.UwpApp.Views
                     clickedItem.Opacity = 1.0d;
                     ViewModel.Selected = args.Response.SelectedItem;
                     SplashGridView.AdaptiveGridView.ScrollIntoView(ViewModel.Selected, ScrollIntoViewAlignment.Default);
-                    SplashGridView.AdaptiveGridView.UpdateLayout();
                     await SplashGridView.AdaptiveGridView.TryStartConnectedAnimationAsync(args.Response.Animation, ViewModel.Selected, "connectedElement");
                 }
             });

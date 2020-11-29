@@ -29,7 +29,7 @@
             FooterTemplate="{x:Bind FooterTemplate, Mode=OneWay}"
             Header="{x:Bind Header}"
             HeaderTemplate="{x:Bind HeaderTemplate, Mode=OneWay}"
-            IncrementalLoadingThreshold="2"
+            IncrementalLoadingThreshold="1"
             IncrementalLoadingTrigger="Edge"
             IsItemClickEnabled="True"
             IsSwipeEnabled="False"
@@ -38,6 +38,7 @@
             ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
             OneRowModeEnabled="False"
             SelectionMode="None"
+            ShowsScrollingPlaceholders="False"
             SizeChanged="OnItemGridViewSizeChanged"
             StretchContentForSingleRow="True">
             <toolkits:AdaptiveGridView.Resources>
@@ -52,7 +53,7 @@
             </toolkits:AdaptiveGridView.ItemContainerStyle>
             <toolkits:AdaptiveGridView.ItemContainerTransitions>
                 <TransitionCollection>
-                    <EntranceThemeTransition FromVerticalOffset="240" IsStaggeringEnabled="True" />
+                    <EntranceThemeTransition IsStaggeringEnabled="True" />
                 </TransitionCollection>
             </toolkits:AdaptiveGridView.ItemContainerTransitions>
             <interactivity:Interaction.Behaviors>

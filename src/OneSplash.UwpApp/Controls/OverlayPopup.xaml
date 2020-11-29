@@ -41,6 +41,7 @@
                 VerticalContentAlignment="Stretch"
                 EnableLazyLoading="True"
                 IsCacheEnabled="True"
+                Source="{x:Bind SelectedItem.ImageUri, Mode=OneWay}"
                 Stretch="UniformToFill" />
         </Grid>
 

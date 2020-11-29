@@ -50,8 +50,10 @@ namespace OneSplash.UwpApp
                 Ioc.Default.ConfigureServices(ConfigureServices());
 
                 Window.Current.Content = new Shell();
-                TitleBarHelper.StyleTitleBar();
                 TitleBarHelper.ExpandViewIntoTitleBar();
+                TitleBarHelper.UpdateTitleBar();
+
+                ThemeHelper.Initialize();
             }
 
             if (e.PrelaunchActivated == false)
@@ -59,6 +61,12 @@ namespace OneSplash.UwpApp
                 CoreApplication.EnablePrelaunch(true);
                 Window.Current.Activate();
             }
+        }
+
+        public void EnableSound(bool withSpatial = false)
+        {
+            ElementSoundPlayer.State = ElementSoundPlayerState.On;
+            ElementSoundPlayer.SpatialAudioMode = !withSpatial ? ElementSpatialAudioMode.Off : ElementSpatialAudioMode.On;
         }
 
         private IServiceProvider ConfigureServices() => new ServiceCollection()

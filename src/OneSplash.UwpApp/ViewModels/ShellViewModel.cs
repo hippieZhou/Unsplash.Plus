@@ -1,45 +1,42 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using OneSplash.UwpApp.Servcies.Messages;
-using OneSplash.UwpApp.Servcies.Navigation;
-using OneSplash.UwpApp.ViewModels.Widgets;
+using OneSplash.UwpApp.Helpers;
 using OneSplash.UwpApp.Views;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
-using WinUi = Microsoft.UI.Xaml.Controls;
+using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace OneSplash.UwpApp.ViewModels
 {
     public class ShellViewModel : BaseViewModel
     {
-        private WinUi.NavigationView _mainNav;
-        private readonly INavigationService _navService;
+        public RootFrameNavigationHelper RootFrameNavigationHelper { get; private set; }
 
-        public string SearchWidget { get; } = typeof(SearchWidgetViewModel).FullName;
-        public string MoreWidget { get; } = typeof(MoreWidgetViewModel).FullName;
-
-        public ShellViewModel(INavigationService navService)
+        public ShellViewModel()
         {
-            _navService = navService ?? throw new ArgumentNullException(nameof(navService));
-        }
-
-        public void Initialize(WinUi.NavigationView mainNav, Frame contentFrame)
-        {
-            _mainNav = mainNav;
-            _navService.CurrentFrame = contentFrame;
-            _navService.CurrentFrame.Navigated += (sender, e) => 
+            var navItems = new List<WinUI.NavigationViewItemBase>
             {
-
+                new WinUI.NavigationViewItem { Content = "Home", Icon = new SymbolIcon(Symbol.Home), Tag = typeof(MainView) },
+                new WinUI.NavigationViewItemHeader { Content = "Actions" },
+                new WinUI.NavigationViewItem { Content = "Favorite", Icon = new SymbolIcon(Symbol.Favorite), Tag = typeof(FavoriteView) },
+                new WinUI.NavigationViewItem { Content = "Download", Icon = new SymbolIcon(Symbol.Download), Tag = typeof(DownloadView) }
             };
-            _navService.Configure(typeof(MainViewModel).FullName, typeof(MainView));
+            NavItems = new ObservableCollection<WinUI.NavigationViewItemBase>(navItems);
         }
 
-        private object _selectedNavItem;
-        public object SelectedNavItem
+        public void Initialize(RootFrameNavigationHelper rootFrameNavigationHelper)
         {
-            get { return _selectedNavItem; }
-            set { SetProperty(ref _selectedNavItem, value); }
+            RootFrameNavigationHelper = rootFrameNavigationHelper ?? throw new ArgumentNullException(nameof(rootFrameNavigationHelper));
+        }
+
+        private ObservableCollection<WinUI.NavigationViewItemBase> _navItems;
+        public ObservableCollection<WinUI.NavigationViewItemBase> NavItems
+        {
+            get { return _navItems; }
+            set { SetProperty(ref _navItems, value); }
         }
 
         private ICommand _loadCommand;
@@ -51,27 +48,31 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(() =>
                     {
-                        _navService.NavigateTo(typeof(MainViewModel).FullName);
+                        var defaultNavMenu = NavItems.FirstOrDefault();
+                        RootFrameNavigationHelper.NavigationTo((Type)defaultNavMenu.Tag);
                     });
                 }
                 return _loadCommand;
             }
         }
 
-        private ICommand _navCommand;
-
-        public ICommand NavCommand
+        private ICommand _itemInvokedCommand;
+        public ICommand ItemInvokedCommand
         {
             get
             {
-                if (_navCommand == null)
+                if (_itemInvokedCommand == null)
                 {
-                    _navCommand = new RelayCommand<string>(widgetName =>
+                    _itemInvokedCommand = new RelayCommand<WinUI.NavigationViewItemInvokedEventArgs>(args =>
                     {
-                        WeakReferenceMessenger.Default.Send(new ViewChangedMessage(widgetName));
+                        if (args.InvokedItemContainer.IsSelected || args.IsSettingsInvoked)
+                        {
+                            return;
+                        }
+                        var invokedItem = args.InvokedItemContainer;
                     });
                 }
-                return _navCommand;
+                return _itemInvokedCommand;
             }
         }
     }

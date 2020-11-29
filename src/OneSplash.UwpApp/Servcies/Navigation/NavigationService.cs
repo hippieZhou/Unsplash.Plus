@@ -57,11 +57,6 @@ namespace OneSplash.UwpApp.Servcies.Navigation
             {
                 lock (_pagesByKey)
                 {
-                    if (CurrentFrame.BackStackDepth == 0)
-                    {
-                        return RootPageKey;
-                    }
-
                     if (CurrentFrame.Content == null)
                     {
                         return UnknownPageKey;
