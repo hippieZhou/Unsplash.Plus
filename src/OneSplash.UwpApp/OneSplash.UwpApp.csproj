@@ -131,7 +131,7 @@
     <Compile Include="Behaviors\ItemClickBehavior.cs" />
     <Compile Include="Behaviors\VisualStateInTemplateBehavior.cs" />
     <Compile Include="Common\ImageLoader.cs" />
-    <Compile Include="Common\NavHelper.cs" />
+    <Compile Include="Common\NavigationSelector.cs" />
     <Compile Include="Controls\ExtendSplash.xaml.cs">
       <DependentUpon>ExtendSplash.xaml</DependentUpon>
     </Compile>
@@ -165,7 +165,6 @@
     <Compile Include="Extensions\ServiceExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
-    <Compile Include="Helpers\RootFrameNavigationHelper.cs" />
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Servcies\Logging\CustomDetailsEnricher.cs" />

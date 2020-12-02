@@ -25,12 +25,14 @@
             IsSettingsVisible="False"
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="True"
-            MenuItemsSource="{x:Bind ViewModel.NavItems, Mode=OneWay}"
             PaneDisplayMode="LeftMinimal"
             SelectionFollowsFocus="Disabled">
             <interactivity:Interaction.Behaviors>
                 <core:EventTriggerBehavior EventName="ItemInvoked">
                     <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
+                </core:EventTriggerBehavior>
+                <core:EventTriggerBehavior EventName="BackRequested">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.BackRequestedCommand}" />
                 </core:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
             <winui:NavigationView.PaneHeader>
@@ -42,6 +44,21 @@
             <winui:NavigationView.PaneFooter>
                 <controls:PaneFooter />
             </winui:NavigationView.PaneFooter>
+            <winui:NavigationView.MenuItems>
+                <winui:NavigationViewItem
+                    common:NavigationSelector.NavTo="OneSplash.UwpApp.Views.MainView"
+                    Content="Home"
+                    Icon="Home" />
+                <winui:NavigationViewItemHeader Content="Actions" />
+                <winui:NavigationViewItem
+                    common:NavigationSelector.NavTo="OneSplash.UwpApp.Views.FavoriteView"
+                    Content="Favorite"
+                    Icon="Favorite" />
+                <winui:NavigationViewItem
+                    common:NavigationSelector.NavTo="OneSplash.UwpApp.Views.DownloadView"
+                    Content="Download"
+                    Icon="Download" />
+            </winui:NavigationView.MenuItems>
             <winui:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     AutomationProperties.Name="Search"

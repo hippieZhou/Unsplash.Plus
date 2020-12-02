@@ -16,9 +16,8 @@ namespace OneSplash.UwpApp
         public Shell()
         {
             this.InitializeComponent();
-            ViewModel.Initialize(new RootFrameNavigationHelper(ContentFrame, MainNav));
+            ViewModel.Initialize(ContentFrame, MainNav);
             DataContext = ViewModel;
-
             WeakReferenceMessenger.Default.Register<ConnectedNavMessage, string>(OverlayPopup, typeof(OverlayPopup).FullName, (sender, args) =>
               {
                   if (args.HasReceivedResponse)

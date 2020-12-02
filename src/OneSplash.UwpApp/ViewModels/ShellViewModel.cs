@@ -1,42 +1,31 @@
 ﻿using Microsoft.Toolkit.Mvvm.Input;
-using OneSplash.UwpApp.Helpers;
-using OneSplash.UwpApp.Views;
+using OneSplash.UwpApp.Common;
+using OneSplash.UwpApp.Servcies.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using Windows.UI.Xaml.Controls;
 using WinUI = Microsoft.UI.Xaml.Controls;
 
 namespace OneSplash.UwpApp.ViewModels
 {
     public class ShellViewModel : BaseViewModel
     {
-        public RootFrameNavigationHelper RootFrameNavigationHelper { get; private set; }
+        private INavigationService _navService;
+        private WinUI.NavigationView _navView;
 
-        public ShellViewModel()
+        public void Initialize(Windows.UI.Xaml.Controls.Frame contentFrame, WinUI.NavigationView navView)
         {
-            var navItems = new List<WinUI.NavigationViewItemBase>
+            _navService = new NavigationService(contentFrame, navigated: args =>
             {
-                new WinUI.NavigationViewItem { Content = "Home", Icon = new SymbolIcon(Symbol.Home), Tag = typeof(MainView) },
-                new WinUI.NavigationViewItemHeader { Content = "Actions" },
-                new WinUI.NavigationViewItem { Content = "Favorite", Icon = new SymbolIcon(Symbol.Favorite), Tag = typeof(FavoriteView) },
-                new WinUI.NavigationViewItem { Content = "Download", Icon = new SymbolIcon(Symbol.Download), Tag = typeof(DownloadView) }
-            };
-            NavItems = new ObservableCollection<WinUI.NavigationViewItemBase>(navItems);
-        }
+                 var currentMenu =_navView.MenuItems.OfType<WinUI.NavigationViewItem>().FirstOrDefault(x=> NavigationSelector.GetNavTo(x) == _navService.CurrentPage);
+                if (currentMenu != null)
+                {
+                    currentMenu.IsSelected = true;
+                }
+                _navView.IsBackEnabled = _navService.CanGoBack;
+            });
 
-        public void Initialize(RootFrameNavigationHelper rootFrameNavigationHelper)
-        {
-            RootFrameNavigationHelper = rootFrameNavigationHelper ?? throw new ArgumentNullException(nameof(rootFrameNavigationHelper));
-        }
-
-        private ObservableCollection<WinUI.NavigationViewItemBase> _navItems;
-        public ObservableCollection<WinUI.NavigationViewItemBase> NavItems
-        {
-            get { return _navItems; }
-            set { SetProperty(ref _navItems, value); }
+            _navView = navView ?? throw new ArgumentNullException(nameof(navView));
         }
 
         private ICommand _loadCommand;
@@ -48,8 +37,12 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(() =>
                     {
-                        var defaultNavMenu = NavItems.FirstOrDefault();
-                        RootFrameNavigationHelper.NavigationTo((Type)defaultNavMenu.Tag);
+                        var defaultMenu = _navView.MenuItems.OfType<WinUI.NavigationViewItem>().FirstOrDefault();
+                        if (defaultMenu != null)
+                        {
+                            var defalutPage = NavigationSelector.GetNavTo(defaultMenu);
+                            _navService.NavigateTo(defalutPage);
+                        }
                     });
                 }
                 return _loadCommand;
@@ -69,10 +62,31 @@ namespace OneSplash.UwpApp.ViewModels
                         {
                             return;
                         }
-                        var invokedItem = args.InvokedItemContainer;
+
+                        if (args.InvokedItemContainer is WinUI.NavigationViewItem navItem)
+                        {
+                            var page = NavigationSelector.GetNavTo(navItem);
+                            _navService.NavigateTo(page);
+                        }
                     });
                 }
                 return _itemInvokedCommand;
+            }
+        }
+
+        private ICommand _backRequestedCommand;
+        public ICommand BackRequestedCommand
+        {
+            get
+            {
+                if (_backRequestedCommand == null)
+                {
+                    _backRequestedCommand = new RelayCommand<WinUI.NavigationViewBackRequestedEventArgs>(args =>
+                    {
+                        _navService.GoBack();
+                    });
+                }
+                return _backRequestedCommand;
             }
         }
     }
