@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace OneSplash.Application.Features.Queries
 {
-    public class GetPagedSplashsQuery : IRequest<PagedResponse<IEnumerable<SplashPhotoDto>>>
+    public class GetSplashPhotosQuery : IRequest<PagedResponse<IEnumerable<SplashPhotoDto>>>
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
 
-        public class GetPagedSplashsQueryHandler : IRequestHandler<GetPagedSplashsQuery, PagedResponse<IEnumerable<SplashPhotoDto>>>
+        public class GetSplashPhotosQueryHandler : IRequestHandler<GetSplashPhotosQuery, PagedResponse<IEnumerable<SplashPhotoDto>>>
         {
             private readonly IMapper _mapper;
             private readonly IUnSplashPhotoService _splashService;
 
-            public GetPagedSplashsQueryHandler(
+            public GetSplashPhotosQueryHandler(
                 IMapper mapper,
                 IUnSplashPhotoService splashService)
             {
@@ -29,7 +29,7 @@ namespace OneSplash.Application.Features.Queries
                 _splashService = splashService ?? throw new ArgumentNullException(nameof(splashService));
 
             }
-            public async Task<PagedResponse<IEnumerable<SplashPhotoDto>>> Handle(GetPagedSplashsQuery request, CancellationToken cancellationToken)
+            public async Task<PagedResponse<IEnumerable<SplashPhotoDto>>> Handle(GetSplashPhotosQuery request, CancellationToken cancellationToken)
             {
                 //var entities = await _splashService.ListPhotos(request.PageNumber, request.PageSize);
                 //var dtos = _mapper.Map<IEnumerable<SplashPhotoEntity>, IEnumerable<SplashPhotoDto>>(entities);

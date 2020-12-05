@@ -105,6 +105,16 @@ namespace OneSplash.UwpApp.Controls
             DependencyProperty.Register("ItemPadding", typeof(Thickness), typeof(SplashGridView), new PropertyMetadata(new Thickness(0)));
 
 
+        public bool ItemLoading
+        {
+            get { return (bool)GetValue(ItemLoadingProperty); }
+            set { SetValue(ItemLoadingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemLoading.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemLoadingProperty =
+            DependencyProperty.Register("ItemLoading", typeof(bool), typeof(SplashGridView), new PropertyMetadata(false));
+
         public double DesiredWidth
         {
             get { return (double)GetValue(DesiredWidthProperty); }
@@ -135,6 +145,18 @@ namespace OneSplash.UwpApp.Controls
         public static readonly DependencyProperty LoadCommandProperty =
             DependencyProperty.Register("LoadCommand", typeof(ICommand), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
+
+        public ICommand BackToTopCommand
+        {
+            get { return (ICommand)GetValue(BackToTopCommandProperty); }
+            set { SetValue(BackToTopCommandProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for BackToTopCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BackToTopCommandProperty =
+            DependencyProperty.Register("BackToTopCommand", typeof(ICommand), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+
+
         private void OnItemGridViewContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (sender.ContainerFromItem(sender.Items.LastOrDefault()) is GridViewItem container)
@@ -144,7 +166,12 @@ namespace OneSplash.UwpApp.Controls
         }
         private void OnItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            AdaptiveGridView.ScrollIntoView(AdaptiveGridView.SelectedItem);
+            //AdaptiveGridView.ScrollIntoView(AdaptiveGridView.SelectedItem);
+        }
+
+        private void OnBackToTopClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

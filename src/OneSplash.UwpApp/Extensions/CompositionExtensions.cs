@@ -1,75 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System;
+using System.Numerics;
+using Windows.Foundation;
+using Windows.UI;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 
 namespace OneSplash.UwpApp.Extensions
 {
-    [Flags]
-    public enum VisualPropertyType
-    {
-        None = 0,
-        Opacity = 1 << 0,
-        Offset = 1 << 1,
-        Scale = 1 << 2,
-        Size = 1 << 3,
-        RotationAngleInDegrees = 1 << 4,
-        All = ~0
-    }
     public static class CompositionExtensions
     {
-        public static IEnumerable<T> GetValues<T>() => Enum.GetValues(typeof(T)).Cast<T>();
+        public static Visual ElementVisual(this UIElement element) => ElementCompositionPreview.GetElementVisual(element);
 
-        public static void EnableImplicitAnimation(this Visual visual, VisualPropertyType typeToAnimate,
-            double duration = 800, double delay = 0, CompositionEasingFunction easing = null)
+        public static Visual AddShadow(this Visual visual, Canvas shadowHost)
         {
+            if (shadowHost == null)
+                throw new ArgumentNullException(nameof(shadowHost));
+
             var compositor = visual.Compositor;
 
-            var animationCollection = compositor.CreateImplicitAnimationCollection();
+            var shadowHostVisual = ElementCompositionPreview.GetElementVisual(shadowHost);
 
-            foreach (var type in GetValues<VisualPropertyType>())
-            {
-                if (!typeToAnimate.HasFlag(type)) continue;
+            // Create shadow and add it to the Visual Tree
+            var shadow = compositor.CreateDropShadow();
+            shadow.Color = Color.FromArgb(255, 75, 75, 80);
+            shadow.BlurRadius = 25f;
+            var shadowVisual = compositor.CreateSpriteVisual();
+            shadowVisual.Shadow = shadow;
+            ElementCompositionPreview.SetElementChildVisual(shadowHost, shadowVisual);
 
-                var animation = CreateAnimationByType(compositor, type, duration, delay, easing);
+            // Make sure the shadow resizes as its host resizes
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", shadowHostVisual);
+            shadowVisual.StartAnimation("Size", bindSizeAnimation);
 
-                if (animation != null)
-                {
-                    animationCollection[type.ToString()] = animation;
-                }
-            }
+            // Increase the blurradius as the rectangle is scaled up
+            var shadowAnimation = compositor.CreateExpressionAnimation("100 * (source.Scale.X - 1)");
+            shadowAnimation.SetReferenceParameter("source", visual);
+            shadow.StartAnimation("BlurRadius", shadowAnimation);
 
-            visual.ImplicitAnimations = animationCollection;
+            return visual;
         }
 
-        private static KeyFrameAnimation CreateAnimationByType(Compositor compositor, VisualPropertyType type,
-            double duration = 800, double delay = 0, CompositionEasingFunction easing = null)
+        public static Visual AddScaleAnimation(this Visual visual, FrameworkElement self, bool cliped = true, float scaleFactor = 1.1f)
         {
-            KeyFrameAnimation animation;
+            if (self == null)
+                throw new ArgumentNullException(nameof(self));
 
-            switch (type)
+            var compositor = visual.Compositor;
+            // Create animation to scale up the rectangle
+            var pointerEnteredAnimation = compositor.CreateVector3KeyFrameAnimation();
+            pointerEnteredAnimation.InsertKeyFrame(1.0f, new Vector3(scaleFactor));
+
+            // Create animation to scale the rectangle back down
+            var pointerExitedAnimation = compositor.CreateVector3KeyFrameAnimation();
+            pointerExitedAnimation.InsertKeyFrame(1.0f, new Vector3(1.0f));
+
+            self.PointerEntered += (sender, e) =>
             {
-                case VisualPropertyType.Offset:
-                case VisualPropertyType.Scale:
-                    animation = compositor.CreateVector3KeyFrameAnimation();
-                    break;
-                case VisualPropertyType.Size:
-                    animation = compositor.CreateVector2KeyFrameAnimation();
-                    break;
-                case VisualPropertyType.Opacity:
-                case VisualPropertyType.RotationAngleInDegrees:
-                    animation = compositor.CreateScalarKeyFrameAnimation();
-                    break;
-                default:
-                    return null;
-            }
+                if (cliped)
+                {
+                    var parent = self.FindAscendant<FrameworkElement>();
+                    parent.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, self.ActualWidth, self.ActualHeight) };
+                }
+                visual.CenterPoint = new Vector3(visual.Size / 2, 0);
+                visual.StartAnimation("Scale", pointerEnteredAnimation);
+            };
+            self.PointerExited += (sender, e) =>
+            {
+                visual.StartAnimation("Scale", pointerExitedAnimation);
+            };
 
-            animation.InsertExpressionKeyFrame(1.0f, "this.FinalValue", easing);
-            animation.Duration = TimeSpan.FromMilliseconds(duration);
-            animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-            animation.Target = type.ToString();
-
-            return animation;
+            return visual;
         }
     }
 }

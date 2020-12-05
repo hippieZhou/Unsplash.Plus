@@ -37,6 +37,7 @@
             ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}"
             ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
             OneRowModeEnabled="False"
+            ScrollViewer.VerticalScrollBarVisibility="Hidden"
             SelectionMode="None"
             ShowsScrollingPlaceholders="False"
             SizeChanged="OnItemGridViewSizeChanged"
@@ -63,5 +64,38 @@
                 <core:ItemClickBehavior Command="{x:Bind ItemClickCommand}" />
             </interactivity:Interaction.Behaviors>
         </toolkits:AdaptiveGridView>
+        <Button
+            Width="48"
+            Height="48"
+            Margin="24"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
+            Click="OnBackToTopClick"
+            Command="{x:Bind BackToTopCommand}"
+            Style="{StaticResource Style-Button-Icon-Circle}">
+            <ContentControl Style="{StaticResource Style-Icon-Up}" />
+            <animations:Implicit.ShowAnimations>
+                <animations:TranslationAnimation
+                    From="0, 100, 0"
+                    To="0"
+                    Duration="0:0:1" />
+                <animations:OpacityAnimation
+                    From="0"
+                    To="1.0"
+                    Duration="0:0:1" />
+            </animations:Implicit.ShowAnimations>
+
+            <animations:Implicit.HideAnimations>
+                <animations:ScalarAnimation
+                    Target="Opacity"
+                    To="0.0"
+                    Duration="0:0:1" />
+                <animations:ScalarAnimation
+                    Target="Translation.Y"
+                    To="100"
+                    Duration="0:0:1" />
+            </animations:Implicit.HideAnimations>
+        </Button>
     </Grid>
 </UserControl>

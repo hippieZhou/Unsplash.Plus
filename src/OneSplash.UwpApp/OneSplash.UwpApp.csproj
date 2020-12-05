@@ -161,7 +161,7 @@
     </Compile>
     <Compile Include="Converters\NavCheckedConverter.cs" />
     <Compile Include="Extensions\CompositionExtensions.cs" />
-    <Compile Include="Extensions\ElementCompositionExtensions.cs" />
+    <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="Extensions\ServiceExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\UIExtensions.cs" />
@@ -206,6 +206,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\arrow-down-circle.svg" />
+    <Content Include="Assets\Icons\arrow-up-circle.svg" />
+    <Content Include="Assets\Icons\github.svg" />
+    <Content Include="Assets\Icons\mail.svg" />
+    <Content Include="Assets\Icons\twitter.svg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

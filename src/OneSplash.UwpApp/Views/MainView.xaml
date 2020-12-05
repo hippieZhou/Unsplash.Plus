@@ -164,6 +164,7 @@
             FooterTemplate="{StaticResource SplahFooterTemplate}"
             ItemClickCommand="{x:Bind ItemClickCommand}"
             ItemHeight="240"
+            ItemLoading="{x:Bind ViewModel.SplashPhotos.IsLoading, Mode=OneWay}"
             ItemMargin="18,36,18,0"
             ItemTemplate="{StaticResource SplashItemTemplate}"
             ItemsSource="{x:Bind ViewModel.SplashPhotos, Mode=OneWay}"
@@ -173,25 +174,7 @@
             </interactivity:Interaction.Behaviors>
             <controls:SplashGridView.Header>
                 <toolkits:ScrollHeader Mode="Fade">
-                    <Grid Height="360">
-                        <ParallaxView Source="{x:Bind SplashGridView}" VerticalShift="360">
-                            <toolkits:ImageEx
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
-                                EnableLazyLoading="True"
-                                IsCacheEnabled="True"
-                                Source="{x:Bind ViewModel.TodaySplash.ImageUri, Mode=OneWay}"
-                                Stretch="UniformToFill" />
-                        </ParallaxView>
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="{StaticResource MontserratBold}"
-                            Style="{StaticResource HeaderTextBlockStyle}"
-                            Text="Welcome To One Splash" />
-                    </Grid>
+                    <Grid Height="360" />
                 </toolkits:ScrollHeader>
             </controls:SplashGridView.Header>
         </controls:SplashGridView>
@@ -200,6 +183,8 @@
             Title="Welcome To One Splash"
             Height="72"
             VerticalAlignment="Top"
+            x:DeferLoadStrategy="Lazy"
+            BackgroundColorOpacity="0"
             Canvas.ZIndex="100"
             FontSize="42"
             HeaderPadding="100,32,0,0"

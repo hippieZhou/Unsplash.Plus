@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp;
 using OneSplash.Application.DTOs;
 using OneSplash.Application.Features.Queries;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -22,13 +23,11 @@ namespace OneSplash.UwpApp.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public ObservableCollection<BingPhotoDto> BingPhotos { get; private set; } = new ObservableCollection<BingPhotoDto>();
-
-        private SplashPhotoDto _todaySplash;
-        public SplashPhotoDto TodaySplash
+        private ObservableCollection<CategoryDto> _splashCategories;
+        public ObservableCollection<CategoryDto> SplashCategories
         {
-            get { return _todaySplash; }
-            set { SetProperty(ref _todaySplash, value); }
+            get { return _splashCategories ?? (_splashCategories = new ObservableCollection<CategoryDto>()); }
+            set { SetProperty(ref _splashCategories, value); }
         }
 
         private IncrementalLoadingCollection<SplashSource, SplashPhotoDto> _splashPhotos;
@@ -61,10 +60,14 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(async () =>
                     {
-                        var todayResponse = await Mediator.Send(new GetTodaySplashQuery());
-                        if (todayResponse.Succeeded)
+                        SplashCategories.Clear();
+                        var categoryResponse = await Mediator.Send(new GetSplashCategoriesQuery());
+                        if (categoryResponse.Succeeded)
                         {
-                            TodaySplash = todayResponse.Data;
+                            categoryResponse.Data.ToList().ForEach(category =>
+                            {
+                                SplashCategories.Add(category);
+                            });
                         }
 
                         SplashPhotos = new IncrementalLoadingCollection<SplashSource, SplashPhotoDto>(
@@ -100,7 +103,7 @@ namespace OneSplash.UwpApp.ViewModels
 
         public async Task<IEnumerable<SplashPhotoDto>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            var parameter = new GetPagedSplashsQuery { PageNumber = pageIndex, PageSize = pageSize };
+            var parameter = new GetSplashPhotosQuery { PageNumber = pageIndex, PageSize = pageSize };
             var response = await _mediator.Send(parameter, cancellationToken);
             return response.Succeeded ? response.Data : Array.Empty<SplashPhotoDto>();
         }
