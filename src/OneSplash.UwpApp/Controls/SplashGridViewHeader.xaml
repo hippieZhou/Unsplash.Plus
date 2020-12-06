@@ -17,38 +17,34 @@
 
 
     <Grid>
-        <Grid
-            x:Name="PrimaryContainer"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
-            <ScrollViewer
-                MaxHeight="{Binding ElementName=headerControl, Path=Height}"
-                HorizontalScrollBarVisibility="Hidden"
-                HorizontalScrollMode="Auto"
-                IsVerticalScrollChainingEnabled="False">
-                <winui:ItemsRepeater ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
-                    <winui:ItemsRepeater.Layout>
-                        <winui:StackLayout Orientation="Horizontal" Spacing="32" />
-                    </winui:ItemsRepeater.Layout>
-                </winui:ItemsRepeater>
-            </ScrollViewer>
-        </Grid>
-        <Grid
-            x:Name="SecondaryContainer"
+        <Rectangle
+            x:Name="PrimaryBackground"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}">
-            <Button
-                Margin="0,0,8,8"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Style="{StaticResource Style-Button-Icon-Circle}">
-                <ContentControl
-                    Width="18"
-                    Foreground="#FF0477BF"
-                    Style="{StaticResource Style-Icon-Info}" />
-            </Button>
-        </Grid>
+            Fill="{ThemeResource SystemControlAcrylicWindowBrush}" />
+        <Rectangle
+            x:Name="SecondaryBackground"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Fill="{ThemeResource SystemControlAcrylicElementBrush}" />
+
+        <AutoSuggestBox
+            x:Name="AutoSuggestBox"
+            MinWidth="520"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            PlaceholderText="Search Free..."
+            QueryIcon="Find"
+            Style="{StaticResource CustomStyledAutoSuggestBox}" />
+        <Button
+            x:Name="SearchBtn"
+            Margin="0,0,8,8"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource Style-Button-Icon-Circle}">
+            <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
+        </Button>
+
     </Grid>
 
 </UserControl>

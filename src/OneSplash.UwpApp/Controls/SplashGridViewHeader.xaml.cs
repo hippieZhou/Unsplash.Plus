@@ -78,13 +78,21 @@ namespace OneSplash.UwpApp.Controls
             headerVisual.StartAnimation("Offset.Y", headerTranslationAnimation);
 
             ExpressionNode primaryOpacityAnimation = 1 - progressNode;
-            ElementCompositionPreview.GetElementVisual(PrimaryContainer).StartAnimation("opacity", primaryOpacityAnimation);
+            ElementCompositionPreview.GetElementVisual(PrimaryBackground).StartAnimation("opacity", primaryOpacityAnimation);
 
             ExpressionNode secondaryOpacityAnimation = progressNode;
-            ElementCompositionPreview.GetElementVisual(SecondaryContainer).StartAnimation("opacity", secondaryOpacityAnimation);
+            ElementCompositionPreview.GetElementVisual(SecondaryBackground).StartAnimation("opacity", secondaryOpacityAnimation);
 
-            //ExpressionNode textscaleAnimation = ExpressionFunctions.Lerp(1, scaleFactorNode, progressNode);
-            //ExpressionNode textOpacityAnimation = ExpressionFunctions.Clamp(1 - (progressNode * 2), 0, 1);
+            ExpressionNode autoSearchBoxScaleAnimation = ExpressionFunctions.Lerp(1, scaleFactorNode, progressNode);
+            ExpressionNode autoSearchBoxOpacityAnimation = ExpressionFunctions.Clamp(1 - (progressNode * 2), 0, 1);
+            Visual autoSearchBoxVisual = ElementCompositionPreview.GetElementVisual(AutoSuggestBox);
+            autoSearchBoxVisual.StartAnimation("Scale.X", autoSearchBoxScaleAnimation);
+            autoSearchBoxVisual.StartAnimation("Scale.Y", autoSearchBoxScaleAnimation);
+            autoSearchBoxVisual.StartAnimation("Opacity", autoSearchBoxOpacityAnimation);
+
+            ExpressionNode searchBtnOpacityAnimation = ExpressionFunctions.Conditional(progressNode < 1, 0, 1);
+            Visual searchBtnVisual = ElementCompositionPreview.GetElementVisual(SearchBtn);
+            searchBtnVisual.StartAnimation("Opacity", searchBtnOpacityAnimation);
         }
     }
 }
