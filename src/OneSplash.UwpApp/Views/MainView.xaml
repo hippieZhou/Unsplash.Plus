@@ -12,11 +12,8 @@
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Views"
-    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkits="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:vm="using:OneSplash.UwpApp.ViewModels"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="SplashItemTemplate" x:DataType="dto:SplashPhotoDto">
@@ -125,6 +122,13 @@
                 </interactivity:Interaction.Behaviors>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="SplashCategoryTemplate" x:DataType="dto:CategoryDto">
+            <Grid
+                Width="100"
+                Height="100"
+                Background="{x:Bind Name}"
+                CornerRadius="50" />
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -139,7 +143,10 @@
             ItemsSource="{x:Bind ViewModel.SplashPhotos, Mode=OneWay}"
             LoadCommand="{x:Bind ViewModel.LoadCommand}">
             <controls:SplashGridView.Header>
-                <controls:SplashGridViewHeader Height="320" />
+                <controls:SplashGridViewHeader
+                    Height="320"
+                    ItemTemplate="{StaticResource SplashCategoryTemplate}"
+                    ItemsSource="{x:Bind ViewModel.SplashCategories, Mode=OneWay}" />
             </controls:SplashGridView.Header>
             <controls:SplashGridView.Footer>
                 <controls:SplashGridViewFooter

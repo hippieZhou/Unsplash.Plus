@@ -20,6 +20,26 @@ namespace OneSplash.UwpApp.Controls
             this.InitializeComponent();
         }
 
+        public object ItemsSource
+        {
+            get { return (object)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(object), typeof(SplashGridViewHeader), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+        public DataTemplate ItemTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(SplashGridViewHeader), new PropertyMetadata(DependencyProperty.UnsetValue));
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             var gridView = this.FindAscendant<GridView>();

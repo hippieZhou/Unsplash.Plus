@@ -5,22 +5,34 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:OneSplash.UwpApp.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     x:Name="headerControl"
     d:DesignHeight="320"
     d:DesignWidth="520"
     d:MinHeight="320"
-    Background="Red"
     FontSize="24"
     Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
     Loaded="OnLoaded"
     mc:Ignorable="d">
 
+
     <Grid>
         <Grid
             x:Name="PrimaryContainer"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="{Binding ElementName=headerControl, Path=Background}" />
+            VerticalAlignment="Stretch">
+            <ScrollViewer
+                MaxHeight="{Binding ElementName=headerControl, Path=Height}"
+                HorizontalScrollBarVisibility="Hidden"
+                HorizontalScrollMode="Auto"
+                IsVerticalScrollChainingEnabled="False">
+                <winui:ItemsRepeater ItemTemplate="{x:Bind ItemTemplate, Mode=OneWay}" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}">
+                    <winui:ItemsRepeater.Layout>
+                        <winui:StackLayout Orientation="Horizontal" Spacing="32" />
+                    </winui:ItemsRepeater.Layout>
+                </winui:ItemsRepeater>
+            </ScrollViewer>
+        </Grid>
         <Grid
             x:Name="SecondaryContainer"
             HorizontalAlignment="Stretch"
