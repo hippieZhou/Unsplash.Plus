@@ -127,7 +127,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Behaviors\ImageScrollBehavior.cs" />
     <Compile Include="Behaviors\ItemClickBehavior.cs" />
     <Compile Include="Behaviors\VisualStateInTemplateBehavior.cs" />
     <Compile Include="Common\ImageLoader.cs" />
@@ -135,26 +134,23 @@
     <Compile Include="Controls\ExtendSplash.xaml.cs">
       <DependentUpon>ExtendSplash.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GridViewHeader.xaml.cs">
-      <DependentUpon>GridViewHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PaneHeader.xaml.cs">
       <DependentUpon>PaneHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\OverlayPopup.xaml.cs">
       <DependentUpon>OverlayPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OverlayPopupBack.xaml.cs">
-      <DependentUpon>OverlayPopupBack.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PageHeader.xaml.cs">
-      <DependentUpon>PageHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PaneFooter.xaml.cs">
       <DependentUpon>PaneFooter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SplashGridView.xaml.cs">
       <DependentUpon>SplashGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SplashGridViewFooter.xaml.cs">
+      <DependentUpon>SplashGridViewFooter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SplashGridViewHeader.xaml.cs">
+      <DependentUpon>SplashGridViewHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\StepThroughListView.xaml.cs">
       <DependentUpon>StepThroughListView.xaml</DependentUpon>
@@ -229,10 +225,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\GridViewHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\PaneHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -241,19 +233,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OverlayPopupBack.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\PageHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\PaneFooter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SplashGridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SplashGridViewFooter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SplashGridViewHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

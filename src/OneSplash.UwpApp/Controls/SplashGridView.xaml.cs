@@ -1,7 +1,14 @@
-﻿using System.Linq;
+﻿using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using System.Linq;
+using System.Numerics;
 using System.Windows.Input;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media;
 
 namespace OneSplash.UwpApp.Controls
 {
@@ -22,27 +29,6 @@ namespace OneSplash.UwpApp.Controls
         public static readonly DependencyProperty HeaderProperty =
             DependencyProperty.Register("Header", typeof(object), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
-        public DataTemplate HeaderTemplate
-        {
-            get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
-            set { SetValue(HeaderTemplateProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for HeaderTemplate.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HeaderTemplateProperty =
-            DependencyProperty.Register("HeaderTemplate", typeof(DataTemplate), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
-
-        public DataTemplate ItemTemplate
-        {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set { SetValue(ItemTemplateProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
-
-
         public object Footer
         {
             get { return (object)GetValue(FooterProperty); }
@@ -53,15 +39,15 @@ namespace OneSplash.UwpApp.Controls
         public static readonly DependencyProperty FooterProperty =
             DependencyProperty.Register("Footer", typeof(object), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
-        public DataTemplate FooterTemplate
+        public DataTemplate ItemTemplate
         {
-            get { return (DataTemplate)GetValue(FooterTemplateProperty); }
-            set { SetValue(FooterTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for FooterTemplate.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FooterTemplateProperty =
-            DependencyProperty.Register("FooterTemplate", typeof(DataTemplate), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
+        // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
         public object ItemsSource
         {
@@ -155,8 +141,6 @@ namespace OneSplash.UwpApp.Controls
         public static readonly DependencyProperty BackToTopCommandProperty =
             DependencyProperty.Register("BackToTopCommand", typeof(ICommand), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
-
-
         private void OnItemGridViewContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             if (sender.ContainerFromItem(sender.Items.LastOrDefault()) is GridViewItem container)
@@ -164,6 +148,24 @@ namespace OneSplash.UwpApp.Controls
                 container.XYFocusDown = container;
             }
         }
+
+        //private CompositionPropertySet _scrollerPropertySet;
+        //private Compositor _compositor;
+        //private CompositionPropertySet _props;
+        //private SpriteVisual _blurredBackgroundImageVisual;
+
+        //private void OnLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    var scrollViewer = AdaptiveGridView.FindDescendant<ScrollViewer>();
+
+        //    var headerPresenter = AdaptiveGridView.Header is null
+        //        ? (UIElement)VisualTreeHelper.GetParent((UIElement)AdaptiveGridView.Header)
+        //        : (UIElement)VisualTreeHelper.GetParent((UIElement)AdaptiveGridView.HeaderTemplate.LoadContent());
+
+        //    var headerContainer = (UIElement)VisualTreeHelper.GetParent(headerPresenter);
+        //    Canvas.SetZIndex(headerContainer, 1);
+        //}
+
         private void OnItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
             //AdaptiveGridView.ScrollIntoView(AdaptiveGridView.SelectedItem);
@@ -173,5 +175,7 @@ namespace OneSplash.UwpApp.Controls
         {
 
         }
+
+
     }
 }

@@ -125,43 +125,12 @@
                 </interactivity:Interaction.Behaviors>
             </Grid>
         </DataTemplate>
-        <DataTemplate x:Key="SplahFooterTemplate" x:DataType="vm:MainViewModel">
-            <Grid Padding="0,12,0,32" VerticalAlignment="Bottom">
-                <Grid Visibility="{x:Bind SplashPhotos.IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <winui:AnimatedVisualPlayer
-                        Width="240"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        AutoPlay="True">
-                        <lottie:LottieVisualSource UriSource="ms-appx:///Assets/Lotties/loading-animation.json" />
-                    </winui:AnimatedVisualPlayer>
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        FontFamily="{StaticResource RobotoMonoBold}"
-                        Text="LOADING..." />
-                </Grid>
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Vertical"
-                    Spacing="12"
-                    Visibility="{x:Bind IsError, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBlock
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="{StaticResource RobotoMonoBold}"
-                        Text="THERE HAVE SOMETHING WRONG" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
     </Page.Resources>
 
     <Grid>
         <controls:SplashGridView
             x:Name="SplashGridView"
             DesiredWidth="360"
-            FooterTemplate="{StaticResource SplahFooterTemplate}"
             ItemClickCommand="{x:Bind ItemClickCommand}"
             ItemHeight="240"
             ItemLoading="{x:Bind ViewModel.SplashPhotos.IsLoading, Mode=OneWay}"
@@ -169,29 +138,15 @@
             ItemTemplate="{StaticResource SplashItemTemplate}"
             ItemsSource="{x:Bind ViewModel.SplashPhotos, Mode=OneWay}"
             LoadCommand="{x:Bind ViewModel.LoadCommand}">
-            <interactivity:Interaction.Behaviors>
-                <core:ImageScrollBehavior TargetControl="{Binding ElementName=PageHeader}" />
-            </interactivity:Interaction.Behaviors>
             <controls:SplashGridView.Header>
-                <toolkits:ScrollHeader Mode="Fade">
-                    <Grid Height="360" />
-                </toolkits:ScrollHeader>
+                <controls:SplashGridViewHeader Height="320" />
             </controls:SplashGridView.Header>
+            <controls:SplashGridView.Footer>
+                <controls:SplashGridViewFooter
+                    Padding="0,12,0,32"
+                    IsError="{x:Bind ViewModel.IsError, Mode=OneWay}"
+                    IsLoading="{x:Bind ViewModel.SplashPhotos.IsLoading, Mode=OneWay}" />
+            </controls:SplashGridView.Footer>
         </controls:SplashGridView>
-        <controls:PageHeader
-            x:Name="PageHeader"
-            Title="Welcome To One Splash"
-            Height="72"
-            VerticalAlignment="Top"
-            x:DeferLoadStrategy="Lazy"
-            BackgroundColorOpacity="0"
-            Canvas.ZIndex="100"
-            FontSize="42"
-            HeaderPadding="100,32,0,0"
-            IsHitTestVisible="False">
-            <controls:PageHeader.Background>
-                <AcrylicBrush TintColor="{ThemeResource SystemChromeMediumLowColor}" TintOpacity="0.2" />
-            </controls:PageHeader.Background>
-        </controls:PageHeader>
     </Grid>
 </Page>
