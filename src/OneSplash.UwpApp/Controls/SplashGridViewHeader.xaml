@@ -30,9 +30,10 @@
 
         <AutoSuggestBox
             x:Name="AutoSuggestBox"
-            MinWidth="520"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            d:MinWidth="520"
+            d:Width="520"
             PlaceholderText="Search Free..."
             QueryIcon="Find"
             Style="{StaticResource CustomStyledAutoSuggestBox}" />
@@ -45,6 +46,26 @@
             <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
         </Button>
 
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AutoSuggestBox.Width" Value="360" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource Breakpoint640Plus}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AutoSuggestBox.Width" Value="520" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 
 </UserControl>

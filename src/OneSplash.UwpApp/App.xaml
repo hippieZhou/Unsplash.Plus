@@ -19,6 +19,8 @@
 
             <x:Boolean x:Key="UseSystemFocusVisuals">False</x:Boolean>
 
+            <x:Double x:Key="Breakpoint640Plus">641</x:Double>
+
             <!--  https://github.com/windows-toolkit/MVVM-Samples/blob/master/samples/MvvmSampleUwp/MvvmSampleUwp/Views/AsyncRelayCommandPage.xaml  -->
             <!--<Run Text="{x:Bind ViewModel.DownloadTextCommand.ExecutionTask, Converter={StaticResource TaskResultConverter}, Mode=OneWay}"/>-->
             <converters:TaskResultConverter x:Key="TaskResultConverter" />
@@ -35,6 +37,7 @@
             <animation:AnimationCollection x:Key="ImplicitOffsetAnimation">
                 <animation:OffsetAnimation Duration="0:0:0.4" />
             </animation:AnimationCollection>
+
 
             <animation:AnimationCollection x:Key="DefaultShowAnimations">
                 <animation:TranslationAnimation
