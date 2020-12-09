@@ -86,6 +86,7 @@ namespace OneSplash.UwpApp.Controls
             ExpressionNode autoSearchBoxScaleAnimation = ExpressionFunctions.Lerp(1, scaleFactorNode, progressNode);
             ExpressionNode autoSearchBoxOpacityAnimation = ExpressionFunctions.Clamp(1 - (progressNode * 2), 0, 1);
             Visual autoSearchBoxVisual = ElementCompositionPreview.GetElementVisual(AutoSuggestBox);
+            autoSearchBoxVisual.CenterPoint = new Vector3((float)(ActualWidth / 2), (float)ActualHeight, 0);
             autoSearchBoxVisual.StartAnimation("Scale.X", autoSearchBoxScaleAnimation);
             autoSearchBoxVisual.StartAnimation("Scale.Y", autoSearchBoxScaleAnimation);
             autoSearchBoxVisual.StartAnimation("Opacity", autoSearchBoxOpacityAnimation);

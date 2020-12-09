@@ -1,6 +1,7 @@
 ﻿using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using OneSplash.UwpApp.Extensions;
 using System.Linq;
 using System.Numerics;
 using System.Windows.Input;
@@ -149,33 +150,17 @@ namespace OneSplash.UwpApp.Controls
             }
         }
 
-        //private CompositionPropertySet _scrollerPropertySet;
-        //private Compositor _compositor;
-        //private CompositionPropertySet _props;
-        //private SpriteVisual _blurredBackgroundImageVisual;
-
-        //private void OnLoaded(object sender, RoutedEventArgs e)
-        //{
-        //    var scrollViewer = AdaptiveGridView.FindDescendant<ScrollViewer>();
-
-        //    var headerPresenter = AdaptiveGridView.Header is null
-        //        ? (UIElement)VisualTreeHelper.GetParent((UIElement)AdaptiveGridView.Header)
-        //        : (UIElement)VisualTreeHelper.GetParent((UIElement)AdaptiveGridView.HeaderTemplate.LoadContent());
-
-        //    var headerContainer = (UIElement)VisualTreeHelper.GetParent(headerPresenter);
-        //    Canvas.SetZIndex(headerContainer, 1);
-        //}
-
         private void OnItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //AdaptiveGridView.ScrollIntoView(AdaptiveGridView.SelectedItem);
         }
 
         private void OnBackToTopClick(object sender, RoutedEventArgs e)
         {
-
+            var scrollViewer = AdaptiveGridView.FindDescendant<ScrollViewer>();
+            if (scrollViewer != null && AdaptiveGridView.ContainerFromItem(AdaptiveGridView.Items.FirstOrDefault())  is GridViewItem container)
+            {
+                scrollViewer.ScrollToElement(container);
+            }
         }
-
-
     }
 }
