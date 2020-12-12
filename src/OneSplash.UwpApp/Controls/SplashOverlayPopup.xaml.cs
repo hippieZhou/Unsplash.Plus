@@ -8,10 +8,9 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace OneSplash.UwpApp.Controls
 {
-    public sealed partial class OverlayPopup : UserControl
+    public sealed partial class SplashOverlayPopup : UserControl
     {
-        public event EventHandler<RoutedEventArgs> HideClicked;
-        public OverlayPopup()
+        public SplashOverlayPopup()
         {
             this.InitializeComponent();
         }
@@ -24,16 +23,18 @@ namespace OneSplash.UwpApp.Controls
 
         // Using a DependencyProperty as the backing store for SelectedItem.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(SplashPhotoDto), typeof(OverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
+            DependencyProperty.Register("SelectedItem", typeof(SplashPhotoDto), typeof(SplashOverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
 
-        private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
+        public ICommand TappedCommand
         {
-            if (e.OriginalSource.Equals(rootGrid))
-            {
-                HideClicked?.Invoke(sender, e);
-                e.Handled = true;
-            }
+            get { return (ICommand)GetValue(TappedCommandProperty); }
+            set { SetValue(TappedCommandProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for TappedCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TappedCommandProperty =
+            DependencyProperty.Register("TappedCommand", typeof(ICommand), typeof(SplashOverlayPopup), new PropertyMetadata(DependencyProperty.UnsetValue));
+
 
         private void DestinationElement_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
         {

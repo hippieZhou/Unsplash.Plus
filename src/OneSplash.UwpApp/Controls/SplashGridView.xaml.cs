@@ -153,14 +153,5 @@ namespace OneSplash.UwpApp.Controls
         private void OnItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
         }
-
-        private void OnBackToTopClick(object sender, RoutedEventArgs e)
-        {
-            var scrollViewer = AdaptiveGridView.FindDescendant<ScrollViewer>();
-            if (scrollViewer != null && AdaptiveGridView.ContainerFromItem(AdaptiveGridView.Items.FirstOrDefault())  is GridViewItem container)
-            {
-                scrollViewer.ScrollToElement(container);
-            }
-        }
     }
 }

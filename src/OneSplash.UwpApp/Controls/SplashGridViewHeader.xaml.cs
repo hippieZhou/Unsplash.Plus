@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using OneSplash.UwpApp.Extensions;
 using System.Numerics;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
@@ -51,7 +52,7 @@ namespace OneSplash.UwpApp.Controls
             var headerContainer = (UIElement)VisualTreeHelper.GetParent(headerPresenter);
             Canvas.SetZIndex(headerContainer, 1);
 
-            _scrollerPropertySet = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
+            _scrollerPropertySet = scrollViewer.GetScrollViewerManipulationPropertySet();
             _compositor = _scrollerPropertySet.Compositor;
 
             _props = _compositor.CreatePropertySet();
@@ -71,22 +72,22 @@ namespace OneSplash.UwpApp.Controls
             ExpressionNode headerScaleAnimation = ExpressionFunctions.Lerp(1, 1.25f, ExpressionFunctions.Clamp(scrollingProperties.Translation.Y / 50, 0, 1));
             ExpressionNode headerTranslationAnimation = ExpressionFunctions.Conditional(progressNode < 1, 0, -scrollingProperties.Translation.Y - clampSizeNode);
 
-            var headerVisual = ElementCompositionPreview.GetElementVisual(this);
-            headerVisual.CenterPoint = new Vector3((float)(ActualWidth / 2), (float)ActualHeight, 0);
+            var headerVisual = this.ElementVisual();
+            headerVisual.CenterPoint = new Vector3((float)(this.ActualWidth / 2), (float)this.ActualHeight, 0);
             headerVisual.StartAnimation("Scale.X", headerScaleAnimation);
             headerVisual.StartAnimation("Scale.Y", headerScaleAnimation);
             headerVisual.StartAnimation("Offset.Y", headerTranslationAnimation);
 
             ExpressionNode primaryOpacityAnimation = 1 - progressNode;
-            ElementCompositionPreview.GetElementVisual(PrimaryBackground).StartAnimation("opacity", primaryOpacityAnimation);
+            PrimaryBackground.ElementVisual().StartAnimation("opacity", primaryOpacityAnimation);
 
             ExpressionNode secondaryOpacityAnimation = progressNode;
-            ElementCompositionPreview.GetElementVisual(SecondaryBackground).StartAnimation("opacity", secondaryOpacityAnimation);
+            SecondaryBackground.ElementVisual().StartAnimation("opacity", secondaryOpacityAnimation);
 
             ExpressionNode autoSearchBoxScaleAnimation = ExpressionFunctions.Lerp(1, scaleFactorNode, progressNode);
             ExpressionNode autoSearchBoxOpacityAnimation = ExpressionFunctions.Clamp(1 - (progressNode * 2), 0, 1);
-            Visual autoSearchBoxVisual = ElementCompositionPreview.GetElementVisual(AutoSuggestBox);
-            autoSearchBoxVisual.CenterPoint = new Vector3((float)(ActualWidth / 2), (float)ActualHeight, 0);
+            Visual autoSearchBoxVisual = SearchBox.ElementVisual();
+            autoSearchBoxVisual.CenterPoint = new Vector3((float)(SearchBox.ActualWidth / 2), (float)SearchBox.ActualHeight, 0);
             autoSearchBoxVisual.StartAnimation("Scale.X", autoSearchBoxScaleAnimation);
             autoSearchBoxVisual.StartAnimation("Scale.Y", autoSearchBoxScaleAnimation);
             autoSearchBoxVisual.StartAnimation("Opacity", autoSearchBoxOpacityAnimation);

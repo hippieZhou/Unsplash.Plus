@@ -50,8 +50,8 @@ namespace OneSplash.UwpApp
                 Ioc.Default.ConfigureServices(ConfigureServices());
 
                 Window.Current.Content = new Shell();
-                TitleBarHelper.ExpandViewIntoTitleBar();
-                TitleBarHelper.UpdateTitleBar();
+                //TitleBarHelper.ExpandViewIntoTitleBar();
+                //TitleBarHelper.UpdateTitleBar();
 
                 ThemeHelper.Initialize();
             }

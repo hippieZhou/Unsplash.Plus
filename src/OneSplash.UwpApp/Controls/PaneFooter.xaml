@@ -73,7 +73,7 @@
                 <TextBlock
                     FontFamily="{StaticResource MontserratBold}"
                     Foreground="White"
-                    Text="{x:Bind ApplicationVersion, Mode=OneWay}" />
+                    Text="{x:Bind ApplicationVersion}" />
             </Grid>
             <StackPanel Orientation="Horizontal">
                 <Button Style="{StaticResource Style-Button-Icon-Circle}">

@@ -70,7 +70,6 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
-            Click="OnBackToTopClick"
             Command="{x:Bind BackToTopCommand}"
             Style="{StaticResource Style-Button-Icon-Circle}">
             <ContentControl Style="{StaticResource Style-Icon-Up}" />

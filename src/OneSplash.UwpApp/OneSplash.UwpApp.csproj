@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -137,8 +137,8 @@
     <Compile Include="Controls\PaneHeader.xaml.cs">
       <DependentUpon>PaneHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OverlayPopup.xaml.cs">
-      <DependentUpon>OverlayPopup.xaml</DependentUpon>
+    <Compile Include="Controls\SplashOverlayPopup.xaml.cs">
+      <DependentUpon>SplashOverlayPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PaneFooter.xaml.cs">
       <DependentUpon>PaneFooter.xaml</DependentUpon>
@@ -164,7 +164,6 @@
     <Compile Include="Helpers\TitleBarHelper.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Servcies\Logging\CustomDetailsEnricher.cs" />
-    <Compile Include="Servcies\Messages\ConnectedNavMessage.cs" />
     <Compile Include="Servcies\Messages\ViewChangedMessage.cs" />
     <Compile Include="Servcies\Navigation\INavigationService.cs" />
     <Compile Include="Servcies\Navigation\NavigationService.cs" />
@@ -229,7 +228,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OverlayPopup.xaml">
+    <Page Include="Controls\SplashOverlayPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

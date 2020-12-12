@@ -60,6 +60,8 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _loadCommand = new RelayCommand(async () =>
                     {
+                        await Task.Delay(TimeSpan.FromSeconds(2));
+
                         SplashCategories.Clear();
                         var categoryResponse = await Mediator.Send(new GetSplashCategoriesQuery());
                         if (categoryResponse.Succeeded)

@@ -14,6 +14,7 @@ namespace OneSplash.UwpApp.Extensions
     public static class CompositionExtensions
     {
         public static Visual ElementVisual(this UIElement element) => ElementCompositionPreview.GetElementVisual(element);
+        public static CompositionPropertySet GetScrollViewerManipulationPropertySet(this ScrollViewer scrollViewer) => ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
 
         public static Visual AddShadow(this Visual visual, Canvas shadowHost)
         {

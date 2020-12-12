@@ -7,12 +7,29 @@
     xmlns:controls="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    xmlns:views="using:OneSplash.UwpApp.Views"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    extensions:ApplicationViewExtensions.ExtendViewIntoTitleBar="True"
+    extensions:ApplicationViewExtensions.Title="View Extensions"
+    extensions:TitleBarExtensions.BackgroundColor="{StaticResource SystemColorWindowColor}"
+    extensions:TitleBarExtensions.ButtonBackgroundColor="Transparent"
+    extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource SystemColorWindowTextColor}"
+    extensions:TitleBarExtensions.ButtonInactiveBackgroundColor="Transparent"
+    extensions:TitleBarExtensions.ForegroundColor="{StaticResource SystemColorWindowTextColor}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <DrillInNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
     <interactivity:Interaction.Behaviors>
         <core:EventTriggerBehavior EventName="Loaded">
             <core:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommand}" />
@@ -20,7 +37,7 @@
     </interactivity:Interaction.Behaviors>
 
     <Grid>
-        <winui:NavigationView
+        <!--<winui:NavigationView
             x:Name="MainNav"
             IsSettingsVisible="False"
             IsTabStop="False"
@@ -79,20 +96,40 @@
                     </Frame.ContentTransitions>
                 </Frame>
             </winui:NavigationView.Content>
-        </winui:NavigationView>
+        </winui:NavigationView>-->
 
-        <controls:OverlayPopup
-            x:Name="OverlayPopup"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            HideClicked="OnOverlayPopupHideClicked"
-            Visibility="Collapsed">
-            <animations:Implicit.ShowAnimations>
-                <animations:OpacityAnimation
-                    From="0"
-                    To="1.0"
-                    Duration="0:0:1" />
-            </animations:Implicit.ShowAnimations>
-        </controls:OverlayPopup>
+        <SplitView
+            DisplayMode="Overlay"
+            IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
+            OpenPaneLength="240">
+            <SplitView.Content>
+                <Grid>
+                    <views:MainView />
+                </Grid>
+            </SplitView.Content>
+        </SplitView>
+
+
+
+        <!--<VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:NetworkConnectionStateTrigger ConnectionState="Disconnected" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SplashGridView.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:NetworkConnectionStateTrigger ConnectionState="Connected" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SplashGridView.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>-->
     </Grid>
 </Page>
