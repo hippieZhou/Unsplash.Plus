@@ -84,13 +84,17 @@ namespace OneSplash.UwpApp.Controls
             ExpressionNode secondaryOpacityAnimation = progressNode;
             SecondaryBackground.ElementVisual().StartAnimation("opacity", secondaryOpacityAnimation);
 
-            ExpressionNode autoSearchBoxScaleAnimation = ExpressionFunctions.Lerp(1, scaleFactorNode, progressNode);
-            ExpressionNode autoSearchBoxOpacityAnimation = ExpressionFunctions.Clamp(1 - (progressNode * 2), 0, 1);
+            ExpressionNode scaleAnimation = ExpressionFunctions.Lerp(1, scaleFactorNode, progressNode);
+            ExpressionNode opacityAnimation = ExpressionFunctions.Clamp(1 - (progressNode * 2), 0, 1);
             Visual autoSearchBoxVisual = SearchBox.ElementVisual();
             autoSearchBoxVisual.CenterPoint = new Vector3((float)(SearchBox.ActualWidth / 2), (float)SearchBox.ActualHeight, 0);
-            autoSearchBoxVisual.StartAnimation("Scale.X", autoSearchBoxScaleAnimation);
-            autoSearchBoxVisual.StartAnimation("Scale.Y", autoSearchBoxScaleAnimation);
-            autoSearchBoxVisual.StartAnimation("Opacity", autoSearchBoxOpacityAnimation);
+            autoSearchBoxVisual.StartAnimation("Scale.X", scaleAnimation);
+            autoSearchBoxVisual.StartAnimation("Scale.Y", scaleAnimation);
+            autoSearchBoxVisual.StartAnimation("Opacity", opacityAnimation);
+
+            Visual subMenuPanelVisual = SubMenuPanel.ElementVisual();
+            ExpressionNode contentOffsetAnimation = progressNode * 100;
+            subMenuPanelVisual.StartAnimation("Offset.Y", contentOffsetAnimation);
 
             ExpressionNode searchBtnOpacityAnimation = ExpressionFunctions.Conditional(progressNode < 1, 0, 1);
             Visual searchBtnVisual = ElementCompositionPreview.GetElementVisual(SearchBtn);

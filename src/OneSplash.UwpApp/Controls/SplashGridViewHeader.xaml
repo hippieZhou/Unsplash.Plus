@@ -95,23 +95,29 @@
             </animations:Implicit.ShowAnimations>
         </AutoSuggestBox>
 
-        <Button
-            Width="48"
-            Height="48"
-            Margin="32,32"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Style="{StaticResource Style-Button-Icon-Circle}">
-            <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
-        </Button>
-        <Button
-            x:Name="SearchBtn"
-            Margin="0,0,8,8"
+        <StackPanel
+            x:Name="SubMenuPanel"
+            Margin="12,0,32,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            Style="{StaticResource Style-Button-Icon-Circle}">
-            <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
-        </Button>
+            Orientation="Horizontal"
+            Spacing="6">
+            <StackPanel.Resources>
+                <Style BasedOn="{StaticResource TextBlockButtonStyle}" TargetType="Button">
+                    <Setter Property="Width" Value="48" />
+                    <Setter Property="Height" Value="48" />
+                </Style>
+            </StackPanel.Resources>
+            <Button x:Name="SearchBtn">
+                <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
+            </Button>
+            <Button>
+                <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
+            </Button>
+            <Button>
+                <ContentControl Width="18" Style="{StaticResource Style-Icon-Info}" />
+            </Button>
+        </StackPanel>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
