@@ -1,15 +1,19 @@
 ﻿using Microsoft.Toolkit.Mvvm.DependencyInjection;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using OneSplash.Application.DTOs;
 using OneSplash.UwpApp.Controls;
 using OneSplash.UwpApp.ViewModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
-
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Shapes;
 
 namespace OneSplash.UwpApp.Views
 {
@@ -107,6 +111,85 @@ namespace OneSplash.UwpApp.Views
                     });
                 }
                 return _backToTopCommand;
+            }
+        }
+
+        private ICommand _downloadCommand;
+        public ICommand DownloadCommand
+        {
+            get
+            {
+                if (_downloadCommand == null)
+                {
+                    _downloadCommand = new RelayCommand(() =>
+                    {
+                        var download = Ioc.Default.GetRequiredService<DownloadViewModel>();
+                        if (download != null)
+                        {
+                            download.IsPaneShow = true;
+                        }
+                    });
+                }
+                return _downloadCommand;
+            }
+        }
+
+        private ICommand _moreCommand;
+        public ICommand MoreCommand
+        {
+            get
+            {
+                if (_moreCommand == null)
+                {
+                    _moreCommand = new RelayCommand(() =>
+                    {
+                        var shell = Ioc.Default.GetRequiredService<ShellViewModel>();
+                        if (shell != null)
+                        {
+                            shell.IsPaneOpen = true;
+                        }
+                    });
+                }
+                return _moreCommand;
+            }
+        }
+
+        private bool _firstTimeAnimation = true;
+        private string _dotAnimationKey = "storeSplash";
+        private async void OnItemDownload(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button handler && handler.FindParentByName("connectedElement") is Grid root && handler.DataContext is SplashPhotoDto model)
+            {
+                handler.IsEnabled = false;
+                if (root.FindChildByName("HeroImage") is ImageEx heroImage && root.FindChildByName("HeroImageMirror") is Image heroImageMirror)
+                {
+                    var bitmap = new RenderTargetBitmap();
+                    await bitmap.RenderAsync(heroImage);
+                    heroImageMirror.Source = bitmap;
+
+                    ViewModel.DownloadCommand?.Execute(model);
+
+                    ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
+                    if (SplashGridView.Header is SplashGridViewHeader header)
+                    {
+                        var dot = header.FindDescendant<Ellipse>();
+
+                        var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
+                        animation?.TryStart(dot);
+                        dot.Visibility = Visibility.Visible;
+
+                        // JL: Need to figutre out why the first time the animation doesn't run although animation returns true.
+                        if (_firstTimeAnimation)
+                        {
+                            _firstTimeAnimation = false;
+                            await Task.Delay(50);
+                            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
+                            var animation1 = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
+                            animation1?.TryStart(dot);
+                        }
+                    }
+                }
+                handler.IsEnabled = true;
             }
         }
     }

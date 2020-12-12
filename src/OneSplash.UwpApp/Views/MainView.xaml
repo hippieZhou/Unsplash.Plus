@@ -19,7 +19,10 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate x:Key="SplashItemTemplate" x:DataType="dto:SplashPhotoDto">
-            <Grid x:Name="connectedElement" common:ImageLoader.Source="{x:Bind}">
+            <Grid
+                x:Name="connectedElement"
+                common:ImageLoader.Source="{x:Bind}"
+                DataContext="{x:Bind}">
                 <Grid.Background>
                     <AcrylicBrush
                         BackgroundSource="Backdrop"
@@ -28,7 +31,7 @@
                         TintOpacity="0.4" />
                 </Grid.Background>
                 <toolkits:ImageEx
-                    x:Name="itemSplash"
+                    x:Name="HeroImage"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -37,6 +40,7 @@
                     EnableLazyLoading="True"
                     IsCacheEnabled="True"
                     Stretch="UniformToFill" />
+                <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
                 <TextBlock
                     x:Name="itemName"
                     Margin="12,0,0,12"
@@ -64,11 +68,14 @@
                 </TextBlock>
                 <Button
                     x:Name="itemDownload"
+                    Width="48"
+                    Height="48"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
+                    Click="OnItemDownload"
                     Style="{StaticResource Style-Button-Icon-Circle}"
                     Visibility="Collapsed">
-                    <ContentControl Width="16" Style="{StaticResource Style-Icon-Download}" />
+                    <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation
                             From="0"
@@ -148,10 +155,10 @@
             <controls:SplashGridView.Header>
                 <controls:SplashGridViewHeader
                     Height="320"
-                    DownloadCommand="{x:Bind ViewModel.DownloadCommand}"
+                    DownloadCommand="{x:Bind DownloadCommand}"
                     ItemTemplate="{StaticResource SplashCategoryTemplate}"
                     ItemsSource="{x:Bind ViewModel.SplashCategories, Mode=OneWay}"
-                    MoreCommand="{x:Bind ViewModel.MoreCommand}" />
+                    MoreCommand="{x:Bind MoreCommand}" />
             </controls:SplashGridView.Header>
             <controls:SplashGridView.Footer>
                 <controls:SplashGridViewFooter

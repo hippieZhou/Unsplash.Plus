@@ -5,6 +5,7 @@ using OneSplash.Application.DTOs;
 using OneSplash.UwpApp.Extensions;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -47,7 +48,7 @@ namespace OneSplash.UwpApp.Common
                     var imageBrush = model.Color.ToColor();
                     var imageSource = await FromCachedFileAsync(model.ImageUri);
 
-                    if (rootGrid.FindName("itemSplash") is ImageEx imageEx && imageSource != null)
+                    if (rootGrid.FindName("HeroImage") is ImageEx imageEx && imageSource != null)
                     {
                         imageEx.Loaded += (sender, args) =>
                         {
@@ -58,6 +59,24 @@ namespace OneSplash.UwpApp.Common
                         imageEx.Source = imageSource;
                     }
                 }
+            }));
+
+
+        public static ICommand GetDownload(DependencyObject obj)
+        {
+            return (ICommand)obj.GetValue(DownloadProperty);
+        }
+
+        public static void SetDownload(DependencyObject obj, ICommand value)
+        {
+            obj.SetValue(DownloadProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for Download.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DownloadProperty =
+            DependencyProperty.RegisterAttached("Download", typeof(ICommand), typeof(ImageLoader), new PropertyMetadata(default,(d,e)=> 
+            {
+             
             }));
     }
 }

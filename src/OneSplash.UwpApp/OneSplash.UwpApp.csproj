@@ -129,7 +129,6 @@
     </Compile>
     <Compile Include="Behaviors\VisualStateInTemplateBehavior.cs" />
     <Compile Include="Common\ImageLoader.cs" />
-    <Compile Include="Common\ViewLoader.cs" />
     <Compile Include="Controls\ExtendSplash.xaml.cs">
       <DependentUpon>ExtendSplash.xaml</DependentUpon>
     </Compile>

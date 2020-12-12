@@ -113,7 +113,18 @@
                 <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
             </Button>
             <Button Command="{x:Bind DownloadCommand}">
-                <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
+                <Grid>
+                    <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
+                    <Ellipse
+                        x:Name="DownloadStoreDot"
+                        Width="6"
+                        Height="6"
+                        Margin="0,-5,-5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Fill="#FFD90404"
+                        Visibility="Collapsed" />
+                </Grid>
             </Button>
             <Button Command="{x:Bind MoreCommand}">
                 <ContentControl Width="18" Style="{StaticResource Style-Icon-Info}" />
