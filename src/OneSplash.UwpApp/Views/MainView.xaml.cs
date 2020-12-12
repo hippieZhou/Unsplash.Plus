@@ -158,7 +158,7 @@ namespace OneSplash.UwpApp.Views
         private string _dotAnimationKey = "storeSplash";
         private async void OnItemDownload(object sender, RoutedEventArgs e)
         {
-            if (sender is Button handler && handler.FindParentByName("connectedElement") is Grid root && handler.DataContext is SplashPhotoDto model)
+            if (sender is Button handler && handler.FindParentByName("connectedElement") is Grid root)
             {
                 handler.IsEnabled = false;
                 if (root.FindChildByName("HeroImage") is ImageEx heroImage && root.FindChildByName("HeroImageMirror") is Image heroImageMirror)
@@ -167,7 +167,7 @@ namespace OneSplash.UwpApp.Views
                     await bitmap.RenderAsync(heroImage);
                     heroImageMirror.Source = bitmap;
 
-                    ViewModel.DownloadCommand?.Execute(model);
+                    ViewModel.DownloadCommand?.Execute(root.DataContext);
 
                     ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
                     if (SplashGridView.Header is SplashGridViewHeader header)

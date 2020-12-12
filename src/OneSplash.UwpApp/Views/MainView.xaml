@@ -68,36 +68,20 @@
                 </TextBlock>
                 <Button
                     x:Name="itemDownload"
-                    Width="48"
-                    Height="48"
+                    Width="40"
+                    Height="40"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Click="OnItemDownload"
-                    Style="{StaticResource Style-Button-Icon-Circle}"
-                    Visibility="Collapsed">
-                    <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
-                    <animations:Implicit.ShowAnimations>
-                        <animations:OpacityAnimation
-                            From="0"
-                            To="1.0"
-                            Duration="0:0:0.600" />
-                    </animations:Implicit.ShowAnimations>
-                    <animations:Implicit.HideAnimations>
-                        <animations:OpacityAnimation
-                            From="1.0"
-                            To="0"
-                            Duration="0:0:0.600" />
-                    </animations:Implicit.HideAnimations>
+                    CornerRadius="0"
+                    Style="{StaticResource ButtonRevealStyle}">
+                    <ContentControl Width="20" Style="{StaticResource Style-Icon-Download}" />
                 </Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="PointerEntered">
                         <core:ChangePropertyAction
                             PropertyName="Visibility"
                             TargetObject="{Binding ElementName=itemName}"
-                            Value="Visible" />
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=itemDownload}"
                             Value="Visible" />
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
                             <core:ChangePropertyAction.Value>
@@ -113,10 +97,6 @@
                         <core:ChangePropertyAction
                             PropertyName="Visibility"
                             TargetObject="{Binding ElementName=itemName}"
-                            Value="Collapsed" />
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=itemDownload}"
                             Value="Collapsed" />
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
                             <core:ChangePropertyAction.Value>
