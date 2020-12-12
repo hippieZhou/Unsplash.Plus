@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using OneSplash.UwpApp.Extensions;
 using System.Numerics;
+using System.Windows.Input;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -40,6 +41,27 @@ namespace OneSplash.UwpApp.Controls
         // Using a DependencyProperty as the backing store for ItemTemplate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(SplashGridViewHeader), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+        public ICommand DownloadCommand
+        {
+            get { return (ICommand)GetValue(DownloadCommandProperty); }
+            set { SetValue(DownloadCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DownloadCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DownloadCommandProperty =
+            DependencyProperty.Register("DownloadCommand", typeof(ICommand), typeof(SplashGridViewHeader), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+        public ICommand MoreCommand
+        {
+            get { return (ICommand)GetValue(MoreCommandProperty); }
+            set { SetValue(MoreCommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MoreCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MoreCommandProperty =
+            DependencyProperty.Register("MoreCommand", typeof(ICommand), typeof(SplashGridViewHeader), new PropertyMetadata(DependencyProperty.UnsetValue));
+
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {

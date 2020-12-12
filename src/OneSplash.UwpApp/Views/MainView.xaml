@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:common="using:OneSplash.UwpApp.Common"
     xmlns:controls="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
@@ -14,6 +13,7 @@
     xmlns:local="using:OneSplash.UwpApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkits="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
     mc:Ignorable="d">
@@ -138,18 +138,20 @@
             x:Name="SplashGridView"
             BackToTopCommand="{x:Bind BackToTopCommand}"
             DesiredWidth="360"
-            ItemClickCommand="{x:Bind ItemClickCommand}"
             ItemHeight="240"
             ItemLoading="{x:Bind ViewModel.SplashPhotos.IsLoading, Mode=OneWay}"
             ItemMargin="18,36,18,0"
+            ItemSelectedCommand="{x:Bind ItemClickCommand}"
             ItemTemplate="{StaticResource SplashItemTemplate}"
             ItemsSource="{x:Bind ViewModel.SplashPhotos, Mode=OneWay}"
             LoadCommand="{x:Bind ViewModel.LoadCommand}">
             <controls:SplashGridView.Header>
                 <controls:SplashGridViewHeader
                     Height="320"
+                    DownloadCommand="{x:Bind ViewModel.DownloadCommand}"
                     ItemTemplate="{StaticResource SplashCategoryTemplate}"
-                    ItemsSource="{x:Bind ViewModel.SplashCategories, Mode=OneWay}" />
+                    ItemsSource="{x:Bind ViewModel.SplashCategories, Mode=OneWay}"
+                    MoreCommand="{x:Bind ViewModel.MoreCommand}" />
             </controls:SplashGridView.Header>
             <controls:SplashGridView.Footer>
                 <controls:SplashGridViewFooter
@@ -164,5 +166,26 @@
             x:DeferLoadStrategy="Lazy"
             TappedCommand="{x:Bind TappedCommand}"
             Visibility="Collapsed" />
+
+        <!--<VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:NetworkConnectionStateTrigger ConnectionState="Disconnected" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SplashGridView.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:NetworkConnectionStateTrigger ConnectionState="Connected" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SplashGridView.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>-->
     </Grid>
 </UserControl>

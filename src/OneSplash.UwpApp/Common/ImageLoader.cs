@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace OneSplash.UwpApp.Common
 {
-    public class ImageLoader
+    public static class ImageLoader
     {
         private static async Task<ImageSource> FromCachedFileAsync(string imageUri)
         {

@@ -97,24 +97,25 @@
 
         <StackPanel
             x:Name="SubMenuPanel"
-            Margin="12,0,32,0"
+            Margin="0,0,20,6"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Orientation="Horizontal"
             Spacing="6">
             <StackPanel.Resources>
-                <Style BasedOn="{StaticResource TextBlockButtonStyle}" TargetType="Button">
-                    <Setter Property="Width" Value="48" />
-                    <Setter Property="Height" Value="48" />
+                <Style BasedOn="{StaticResource ButtonRevealStyle}" TargetType="Button">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Width" Value="40" />
+                    <Setter Property="Height" Value="40" />
                 </Style>
             </StackPanel.Resources>
             <Button x:Name="SearchBtn">
                 <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
             </Button>
-            <Button>
+            <Button Command="{x:Bind DownloadCommand}">
                 <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
             </Button>
-            <Button>
+            <Button Command="{x:Bind MoreCommand}">
                 <ContentControl Width="18" Style="{StaticResource Style-Icon-Info}" />
             </Button>
         </StackPanel>

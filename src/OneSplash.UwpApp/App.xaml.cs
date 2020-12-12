@@ -6,7 +6,6 @@ using OneSplash.Infrastructure;
 using OneSplash.UwpApp.Extensions;
 using OneSplash.UwpApp.Helpers;
 using OneSplash.UwpApp.Servcies.Logging;
-using OneSplash.UwpApp.Servcies.Navigation;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -50,9 +49,6 @@ namespace OneSplash.UwpApp
                 Ioc.Default.ConfigureServices(ConfigureServices());
 
                 Window.Current.Content = new Shell();
-                //TitleBarHelper.ExpandViewIntoTitleBar();
-                //TitleBarHelper.UpdateTitleBar();
-
                 ThemeHelper.Initialize();
             }
 
@@ -76,7 +72,6 @@ namespace OneSplash.UwpApp
             .AddApplicationLayer()
             .AddPersistenceInfrastructure()
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
-            .AddSingleton<INavigationService, NavigationService>()
             .BuildServiceProvider();
     }
 }

@@ -2,18 +2,13 @@
     x:Class="OneSplash.UwpApp.Shell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:common="using:OneSplash.UwpApp.Common"
-    xmlns:controls="using:OneSplash.UwpApp.Controls"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     xmlns:views="using:OneSplash.UwpApp.Views"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
     extensions:ApplicationViewExtensions.ExtendViewIntoTitleBar="True"
     extensions:ApplicationViewExtensions.Title="View Extensions"
     extensions:TitleBarExtensions.BackgroundColor="{StaticResource SystemColorWindowColor}"
@@ -37,99 +32,21 @@
     </interactivity:Interaction.Behaviors>
 
     <Grid>
-        <!--<winui:NavigationView
-            x:Name="MainNav"
-            IsSettingsVisible="False"
-            IsTabStop="False"
-            IsTitleBarAutoPaddingEnabled="True"
-            PaneDisplayMode="LeftMinimal"
-            SelectionFollowsFocus="Disabled">
-            <interactivity:Interaction.Behaviors>
-                <core:EventTriggerBehavior EventName="ItemInvoked">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
-                </core:EventTriggerBehavior>
-                <core:EventTriggerBehavior EventName="BackRequested">
-                    <core:InvokeCommandAction Command="{x:Bind ViewModel.BackRequestedCommand}" />
-                </core:EventTriggerBehavior>
-            </interactivity:Interaction.Behaviors>
-            <winui:NavigationView.PaneHeader>
-                <controls:PaneHeader
-                    x:Name="Logo"
-                    Title="One Splash"
-                    Margin="-20,72,0,36" />
-            </winui:NavigationView.PaneHeader>
-            <winui:NavigationView.PaneFooter>
-                <controls:PaneFooter />
-            </winui:NavigationView.PaneFooter>
-            <winui:NavigationView.MenuItems>
-                <winui:NavigationViewItem
-                    common:NavigationSelector.NavTo="OneSplash.UwpApp.Views.MainView"
-                    Content="Home"
-                    Icon="Home" />
-                <winui:NavigationViewItemHeader Content="Actions" />
-                <winui:NavigationViewItem
-                    common:NavigationSelector.NavTo="OneSplash.UwpApp.Views.FavoriteView"
-                    Content="Favorite"
-                    Icon="Favorite" />
-                <winui:NavigationViewItem
-                    common:NavigationSelector.NavTo="OneSplash.UwpApp.Views.DownloadView"
-                    Content="Download"
-                    Icon="Download" />
-            </winui:NavigationView.MenuItems>
-            <winui:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox
-                    AutomationProperties.Name="Search"
-                    PlaceholderText="Search Free..."
-                    QueryIcon="Find"
-                    Style="{StaticResource CustomStyledAutoSuggestBox}" />
-            </winui:NavigationView.AutoSuggestBox>
-            <winui:NavigationView.Content>
-                <Frame x:Name="ContentFrame" Margin="0,-32,0,0">
-                    <Frame.ContentTransitions>
-                        <TransitionCollection>
-                            <NavigationThemeTransition>
-                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                                    <DrillInNavigationTransitionInfo />
-                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                            </NavigationThemeTransition>
-                        </TransitionCollection>
-                    </Frame.ContentTransitions>
-                </Frame>
-            </winui:NavigationView.Content>
-        </winui:NavigationView>-->
-
         <SplitView
             DisplayMode="Overlay"
             IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
-            OpenPaneLength="240">
+            OpenPaneLength="320"
+            PaneBackground="{ThemeResource SystemControlAcrylicElementBrush}"
+            PanePlacement="Right">
+            <SplitView.Pane>
+                <views:MoreView />
+            </SplitView.Pane>
             <SplitView.Content>
                 <Grid>
                     <views:MainView />
+                    <views:DownloadView />
                 </Grid>
             </SplitView.Content>
         </SplitView>
-
-
-
-        <!--<VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:NetworkConnectionStateTrigger ConnectionState="Disconnected" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SplashGridView.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:NetworkConnectionStateTrigger ConnectionState="Connected" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SplashGridView.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>-->
     </Grid>
 </Page>

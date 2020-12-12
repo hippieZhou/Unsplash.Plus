@@ -6,6 +6,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,6 +22,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             animations:ReorderGridAnimation.Duration="300"
+            extensions:ListViewExtensions.Command="{x:Bind ItemSelectedCommand}"
             x:FieldModifier="public"
             AutomationProperties.Name="Splashs"
             ContainerContentChanging="OnItemGridViewContainerContentChanging"
@@ -60,7 +62,6 @@
                 <core:EventTriggerBehavior EventName="Loaded">
                     <core:InvokeCommandAction Command="{x:Bind LoadCommand}" />
                 </core:EventTriggerBehavior>
-                <core:ItemClickBehavior Command="{x:Bind ItemClickCommand}" />
             </interactivity:Interaction.Behaviors>
         </toolkits:AdaptiveGridView>
         <Button

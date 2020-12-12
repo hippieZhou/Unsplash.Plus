@@ -35,9 +35,9 @@ namespace OneSplash.UwpApp.Views
                         {
                             FindName("OverlayPopup");
 
-                            ViewModel.Selected = args;
+                            ViewModel.SelectedItem = args;
                             ConnectedAnimationService.GetForCurrentView().DefaultDuration = TimeSpan.FromSeconds(1.0);
-                            ConnectedAnimation connectedAnimation = SplashGridView.AdaptiveGridView.PrepareConnectedAnimation("forwardAnimation", ViewModel.Selected, "connectedElement");
+                            ConnectedAnimation connectedAnimation = SplashGridView.AdaptiveGridView.PrepareConnectedAnimation("forwardAnimation", ViewModel.SelectedItem, "connectedElement");
                             connectedAnimation.IsScaleAnimationEnabled = true;
                             connectedAnimation.Configuration = new BasicConnectedAnimationConfiguration();
                             connectedAnimation.Completed += (sender, e) =>
@@ -46,7 +46,7 @@ namespace OneSplash.UwpApp.Views
                             };
                             connectedAnimation.TryStart(OverlayPopup.destinationElement);
 
-                            OverlayPopup.SelectedItem = ViewModel.Selected;
+                            OverlayPopup.SelectedItem = ViewModel.SelectedItem;
                             OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Visible;
                         }
                     });
@@ -77,9 +77,9 @@ namespace OneSplash.UwpApp.Views
                             if (SplashGridView.AdaptiveGridView.ContainerFromItem(OverlayPopup.SelectedItem) is GridViewItem clickedItem)
                             {
                                 clickedItem.Opacity = 1.0d;
-                                ViewModel.Selected = OverlayPopup.SelectedItem;
-                                SplashGridView.AdaptiveGridView.ScrollIntoView(ViewModel.Selected, ScrollIntoViewAlignment.Default);
-                                await SplashGridView.AdaptiveGridView.TryStartConnectedAnimationAsync(connectedAnimation, ViewModel.Selected, "connectedElement");
+                                ViewModel.SelectedItem = OverlayPopup.SelectedItem;
+                                SplashGridView.AdaptiveGridView.ScrollIntoView(ViewModel.SelectedItem, ScrollIntoViewAlignment.Default);
+                                await SplashGridView.AdaptiveGridView.TryStartConnectedAnimationAsync(connectedAnimation, ViewModel.SelectedItem, "connectedElement");
                                 OverlayPopup.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                             }
                             args.Handled = true;

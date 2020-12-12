@@ -41,6 +41,7 @@ namespace OneSplash.UwpApp.Extensions
                 .AddSingleton<ShellViewModel>()
                 .AddSingleton<MainViewModel>()
                 .AddSingleton<MoreWidgetViewModel>()
+                .AddSingleton<DownloadViewModel>()
                 .AddSingleton<SearchWidgetViewModel>();
             return services;
         }

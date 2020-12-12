@@ -1,7 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Mvvm.Messaging;
-using OneSplash.UwpApp.Servcies.Messages;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 
@@ -45,22 +43,6 @@ namespace OneSplash.UwpApp.ViewModels.Widgets
                 }
                 return _hideCommand;
             }
-        }
-
-
-        protected override void OnActivated()
-        {
-            WeakReferenceMessenger.Default.Register<ViewChangedMessage>(this, (r, m) =>
-            {
-                Visibility = GetSelfType() == m.Value ? Visibility.Visible : Visibility.Collapsed;
-            });
-            base.OnActivated();
-        }
-
-        protected override void OnDeactivated()
-        {
-            WeakReferenceMessenger.Default.Unregister<ViewChangedMessage>(this);
-            base.OnDeactivated();
         }
 
         public abstract string GetSelfType();

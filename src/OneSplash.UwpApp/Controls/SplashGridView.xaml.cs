@@ -1,15 +1,7 @@
-﻿using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
-using OneSplash.UwpApp.Extensions;
-using System.Linq;
-using System.Numerics;
+﻿using System.Linq;
 using System.Windows.Input;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
 
 namespace OneSplash.UwpApp.Controls
 {
@@ -112,15 +104,16 @@ namespace OneSplash.UwpApp.Controls
         public static readonly DependencyProperty DesiredWidthProperty =
             DependencyProperty.Register("DesiredWidth", typeof(double), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
-        public ICommand ItemClickCommand
+
+        public ICommand ItemSelectedCommand
         {
-            get { return (ICommand)GetValue(ItemClickCommandProperty); }
-            set { SetValue(ItemClickCommandProperty, value); }
+            get { return (ICommand)GetValue(ItemSelectedCommandProperty); }
+            set { SetValue(ItemSelectedCommandProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ItemClickCommand.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ItemClickCommandProperty =
-            DependencyProperty.Register("ItemClickCommand", typeof(ICommand), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
+        // Using a DependencyProperty as the backing store for ItemSelectedCommand.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemSelectedCommandProperty =
+            DependencyProperty.Register("ItemSelectedCommand", typeof(ICommand), typeof(SplashGridView), new PropertyMetadata(DependencyProperty.UnsetValue));
 
         public ICommand LoadCommand
         {

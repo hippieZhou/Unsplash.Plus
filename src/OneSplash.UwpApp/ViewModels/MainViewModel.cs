@@ -12,6 +12,9 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 namespace OneSplash.UwpApp.ViewModels
 {
@@ -44,11 +47,11 @@ namespace OneSplash.UwpApp.ViewModels
             set { SetProperty(ref _isError, value); }
         }
 
-        private SplashPhotoDto _selected;
-        public SplashPhotoDto Selected
+        private SplashPhotoDto _selectedItem;
+        public SplashPhotoDto SelectedItem
         {
-            get { return _selected; }
-            set { SetProperty(ref _selected, value); }
+            get { return _selectedItem; }
+            set { SetProperty(ref _selectedItem, value); }
         }
 
         private ICommand _loadCommand;
@@ -91,6 +94,46 @@ namespace OneSplash.UwpApp.ViewModels
                     });
                 }
                 return _loadCommand;
+            }
+        }
+
+        private ICommand _downloadCommand;
+        public ICommand DownloadCommand
+        {
+            get 
+            {
+                if (_downloadCommand == null)
+                {
+                    _downloadCommand = new RelayCommand(() =>
+                    {
+                        var download = Ioc.Default.GetRequiredService<DownloadViewModel>();
+                        if (download != null)
+                        {
+                            download.IsPaneShow = true;
+                        }
+                    });
+                }
+                return _downloadCommand; }
+        }
+
+
+        private ICommand _moreCommand;
+        public ICommand MoreCommand
+        {
+            get
+            {
+                if (_moreCommand == null)
+                {
+                    _moreCommand = new RelayCommand(() =>
+                    {
+                        var shell = Ioc.Default.GetRequiredService<ShellViewModel>();
+                        if (shell != null)
+                        {
+                            shell.IsPaneOpen = true;
+                        }
+                    });
+                }
+                return _moreCommand;
             }
         }
     }
