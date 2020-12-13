@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:local="using:OneSplash.UwpApp"
-    RequestedTheme="Light">
+    xmlns:local="using:OneSplash.UwpApp">
     <Application.Resources>
         <ResourceDictionary>
             <FontFamily x:Key="MontserratBold">/Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>

@@ -1,15 +1,9 @@
 ﻿using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI.Xaml.Controls;
 
-namespace OneSplash.UwpApp.Controls
+namespace OneSplash.UwpApp.ViewModels
 {
-    public sealed partial class PaneFooter : UserControl
+    public class MoreViewModel: BaseViewModel
     {
-        public PaneFooter()
-        {
-            this.InitializeComponent();
-        }
-
         public string ApplicationVersion
         {
             get

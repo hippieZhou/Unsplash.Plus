@@ -132,14 +132,8 @@
     <Compile Include="Controls\ExtendSplash.xaml.cs">
       <DependentUpon>ExtendSplash.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PaneHeader.xaml.cs">
-      <DependentUpon>PaneHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SplashOverlayPopup.xaml.cs">
       <DependentUpon>SplashOverlayPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PaneFooter.xaml.cs">
-      <DependentUpon>PaneFooter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SplashGridView.xaml.cs">
       <DependentUpon>SplashGridView.xaml</DependentUpon>
@@ -167,29 +161,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\DownloadViewModel.cs" />
-    <Compile Include="ViewModels\FavoriteViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MoreViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\Widgets\BaseWidgetViewModel.cs" />
-    <Compile Include="ViewModels\Widgets\MoreWidgetViewModel.cs" />
-    <Compile Include="ViewModels\Widgets\SearchWidgetViewModel.cs" />
     <Compile Include="Views\DownloadView.xaml.cs">
       <DependentUpon>DownloadView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FavoriteView.xaml.cs">
-      <DependentUpon>FavoriteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MoreView.xaml.cs">
       <DependentUpon>MoreView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Widgets\MoreWidgetView.xaml.cs">
-      <DependentUpon>MoreWidgetView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Widgets\SearchWidgetView.xaml.cs">
-      <DependentUpon>SearchWidgetView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -221,15 +203,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PaneHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\SplashOverlayPopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\PaneFooter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -281,23 +255,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FavoriteView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MoreView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Widgets\MoreWidgetView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Widgets\SearchWidgetView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

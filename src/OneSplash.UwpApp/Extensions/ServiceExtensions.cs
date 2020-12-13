@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using OneSplash.Domain.Settings;
 using OneSplash.UwpApp.ViewModels;
-using OneSplash.UwpApp.ViewModels.Widgets;
 using Serilog;
 using System.IO;
 using Windows.ApplicationModel;
@@ -40,9 +39,8 @@ namespace OneSplash.UwpApp.Extensions
             services
                 .AddSingleton<ShellViewModel>()
                 .AddSingleton<MainViewModel>()
-                .AddSingleton<MoreWidgetViewModel>()
                 .AddSingleton<DownloadViewModel>()
-                .AddSingleton<SearchWidgetViewModel>();
+                .AddSingleton<MoreViewModel>();
             return services;
         }
     }

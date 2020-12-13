@@ -39,7 +39,7 @@
             PaneBackground="{ThemeResource SystemControlAcrylicElementBrush}"
             PanePlacement="Right">
             <SplitView.Pane>
-                <views:MoreView />
+                <views:MoreView VerticalAlignment="Bottom" />
             </SplitView.Pane>
             <SplitView.Content>
                 <Grid>
