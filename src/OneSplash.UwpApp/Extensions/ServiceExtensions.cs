@@ -3,9 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OneSplash.Domain.Settings;
 using OneSplash.UwpApp.ViewModels;
 using Serilog;
-using System.IO;
 using Windows.ApplicationModel;
-using Windows.Storage;
 
 namespace OneSplash.UwpApp.Extensions
 {
@@ -19,12 +17,11 @@ namespace OneSplash.UwpApp.Extensions
 
             services.AddSingleton<IConfiguration>(sp => configuration);
             services.AddOptions();
-            services.Configure<AppSettings>(appSettings =>
+            services.Configure<ApiSettings>(appSettings =>
             {
-                var conf = configuration.GetSection(nameof(AppSettings)).Get<AppSettings>();
+                var conf = configuration.GetSection(nameof(ApiSettings)).Get<ApiSettings>();
                 appSettings.AccessKey = conf.AccessKey;
                 appSettings.Secret = conf.Secret;
-                appSettings.DBFile = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Storage.sqlite");
             });
             return services;
         }

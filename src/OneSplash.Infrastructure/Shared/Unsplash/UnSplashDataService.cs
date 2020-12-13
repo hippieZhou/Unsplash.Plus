@@ -16,7 +16,7 @@ namespace OneSplash.Infrastructure.Shared.Unsplash
 
         private readonly UnsplasharpClient _client;
 
-        public UnSplashDataService(IOptions<AppSettings> options)
+        public UnSplashDataService(IOptions<ApiSettings> options)
         {
             var accessKey = options.Value.AccessKey ?? ApplicationId;
             var secretKey = options.Value.Secret ?? Secret;

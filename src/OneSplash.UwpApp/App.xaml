@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animation="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:local="using:OneSplash.UwpApp">
+    xmlns:local="using:OneSplash.UwpApp"
+    xmlns:vm="using:OneSplash.UwpApp.ViewModels">
     <Application.Resources>
         <ResourceDictionary>
             <FontFamily x:Key="MontserratBold">/Assets/Fonts/Montserrat-Bold.ttf#Montserrat</FontFamily>
@@ -63,6 +64,8 @@
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="{StaticResource MontserratRegular}" />
             </Style>
+
+            <vm:AppSettings x:Key="AppSettings" />
 
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
