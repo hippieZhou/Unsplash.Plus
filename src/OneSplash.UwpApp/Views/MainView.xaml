@@ -72,6 +72,7 @@
                     Height="40"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
+                    Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
                     Click="OnItemDownload"
                     CornerRadius="0"
                     Style="{StaticResource ButtonRevealStyle}">

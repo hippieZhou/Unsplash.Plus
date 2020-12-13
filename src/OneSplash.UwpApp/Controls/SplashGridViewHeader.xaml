@@ -17,7 +17,6 @@
     Loaded="OnLoaded"
     mc:Ignorable="d">
 
-
     <Grid>
         <Rectangle
             x:Name="PrimaryBackground"
@@ -112,7 +111,7 @@
             <Button x:Name="SearchBtn">
                 <ContentControl Width="18" Style="{StaticResource Style-Icon-Search}" />
             </Button>
-            <Button Command="{x:Bind DownloadCommand}">
+            <Button x:Name="DownloadButton" Command="{x:Bind DownloadCommand}">
                 <Grid>
                     <ContentControl Width="18" Style="{StaticResource Style-Icon-Download}" />
                     <Ellipse
