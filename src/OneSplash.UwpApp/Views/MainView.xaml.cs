@@ -158,37 +158,36 @@ namespace OneSplash.UwpApp.Views
         private string _dotAnimationKey = "storeSplash";
         private async void OnItemDownload(object sender, RoutedEventArgs e)
         {
-            if (sender is Button handler && handler.FindParentByName("connectedElement") is Grid root)
+            if (sender is Button handler &&
+                handler.FindParentByName("connectedElement") is Grid root &&
+                root.FindChildByName("HeroImage") is ImageEx heroImage &&
+                root.FindChildByName("HeroImageMirror") is Image heroImageMirror &&
+                SplashGridView.Header is SplashGridViewHeader header)
             {
                 handler.IsEnabled = false;
-                if (root.FindChildByName("HeroImage") is ImageEx heroImage && root.FindChildByName("HeroImageMirror") is Image heroImageMirror)
+
+                var bitmap = new RenderTargetBitmap();
+                await bitmap.RenderAsync(heroImage);
+                heroImageMirror.Source = bitmap;
+
+                ViewModel.DownloadCommand?.Execute(root.DataContext);
+
+                ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
+                var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
+                var dot = header.FindDescendant<Ellipse>();
+                animation?.TryStart(dot);
+
+                // JL: Need to figutre out why the first time the animation doesn't run although animation returns true.
+                if (_firstTimeAnimation)
                 {
-                    var bitmap = new RenderTargetBitmap();
-                    await bitmap.RenderAsync(heroImage);
-                    heroImageMirror.Source = bitmap;
-
-                    ViewModel.DownloadCommand?.Execute(root.DataContext);
-
+                    _firstTimeAnimation = false;
+                    await Task.Delay(50);
                     ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
-                    if (SplashGridView.Header is SplashGridViewHeader header)
-                    {
-                        var dot = header.FindDescendant<Ellipse>();
-
-                        var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
-                        animation?.TryStart(dot);
-                        dot.Visibility = Visibility.Visible;
-
-                        // JL: Need to figutre out why the first time the animation doesn't run although animation returns true.
-                        if (_firstTimeAnimation)
-                        {
-                            _firstTimeAnimation = false;
-                            await Task.Delay(50);
-                            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
-                            var animation1 = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
-                            animation1?.TryStart(dot);
-                        }
-                    }
+                    var animation1 = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
+                    animation1?.TryStart(dot);
                 }
+
+                dot.Visibility = Visibility.Visible;
                 handler.IsEnabled = true;
             }
         }
