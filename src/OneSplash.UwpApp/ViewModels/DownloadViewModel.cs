@@ -5,11 +5,11 @@ namespace OneSplash.UwpApp.ViewModels
 {
     public class DownloadViewModel : BaseViewModel
     {
-        private bool _isPaneShow;
-        public bool IsPaneShow
+        private bool _isOpen;
+        public bool IsOpen
         {
-            get { return _isPaneShow; }
-            set { SetProperty(ref _isPaneShow, value); }
+            get { return _isOpen; }
+            set { SetProperty(ref _isOpen, value); }
         }
 
         private ICommand _backCommand;
@@ -21,7 +21,7 @@ namespace OneSplash.UwpApp.ViewModels
                 {
                     _backCommand = new RelayCommand(() =>
                     {
-                        IsPaneShow = false;
+                        IsOpen = false;
                     });
                 }
                 return _backCommand;

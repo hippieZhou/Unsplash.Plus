@@ -22,6 +22,7 @@
             <Grid
                 x:Name="connectedElement"
                 common:ImageLoader.Source="{x:Bind}"
+                CornerRadius="4"
                 DataContext="{x:Bind}">
                 <Grid.Background>
                     <AcrylicBrush
@@ -30,6 +31,14 @@
                         TintColor="{x:Bind Color}"
                         TintOpacity="0.4" />
                 </Grid.Background>
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            Click="OnItemDownload"
+                            Icon="Download"
+                            Text="Download" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
                 <toolkits:ImageEx
                     x:Name="HeroImage"
                     HorizontalAlignment="Stretch"
@@ -42,48 +51,16 @@
                     Stretch="UniformToFill" />
                 <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
                 <TextBlock
-                    x:Name="itemName"
-                    Margin="12,0,0,12"
+                    Margin="12"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Bottom"
-                    extensions:VisualExtensions.CenterPoint="50,50,0"
                     FontFamily="{StaticResource MontserratBold}"
                     Opacity="0.8"
                     Style="{StaticResource BodyTextBlockStyle}"
                     Text="{x:Bind ImageAuthor}"
-                    TextWrapping="NoWrap"
-                    Visibility="Collapsed">
-                    <animations:Implicit.ShowAnimations>
-                        <animations:OpacityAnimation
-                            From="0"
-                            To="1.0"
-                            Duration="0:0:0.600" />
-                    </animations:Implicit.ShowAnimations>
-                    <animations:Implicit.HideAnimations>
-                        <animations:OpacityAnimation
-                            From="1.0"
-                            To="0"
-                            Duration="0:0:0.600" />
-                    </animations:Implicit.HideAnimations>
-                </TextBlock>
-                <Button
-                    x:Name="itemDownload"
-                    Width="40"
-                    Height="40"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom"
-                    Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}"
-                    Click="OnItemDownload"
-                    CornerRadius="0"
-                    Style="{StaticResource ButtonRevealStyle}">
-                    <ContentControl Width="20" Style="{StaticResource Style-Icon-Download}" />
-                </Button>
+                    TextWrapping="NoWrap" />
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="PointerEntered">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=itemName}"
-                            Value="Visible" />
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
                             <core:ChangePropertyAction.Value>
                                 <AcrylicBrush
@@ -95,10 +72,6 @@
                         </core:ChangePropertyAction>
                     </core:EventTriggerBehavior>
                     <core:EventTriggerBehavior EventName="PointerExited">
-                        <core:ChangePropertyAction
-                            PropertyName="Visibility"
-                            TargetObject="{Binding ElementName=itemName}"
-                            Value="Collapsed" />
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">
                             <core:ChangePropertyAction.Value>
                                 <AcrylicBrush

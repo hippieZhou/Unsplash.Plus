@@ -126,7 +126,7 @@ namespace OneSplash.UwpApp.Views
                         var download = Ioc.Default.GetRequiredService<DownloadViewModel>();
                         if (download != null)
                         {
-                            download.IsPaneShow = true;
+                            download.IsOpen = true;
                         }
                     });
                 }
@@ -158,38 +158,42 @@ namespace OneSplash.UwpApp.Views
         private string _dotAnimationKey = "storeSplash";
         private async void OnItemDownload(object sender, RoutedEventArgs e)
         {
-            if (sender is Button handler &&
-                handler.FindParentByName("connectedElement") is Grid root &&
-                root.FindChildByName("HeroImage") is ImageEx heroImage &&
-                root.FindChildByName("HeroImageMirror") is Image heroImageMirror &&
-                SplashGridView.Header is SplashGridViewHeader header)
+            if (!(sender is MenuFlyoutItem handler))
+                return;
+            if (!(SplashGridView.AdaptiveGridView.ContainerFromItem(handler.DataContext) is GridViewItem viewItem))
+                return;
+            if (!(viewItem.ContentTemplateRoot is FrameworkElement root))
+                return;
+             
+            var header = SplashGridView.Header as SplashGridViewHeader;
+            if (handler == null || !(root.FindChildByName("HeroImage") is ImageEx heroImage) || !(root.FindChildByName("HeroImageMirror") is Image heroImageMirror))
+                return;
+
+            handler.IsEnabled = false;
+
+            var bitmap = new RenderTargetBitmap();
+            await bitmap.RenderAsync(heroImage);
+            heroImageMirror.Source = bitmap;
+
+            ViewModel.DownloadCommand?.Execute(root.DataContext);
+
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
+            var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
+            var dot = header.FindDescendant<Ellipse>();
+            animation?.TryStart(dot);
+
+            // JL: Need to figutre out why the first time the animation doesn't run although animation returns true.
+            if (_firstTimeAnimation)
             {
-                handler.IsEnabled = false;
-
-                var bitmap = new RenderTargetBitmap();
-                await bitmap.RenderAsync(heroImage);
-                heroImageMirror.Source = bitmap;
-
-                ViewModel.DownloadCommand?.Execute(root.DataContext);
-
+                _firstTimeAnimation = false;
+                await Task.Delay(50);
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
-                var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
-                var dot = header.FindDescendant<Ellipse>();
-                animation?.TryStart(dot);
-
-                // JL: Need to figutre out why the first time the animation doesn't run although animation returns true.
-                if (_firstTimeAnimation)
-                {
-                    _firstTimeAnimation = false;
-                    await Task.Delay(50);
-                    ConnectedAnimationService.GetForCurrentView().PrepareToAnimate(_dotAnimationKey, heroImageMirror);
-                    var animation1 = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
-                    animation1?.TryStart(dot);
-                }
-
-                dot.Visibility = Visibility.Visible;
-                handler.IsEnabled = true;
+                var animation1 = ConnectedAnimationService.GetForCurrentView().GetAnimation(_dotAnimationKey);
+                animation1?.TryStart(dot);
             }
+
+            dot.Visibility = Visibility.Visible;
+            handler.IsEnabled = true;
         }
     }
 }

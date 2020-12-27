@@ -50,6 +50,11 @@ namespace OneSplash.UwpApp.Common
 
                     if (rootGrid.FindName("HeroImage") is ImageEx imageEx && imageSource != null)
                     {
+                        rootGrid.SizeChanged += (sender, args) =>
+                        {
+                            imageEx.Width = rootGrid.RenderSize.Width;
+                            imageEx.Height = rootGrid.RenderSize.Height;
+                        };
                         imageEx.Loaded += (sender, args) =>
                         {
                             imageEx.ElementVisual().AddScaleAnimation(imageEx);
@@ -59,24 +64,6 @@ namespace OneSplash.UwpApp.Common
                         imageEx.Source = imageSource;
                     }
                 }
-            }));
-
-
-        public static ICommand GetDownload(DependencyObject obj)
-        {
-            return (ICommand)obj.GetValue(DownloadProperty);
-        }
-
-        public static void SetDownload(DependencyObject obj, ICommand value)
-        {
-            obj.SetValue(DownloadProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for Download.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DownloadProperty =
-            DependencyProperty.RegisterAttached("Download", typeof(ICommand), typeof(ImageLoader), new PropertyMetadata(default,(d,e)=> 
-            {
-             
             }));
     }
 }
