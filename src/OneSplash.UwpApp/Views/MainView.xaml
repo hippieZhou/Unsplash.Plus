@@ -12,6 +12,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:OneSplash.UwpApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:toolkits="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     d:DesignHeight="1080"
@@ -50,15 +51,26 @@
                     IsCacheEnabled="True"
                     Stretch="UniformToFill" />
                 <Image x:Name="HeroImageMirror" Stretch="UniformToFill" />
-                <TextBlock
-                    Margin="12"
+                <Grid
+                    Margin="6"
+                    Padding="12,6"
                     HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                    CornerRadius="12"
+                    Visibility="{Binding ElementName=HeroImage, Path=IsLoaded, Converter={StaticResource BoolToVisibilityConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <TextBlock
+                        FontFamily="{StaticResource MontserratMedium}"
+                        Text="{x:Bind ImageAuthor}"
+                        TextWrapping="NoWrap" />
+                </Grid>
+                <Button
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
-                    FontFamily="{StaticResource MontserratBold}"
-                    Opacity="0.8"
-                    Style="{StaticResource BodyTextBlockStyle}"
-                    Text="{x:Bind ImageAuthor}"
-                    TextWrapping="NoWrap" />
+                    Background="{ThemeResource SystemAccentColor}"
+                    Style="{StaticResource Style-Button-Icon-Circle}">
+                    <ContentControl Style="{StaticResource Style-Icon-Download}" />
+                </Button>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="PointerEntered">
                         <core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=connectedElement}">

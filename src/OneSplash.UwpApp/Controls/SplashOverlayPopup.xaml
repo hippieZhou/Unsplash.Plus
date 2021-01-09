@@ -13,11 +13,7 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <Grid
-        x:Name="rootGrid"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        x:FieldModifier="public">
+    <Grid x:Name="rootGrid" x:FieldModifier="public">
         <Grid.Background>
             <SolidColorBrush Opacity="0.8" Color="{ThemeResource SystemChromeAltHighColor}" />
         </Grid.Background>
@@ -38,39 +34,49 @@
             <Grid.RenderTransform>
                 <CompositeTransform x:Name="destinationElement_Transform" />
             </Grid.RenderTransform>
-            <Grid.Background>
-                <AcrylicBrush
-                    BackgroundSource="Backdrop"
-                    FallbackColor="{x:Bind SelectedItem.Color, Mode=OneWay}"
-                    TintColor="{x:Bind SelectedItem.Color, Mode=OneWay}"
-                    TintOpacity="1" />
-            </Grid.Background>
+            <Grid
+                x:Name="backgroundGrid"
+                Margin="12,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                CornerRadius="4" />
             <toolkits:ImageEx
                 x:Name="HeroImage"
+                Margin="0,12,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
+                CornerRadius="4"
                 EnableLazyLoading="True"
                 IsCacheEnabled="True"
                 Source="{x:Bind SelectedItem.ImageUri, Mode=OneWay}"
-                Stretch="UniformToFill" />
+                Stretch="UniformToFill">
+                <toolkits:ImageEx.Background>
+                    <AcrylicBrush
+                        BackgroundSource="Backdrop"
+                        FallbackColor="{x:Bind SelectedItem.Color, Mode=OneWay}"
+                        TintColor="{x:Bind SelectedItem.Color, Mode=OneWay}"
+                        TintOpacity="1" />
+                </toolkits:ImageEx.Background>
+            </toolkits:ImageEx>
         </Grid>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <VisualState>
+                <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
                         <!--  VisualState to be triggered when window width is >0 effective pixels.  -->
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        <Setter Target="destinationElement.Width" Value="480" />
-                        <Setter Target="destinationElement.Height" Value="320" />
+                        <Setter Target="destinationElement.Width" Value="420" />
+                        <Setter Target="destinationElement.Height" Value="300" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState>
+                <VisualState x:Name="MiddleState">
                     <VisualState.StateTriggers>
                         <!--  VisualState to be triggered when window width is >960 effective pixels.  -->
                         <AdaptiveTrigger MinWindowWidth="961" />
@@ -81,8 +87,7 @@
                         <Setter Target="destinationElement.Height" Value="520" />
                     </VisualState.Setters>
                 </VisualState>
-
-                <VisualState>
+                <VisualState x:Name="WideState">
                     <VisualState.StateTriggers>
                         <!--  VisualState to be triggered when window width is >=1440 effective pixels.  -->
                         <AdaptiveTrigger MinWindowWidth="1440" />

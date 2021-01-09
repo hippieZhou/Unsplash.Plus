@@ -1,5 +1,8 @@
-﻿using OneSplash.Application.DTOs;
+﻿using Microsoft.Toolkit.Uwp.UI.Animations;
+using OneSplash.Application.DTOs;
 using System;
+using System.Diagnostics;
+using System.Numerics;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
