@@ -129,7 +129,6 @@
     </Compile>
     <Compile Include="Behaviors\VisualStateInTemplateBehavior.cs" />
     <Compile Include="Common\ImageLoader.cs" />
-    <Compile Include="Common\ViewLoader.cs" />
     <Compile Include="Controls\ExtendSplash.xaml.cs">
       <DependentUpon>ExtendSplash.xaml</DependentUpon>
     </Compile>
@@ -148,7 +147,6 @@
     <Compile Include="Controls\StepThroughListView.xaml.cs">
       <DependentUpon>StepThroughListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\NavCheckedConverter.cs" />
     <Compile Include="Extensions\CompositionExtensions.cs" />
     <Compile Include="Extensions\ElementExtensions.cs" />
     <Compile Include="Extensions\ResourceExtensions.cs" />

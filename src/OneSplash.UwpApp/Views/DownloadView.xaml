@@ -7,13 +7,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:OneSplash.UwpApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     mc:Ignorable="d">
 
     <Grid
         Margin="0,32,0,0"
         Background="{ThemeResource SystemControlAcrylicElementBrush}"
-        CornerRadius="40,40,0,0"
-        Visibility="{x:Bind ViewModel.IsOpen, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+        CornerRadius="40,40,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
@@ -27,5 +27,20 @@
                 VerticalAlignment="Center"
                 Data="F1 M 17.568359 3.408203 L 19.931641 5.761719 L 10 15.693359 L 0.068359 5.761719 L 2.431641 3.408203 L 10 10.976562 L 17.568359 3.408203 Z " />
         </Button>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup CurrentStateChanged="VisualStateGroup_CurrentStateChanged">
+                <VisualState x:Name="Visible">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.IsOpen, Mode=OneWay}" To="True" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Collapsed">
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.IsOpen, Mode=OneWay}" To="False" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>
